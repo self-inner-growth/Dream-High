@@ -25,7 +25,7 @@
            아래 url('...') 안의 주소를 원하시는 이미지 주소로 변경하세요!
         ========================================== */
         :root {
-            --bg-image: url('https://images.unsplash.com/photo-1473154331448-9c169df30eb8?q=80&w=1920&auto=format&fit=crop');
+            --bg-image: url('blob:https://gemini.google.com/a3e4446d-3f9e-4f19-be78-d21922101486');
         }
 
         body, #introScreen, #preloader {
@@ -238,18 +238,34 @@
                     <div class="absolute top-4 right-4 text-emerald-200">
                         <i data-lucide="mic" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="hand-font text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                    <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                         강의자를 소개합니다
                     </h3>
-                    <div class="bg-white p-4 rounded-xl border border-emerald-100/50 shadow-sm">
-                        <h4 class="text-emerald-700 font-bold mb-2">김지명 강사</h4>
-                        <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed">
-                            <li>• 현) 드림하이 강사</li>
-                            <li>• 전) 해외선교회 - 필리핀 선교</li>
-                            <li>• 전) KCS 심리 에듀케이터</li>
-                            <li>• 전) 심리 커뮤니티 기획 프로그램 참여</li>
-                            <li>• 전) 네비게이터 심리 세미나 강사</li>
-                        </ul>
+                    
+                    <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
+                        
+                        <!-- ==========================================
+                             📸 강사님 사진 영역
+                             src="teacher-photo.jpg" 부분을 실제 이미지 파일명이나 경로로 변경하세요!
+                        ========================================== -->
+                        <div class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-emerald-50 shadow-md bg-slate-100 flex items-center justify-center shrink-0">
+                            <!-- 이미지를 찾을 수 없을 때 임시 아이콘이 보이도록 설정해 두었습니다 -->
+                            <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <i data-lucide="user" class="w-10 h-10 text-slate-300 hidden"></i>
+                        </div>
+                        
+                        <div class="text-center w-full">
+                            <h4 class="text-emerald-700 font-bold mb-3 text-lg">김지명 강사</h4>
+                            <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
+                            
+                            <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
+                                <li>• 현) 드림하이 강사</li>
+                                <li>• 전) 해외선교회 - 필리핀 선교</li>
+                                <li>• 전) KCS 심리 에듀케이터</li>
+                                <li>• 전) 심리 커뮤니티 기획 프로그램 참여</li>
+                                <li>• 전) 네비게이터 심리 세미나 강사</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
