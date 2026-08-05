@@ -25,7 +25,7 @@
     <style>
         /* ==========================================
            🎨 배경 이미지 설정 영역
-           올려주신 header-image.png 파일로 연결했습니다.
+           올려주신 header-image1.png 파일로 연결했습니다.
         ========================================== */
         :root {
             --bg-image: url('header-image1.png');
@@ -238,10 +238,10 @@
                     
                     <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
                         
-                        <!-- 올려주신 teacher-photo.png 파일로 연결했습니다 -->
-                        <div class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-emerald-50 shadow-md bg-slate-100 flex items-center justify-center shrink-0">
-                            <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <i data-lucide="user" class="w-10 h-10 text-slate-300 hidden"></i>
+                        <!-- 동그란 테두리 제거 및 크기 2배 확대 (w-24 -> w-48) -->
+                        <div class="w-48 mb-5 flex items-center justify-center shrink-0">
+                            <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
                         </div>
                         
                         <div class="text-center w-full">
