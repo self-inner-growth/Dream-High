@@ -4,7 +4,6 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="드림하이 수강생 모집">
     <meta property="og:description" content="세상에서 가장 소중한 내 마음의 회복과 나 자신을 돌아보는 여정">
-    <!-- 깃허브에 있는 inner-library.jpg를 썸네일 이미지로 연결했습니다 -->
     <meta property="og:image" content="inner-library.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -23,17 +22,12 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
-        /* ==========================================
-           🎨 배경 이미지 설정 영역
-           올려주신 header-image1.png 파일로 연결했습니다.
-        ========================================== */
         :root {
             --bg-image: url('header-image1.png');
         }
 
         body, #introScreen, #preloader {
             font-family: 'Pretendard', sans-serif;
-            /* 배경 이미지 위에 반투명한 그린 그라데이션 오버레이를 다시 복구했습니다 */
             background: linear-gradient(135deg, rgba(232, 245, 233, 0.5) 0%, rgba(165, 214, 167, 0.5) 100%), var(--bg-image);
             background-size: cover;
             background-position: center;
@@ -182,8 +176,6 @@
 
     <div id="introScreen">
         
-        <!-- 기존에 있던 인트로 이미지(로고) div 영역을 완전히 삭제했습니다 -->
-        
         <div class="typing-container mb-10 text-center">
             <p id="typeLine1" class="hand-font text-emerald-900 text-sm mb-2 font-bold tracking-widest h-5"></p>
             <h1 id="typeLine2" class="hand-font text-3xl font-bold text-emerald-950 drop-shadow-sm tracking-wide h-10"></h1>
@@ -226,7 +218,73 @@
                     </p>
                 </div>
 
-                <!-- 드림하이 FAQ (Q&A) -->
+                <!-- 강사 소개 -->
+                <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 relative scroll-hidden">
+                    <div class="absolute top-4 right-4 text-emerald-200">
+                        <i data-lucide="mic" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        강의자를 소개합니다
+                    </h3>
+                    
+                    <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
+                        
+                        <div class="w-48 mb-5 flex items-center justify-center shrink-0">
+                            <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
+                        </div>
+                        
+                        <div class="text-center w-full">
+                            <h4 class="text-emerald-700 font-bold mb-3 text-lg">정소영 강사</h4>
+                            <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
+                            
+                            <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
+                                <li>• 현) 드림하이 강사</li>
+                                <li>• 전) 해외선교회 - 필리핀 선교</li>
+                                <li>• 전) KCS 심리 에듀케이터</li>
+                                <li>• 전) 심리 커뮤니티 기획 프로그램 참여</li>
+                                <li>• 전) 네비게이터 심리 세미나 강사</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 수강 안내 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm scroll-hidden">
+                    <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="calendar-days" class="w-5 h-5 text-teal-500"></i>
+                        수강 안내
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
+                            <span class="text-slate-400 font-medium w-20 shrink-0">교육 시작</span>
+                            <!-- 강의 시작일 수정 -->
+                            <span class="text-slate-700 font-bold text-right">8월 11일(화)</span>
+                        </div>
+                        <div class="flex flex-col border-b border-slate-50 pb-2 gap-2">
+                            <!-- 요일과 시간 분리 및 수정 -->
+                            <div class="flex justify-between items-start">
+                                <span class="text-slate-400 font-medium w-20 shrink-0">화·목 수업</span>
+                                <span class="text-slate-700 font-bold text-right">오전 11:00 / 오후 19:30</span>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-slate-400 font-medium w-20 shrink-0">토 수업</span>
+                                <span class="text-slate-700 font-bold text-right">오전 11:00 / 오후 15:00</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
+                            <span class="text-slate-400 font-medium w-20 shrink-0">수업 기간</span>
+                            <span class="text-slate-700 font-bold text-right">기초반 약 4개월<br>심화반 약 3개월</span>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-slate-400 font-medium w-20 shrink-0">교육 장소</span>
+                            <span class="text-slate-700 font-bold text-right">임학역 부근<br>&lt;공간 리프&gt;</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 드림하이 FAQ (Q&A) - 수강 안내 밑으로 이동 -->
                 <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm scroll-hidden">
                     <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                         <i data-lucide="message-circle-question" class="w-5 h-5 text-emerald-500"></i>
@@ -269,64 +327,6 @@
                     </div>
                 </div>
 
-                <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 relative scroll-hidden">
-                    <div class="absolute top-4 right-4 text-emerald-200">
-                        <i data-lucide="mic" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        강의자를 소개합니다
-                    </h3>
-                    
-                    <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
-                        
-                        <!-- 동그란 테두리 제거 및 크기 2배 확대 (w-48) -->
-                        <div class="w-48 mb-5 flex items-center justify-center shrink-0">
-                            <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
-                        </div>
-                        
-                        <div class="text-center w-full">
-                            <!-- 강사님 성함 -->
-                            <h4 class="text-emerald-700 font-bold mb-3 text-lg">정소영 강사</h4>
-                            <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
-                            
-                            <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
-                                <li>• 현) 드림하이 강사</li>
-                                <li>• 전) 해외선교회 - 필리핀 선교</li>
-                                <li>• 전) KCS 심리 에듀케이터</li>
-                                <li>• 전) 심리 커뮤니티 기획 프로그램 참여</li>
-                                <li>• 전) 네비게이터 심리 세미나 강사</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm scroll-hidden">
-                    <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <i data-lucide="calendar-days" class="w-5 h-5 text-teal-500"></i>
-                        수강 안내
-                    </h3>
-                    
-                    <div class="space-y-3 text-sm">
-                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
-                            <span class="text-slate-400 font-medium w-20 shrink-0">교육 시작</span>
-                            <span class="text-slate-700 font-bold text-right">7월 29일(수)</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
-                            <span class="text-slate-400 font-medium w-20 shrink-0">수업 시간</span>
-                            <span class="text-slate-700 font-bold text-right">매주 월, 수, 금<br>오전 11시 / 오후 3시</span>
-                        </div>
-                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
-                            <span class="text-slate-400 font-medium w-20 shrink-0">수업 기간</span>
-                            <span class="text-slate-700 font-bold text-right">기초반 약 4개월<br>심화반 약 3개월</span>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <span class="text-slate-400 font-medium w-20 shrink-0">교육 장소</span>
-                            <span class="text-slate-700 font-bold text-right">임학역 부근<br>&lt;공간 리프&gt;</span>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="border-t border-slate-100 pt-6 text-center scroll-hidden">
                     <div class="bg-rose-50 rounded-xl p-4 mb-5 mx-1 border border-rose-100">
                         <h3 class="text-slate-800 font-bold mb-2 text-sm flex justify-center items-center gap-1">
@@ -363,7 +363,6 @@
         </div> 
     </div>
     
-    <!-- 올려주신 bgm.mp3 파일로 연결되어 있습니다 -->
     <audio id="bgmAudio" loop>
         <source src="bgm.mp3" type="audio/mpeg">
     </audio>
@@ -498,7 +497,8 @@
         }
 
         function copyFormToClipboard() {
-            const formText = `[드림하이 수강 문의] 🌿\n\n선생님, 드림하이 수업 신청과 관련하여 문의드립니다.\n\n- 희망 과정 : (기초반 / 심화반)\n- 희망 시간대 : (오전 11시 / 오후 3시)`;
+            // 변경된 수업 시간에 맞게 클립보드 복사 내용도 수정했습니다.
+            const formText = `[드림하이 수강 문의] 🌿\n\n선생님, 드림하이 수업 신청과 관련하여 문의드립니다.\n\n- 희망 과정 : (기초반 / 심화반)\n- 희망 요일 및 시간대 :\n  (화,목 11:00 / 화,목 19:30 / 토 11:00 / 토 15:00 중 택 1)`;
 
             navigator.clipboard.writeText(formText).then(() => {
                 showToast("메시지 양식이 복사되었습니다! 📋");
