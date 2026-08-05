@@ -19,7 +19,6 @@
     
     <script src="https://cdn.tailwindcss.com" defer></script>
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <!-- QR 스캐너 라이브러리 추가 -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -177,7 +176,6 @@
     <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 999999; transition: opacity 0.5s ease;"></div>
 
     <div id="introScreen">
-        
         <div class="typing-container mb-10 text-center">
             <p id="typeLine1" class="hand-font text-emerald-900 text-sm mb-2 font-bold tracking-widest h-5"></p>
             <h1 id="typeLine2" class="hand-font text-3xl font-bold text-emerald-950 drop-shadow-sm tracking-wide h-10"></h1>
@@ -227,7 +225,6 @@
                     </h3>
                     
                     <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
-                        
                         <div class="w-48 mb-5 flex items-center justify-center shrink-0">
                             <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
@@ -334,7 +331,6 @@
                         </p>
                     </div>
                     
-                    <!-- 버튼 내용 변경 및 onclick 함수 변경 -->
                     <div onclick="startQRScanner()" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-4 px-6 rounded-full w-full shadow-lg shadow-emerald-200 hover:shadow-xl active:scale-[0.98] transition-all cursor-pointer">
                         <p class="text-sm font-bold flex items-center justify-center gap-2">
                             <i data-lucide="qr-code" class="w-5 h-5"></i>
@@ -347,6 +343,14 @@
             </div> 
             
             <div class="bg-slate-50 border-t border-slate-200 p-6 text-center">
+                <!-- 네이버 지도 버튼 추가됨 -->
+                <div class="flex justify-center mb-4">
+                    <a href="https://naver.me/xsZHiXYV" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#03c75a]/30 shadow-sm rounded-full text-[11px] font-bold text-slate-700 hover:bg-slate-100 transition-all active:scale-95">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#03c75a]"></i>
+                        NAVER 지도
+                    </a>
+                </div>
+
                 <div class="text-[10px] text-slate-400 leading-relaxed font-light tracking-tight">
                     <p class="mb-1 font-medium text-slate-500">드림하이</p>
                     <p>인천 계양구 임학역 부근 공유 오피스 [공간 리프]</p>
@@ -376,7 +380,6 @@
     <!-- QR 스캐너 모달 (팝업) -->
     <div id="qrScannerModal" class="fixed inset-0 bg-black/90 z-[99999] hidden flex-col items-center justify-center p-4">
         <div class="bg-white p-6 rounded-2xl w-full max-w-md relative flex flex-col shadow-2xl">
-            <!-- 닫기 버튼 -->
             <button onclick="stopQRScanner()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition-colors">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
@@ -384,7 +387,6 @@
             <h3 class="text-center font-bold mb-2 text-slate-800 text-lg">QR 코드 스캔</h3>
             <p class="text-center text-xs text-slate-500 mb-4">카메라 접근 권한을 허용하신 후 QR코드를 비춰주세요.</p>
             
-            <!-- 카메라 영상이 출력될 영역 -->
             <div id="reader" class="w-full rounded-lg overflow-hidden border border-slate-200"></div>
         </div>
     </div>
@@ -506,45 +508,35 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // ==========================================
-        // 새롭게 추가된 QR 코드 스캐너 로직
-        // ==========================================
         let html5QrCode;
 
         function startQRScanner() {
             const modal = document.getElementById('qrScannerModal');
             modal.classList.remove('hidden');
-            modal.classList.add('flex'); // 화면 중앙 정렬을 위해 flex 표시
+            modal.classList.add('flex');
 
-            // QR 스캐너 인스턴스 생성
             html5QrCode = new Html5Qrcode("reader");
             
-            // 카메라 설정 (환경 카메라-후면 카메라 우선)
             const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
             html5QrCode.start(
-                { facingMode: "environment" }, // 후면 카메라 사용
+                { facingMode: "environment" },
                 config,
                 (decodedText, decodedResult) => {
-                    // 스캔 성공 시 실행되는 함수
                     stopQRScanner();
                     
-                    // 스캔된 텍스트가 링크(http/https)라면 해당 주소로 이동
                     if(decodedText.startsWith('http')) {
                         showToast("신청 페이지로 이동합니다.");
                         setTimeout(() => {
                             window.location.href = decodedText;
                         }, 1000);
                     } else {
-                        // 일반 텍스트일 경우 메시지로 출력
                         alert("스캔 완료: " + decodedText);
                     }
                 },
                 (errorMessage) => {
-                    // 스캔 중 발생하는 에러 (무시해도 무방)
                 }
             ).catch((err) => {
-                // 권한이 없거나 지원하지 않는 기기일 때 에러 처리
                 console.error("QR 스캐너 시작 실패:", err);
                 alert("카메라 접근 권한이 없거나 지원하지 않는 기기입니다.");
                 stopQRScanner();
