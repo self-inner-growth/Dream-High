@@ -4,10 +4,13 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="드림하이 수강생 모집">
     <meta property="og:description" content="세상에서 가장 소중한 내 마음의 회복과 나 자신을 돌아보는 여정">
+    <!-- 깃허브에 있는 inner-library.jpg를 썸네일 이미지로 연결했습니다 -->
+    <meta property="og:image" content="inner-library.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="드림하이 수강생 모집">
     <meta name="twitter:description" content="내 마음의 회복과 나 자신을 돌아보는 여정">
+    <meta name="twitter:image" content="inner-library.jpg">
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
 
@@ -22,15 +25,14 @@
     <style>
         /* ==========================================
            🎨 배경 이미지 설정 영역
-           아래 url('...') 안의 주소를 원하시는 이미지 주소로 변경하세요!
+           올려주신 header-image.png 파일로 연결했습니다.
         ========================================== */
         :root {
-            --bg-image: url('blob:https://gemini.google.com/a3e4446d-3f9e-4f19-be78-d21922101486');
+            --bg-image: url('header-image.png');
         }
 
         body, #introScreen, #preloader {
             font-family: 'Pretendard', sans-serif;
-            /* 배경 이미지 위에 반투명한 그린 그라데이션 오버레이를 덮어 가독성을 높입니다 */
             background: linear-gradient(135deg, rgba(232, 245, 233, 0.85) 0%, rgba(165, 214, 167, 0.85) 100%), var(--bg-image);
             background-size: cover;
             background-position: center;
@@ -50,7 +52,6 @@
             box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
         }
         
-        /* 인트로 화면 부드러운 전환을 위한 클래스 */
         .fade-out {
             opacity: 0;
             pointer-events: none;
@@ -64,7 +65,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 인트로 버튼 전용 등장 애니메이션 */
         .btn-fade-in {
             animation: btnFadeIn 1.5s ease-out forwards;
         }
@@ -73,7 +73,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 스크롤 시 순차 등장하는 애니메이션 */
         .scroll-hidden {
             opacity: 0;
             transform: translateY(30px);
@@ -108,7 +107,6 @@
             bottom: 40px;
         }
 
-        /* BGM 버튼 스타일 */
         #bgmBtn {
             width: 2rem; 
             height: 2rem;
@@ -150,7 +148,6 @@
             50% { transform: scaleY(1.2); }
         }
 
-        /* 인트로 화면 레이아웃 */
         #introScreen {
             position: fixed;
             top: 0;
@@ -184,9 +181,10 @@
 
     <div id="introScreen">
         <div class="mb-8 flex justify-center text-emerald-700">
-            <!-- 임시 로고 아이콘 -->
-            <div class="w-32 h-32 bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center shadow-xl border-4 border-white/60">
-                <i data-lucide="leaf" class="w-16 h-16"></i>
+            <!-- 올려주신 intro-image.png 파일로 연결했습니다 -->
+            <div class="w-32 h-32 bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center shadow-xl border-4 border-white/60 overflow-hidden">
+                <img src="intro-image.png" alt="인트로 로고" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <i data-lucide="leaf" class="w-16 h-16 hidden"></i>
             </div>
         </div>
         
@@ -207,7 +205,6 @@
 
         <div class="w-full max-w-md clean-card rounded-3xl overflow-hidden relative flex flex-col h-fit">
             
-            <!-- 상단 헤더 영역 -->
             <div class="bg-gradient-to-r from-emerald-500 to-teal-400 text-white p-8 text-center relative">
                 <div class="relative z-10"> 
                     <p class="text-white/90 text-xs tracking-[0.2em] mb-2 uppercase font-bold">Dream High</p>
@@ -217,10 +214,8 @@
                 </div>
             </div>
 
-            <!-- 본문 내용 -->
             <div class="p-6 space-y-8 flex-grow bg-white"> 
                 
-                <!-- 프로그램 소개 -->
                 <div class="text-center scroll-hidden">
                     <div class="flex justify-center mb-3 text-emerald-500">
                         <i data-lucide="sun" class="w-6 h-6"></i>
@@ -233,7 +228,6 @@
                     </p>
                 </div>
 
-                <!-- 강사 소개 -->
                 <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 relative scroll-hidden">
                     <div class="absolute top-4 right-4 text-emerald-200">
                         <i data-lucide="mic" class="w-8 h-8"></i>
@@ -244,18 +238,15 @@
                     
                     <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
                         
-                        <!-- ==========================================
-                             📸 강사님 사진 영역
-                             src="teacher-photo.jpg" 부분을 실제 이미지 파일명이나 경로로 변경하세요!
-                        ========================================== -->
+                        <!-- 올려주신 teacher-photo.png 파일로 연결했습니다 -->
                         <div class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-emerald-50 shadow-md bg-slate-100 flex items-center justify-center shrink-0">
-                            <!-- 이미지를 찾을 수 없을 때 임시 아이콘이 보이도록 설정해 두었습니다 -->
                             <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <i data-lucide="user" class="w-10 h-10 text-slate-300 hidden"></i>
                         </div>
                         
                         <div class="text-center w-full">
-                            <h4 class="text-emerald-700 font-bold mb-3 text-lg">김지명 강사</h4>
+                            <!-- 강사님 성함 수정 완료 -->
+                            <h4 class="text-emerald-700 font-bold mb-3 text-lg">정소영 강사</h4>
                             <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
                             
                             <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
@@ -269,7 +260,6 @@
                     </div>
                 </div>
 
-                <!-- 수강 안내 -->
                 <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm scroll-hidden">
                     <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                         <i data-lucide="calendar-days" class="w-5 h-5 text-teal-500"></i>
@@ -296,7 +286,6 @@
                     </div>
                 </div>
 
-                <!-- 수강 신청 안내 -->
                 <div class="border-t border-slate-100 pt-6 text-center scroll-hidden">
                     <div class="bg-rose-50 rounded-xl p-4 mb-5 mx-1 border border-rose-100">
                         <h3 class="text-slate-800 font-bold mb-2 text-sm flex justify-center items-center gap-1">
@@ -333,6 +322,7 @@
         </div> 
     </div>
     
+    <!-- 올려주신 bgm.mp3 파일로 연결되어 있습니다 -->
     <audio id="bgmAudio" loop>
         <source src="bgm.mp3" type="audio/mpeg">
     </audio>
@@ -350,7 +340,6 @@
     </button>
 
     <script>
-        // --- 스크롤 감지 애니메이션 (Intersection Observer) ---
         function initScrollAnimation() {
             const hiddenElements = document.querySelectorAll('.scroll-hidden');
             
@@ -370,7 +359,6 @@
             hiddenElements.forEach((el) => observer.observe(el));
         }
 
-        // --- 타이핑 애니메이션 ---
         const text1 = "가장 소중한 내 마음의 회복";
         const text2 = "드림하이로 초대합니다.";
         let i = 0;
@@ -400,7 +388,6 @@
             }
         }
 
-        // --- 인트로 및 BGM 제어 스크립트 ---
         const enterBtn = document.getElementById('enterBtn');
         const introScreen = document.getElementById('introScreen');
         const mainContainer = document.getElementById('mainContainer');
@@ -448,7 +435,6 @@
             }
         });
 
-        // 페이지 로드 시 초기화
         window.addEventListener('load', () => {
             if (window.lucide) {
                 lucide.createIcons();
@@ -463,7 +449,6 @@
             }, 500); 
         });
 
-        // --- 기타 기능 스크립트 ---
         function showToast(message) {
             var toast = document.getElementById("toast");
             toast.innerText = message;
