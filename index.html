@@ -33,12 +33,11 @@
 
         body, #introScreen, #preloader {
             font-family: 'Pretendard', sans-serif;
-            /* 연두색 오버레이를 제거하고 배경 이미지만 선명하게 보이도록 수정했습니다 */
+            /* 배경 이미지 위에 반투명한 그린 그라데이션 오버레이를 다시 복구했습니다 */
             background: linear-gradient(135deg, rgba(232, 245, 233, 0.85) 0%, rgba(165, 214, 167, 0.85) 100%), var(--bg-image);
-    background-size: cover;
+            background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            background-color: #f8fafc; /* 이미지가 로드되기 전 기본 배경색 */
             min-height: 100vh;
             color: #334155;
             margin: 0;
@@ -179,24 +178,18 @@
 </head>
 <body>
 
-    <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 999999; transition: opacity 0.5s ease; background-color: #f8fafc;"></div>
+    <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 999999; transition: opacity 0.5s ease;"></div>
 
     <div id="introScreen">
-        <div class="mb-8 flex justify-center text-emerald-700">
-            <!-- 올려주신 intro-image.png 파일로 연결했습니다 -->
-            <div class="w-32 h-32 bg-white/60 backdrop-blur-md rounded-full flex items-center justify-center shadow-xl border-4 border-white/80 overflow-hidden">
-                <img src="intro-image1.png" alt="인트로 로고" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <i data-lucide="leaf" class="w-16 h-16 hidden"></i>
-            </div>
-        </div>
+        
+        <!-- 기존에 있던 인트로 이미지(로고) div 영역을 완전히 삭제했습니다 -->
         
         <div class="typing-container mb-10 text-center">
-            <!-- 배경화면이 밝거나 어두울 수 있어 인트로 텍스트가 잘 보이도록 그림자(drop-shadow-md)를 약간 추가했습니다 -->
-            <p id="typeLine1" class="hand-font text-emerald-900 text-sm mb-2 font-bold tracking-widest h-5 drop-shadow-md"></p>
-            <h1 id="typeLine2" class="hand-font text-3xl font-bold text-emerald-950 drop-shadow-md tracking-wide h-10"></h1>
+            <p id="typeLine1" class="hand-font text-emerald-900 text-sm mb-2 font-bold tracking-widest h-5"></p>
+            <h1 id="typeLine2" class="hand-font text-3xl font-bold text-emerald-950 drop-shadow-sm tracking-wide h-10"></h1>
         </div>
         
-        <button id="enterBtn" style="opacity: 0;" class="opacity-0 bg-white/70 backdrop-blur-md border border-white/80 text-emerald-900 px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-white hover:-translate-y-1 transition-all flex items-center gap-2 group cursor-pointer">
+        <button id="enterBtn" style="opacity: 0;" class="opacity-0 bg-white/60 backdrop-blur-md border border-white/60 text-emerald-900 px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-white/80 hover:-translate-y-1 transition-all flex items-center gap-2 group cursor-pointer">
             <span>초대장 열어보기</span>
             <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
         </button>
@@ -248,6 +241,7 @@
                         </div>
                         
                         <div class="text-center w-full">
+                            <!-- 강사님 성함 -->
                             <h4 class="text-emerald-700 font-bold mb-3 text-lg">정소영 강사</h4>
                             <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
                             
