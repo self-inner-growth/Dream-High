@@ -169,6 +169,15 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* 가로 스크롤바 숨기기 클래스 추가 */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
     </style>
 </head>
 <body>
@@ -215,32 +224,92 @@
                     </p>
                 </div>
 
-                <!-- 강사 소개 -->
+                <!-- 강사 및 멘토진 소개 (슬라이더 구조 적용) -->
                 <div class="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 relative scroll-hidden">
                     <div class="absolute top-4 right-4 text-emerald-200">
-                        <i data-lucide="mic" class="w-8 h-8"></i>
+                        <i data-lucide="users" class="w-8 h-8"></i>
                     </div>
                     <h3 class="hand-font text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        강의자를 소개합니다
+                        강사진 및 멘토진을 소개합니다
                     </h3>
                     
-                    <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center">
-                        <div class="w-48 mb-5 flex items-center justify-center shrink-0">
-                            <img src="teacher-photo.png" alt="정소영 강사님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
-                        </div>
+                    <!-- 가로 스와이프 슬라이더 래퍼 -->
+                    <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-2">
                         
-                        <div class="text-center w-full">
-                            <h4 class="text-emerald-700 font-bold mb-3 text-lg">정소영 강사</h4>
-                            <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
+                        <!-- 1. 정소영 강사 -->
+                        <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center min-w-[85%] snap-center shrink-0">
+                            <div class="w-40 mb-4 flex items-center justify-center shrink-0">
+                                <img src="teacher-photo1.png" alt="정소영 강사님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
+                            </div>
                             
-                            <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
-                                <li>• 사회복지사 1급, 청소년 지도사 2급</li>
-                                <li>• 전) 정서나무 심리센터 협력 강사</li>
-                                <li>• 전) Y.E.S. Lab 소속 감정코칭 강사</li>
-                                <li>• 전) 리뉴얼 스쿨 교육 강사</li>
-                                <li>• 현) 드림하이 강사</li>
-                            </ul>
+                            <div class="text-center w-full">
+                                <h4 class="text-emerald-700 font-bold mb-3 text-lg">정소영 강사</h4>
+                                <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
+                                
+                                <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
+                                    <li>• 사회복지사 1급, 청소년 지도사 2급</li>
+                                    <li>• 전) 정서나무 심리센터 협력 강사</li>
+                                    <li>• 전) Y.E.S. Lab 소속 감정코칭 강사</li>
+                                    <li>• 전) 리뉴얼 스쿨 교육 강사</li>
+                                    <li>• 현) 드림하이 강사</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 2. 권수정 멘토 -->
+                        <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center min-w-[85%] snap-center shrink-0">
+                            <div class="w-40 mb-4 flex items-center justify-center shrink-0">
+                                <img src="teacher-photo2.png" alt="권수정 멘토님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
+                            </div>
+                            
+                            <div class="text-center w-full">
+                                <h4 class="text-emerald-700 font-bold mb-3 text-lg">권수정 멘토</h4>
+                                <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
+                                
+                                <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
+                                    <li>• 독서심리상담사 1급</li>
+                                    <li>• 타로심리상담사 1급</li>
+                                    <li>• NLP 코칭상담사 2급</li>
+                                    <li>• 건국대학교 행정학과 졸업</li>
+                                    <li>• 전) 블루스퀘어 Let's B 전임 컨설턴트</li>
+                                    <li>• 전) 공감과 소통 전임 상담사</li>
+                                    <li>• 현) 대학 진로·취업 코칭 강사</li>
+                                    <li>• 현) 드림하이 코칭 전문 멘토</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 3. 여길우 멘토 -->
+                        <div class="bg-white p-5 rounded-xl border border-emerald-100/50 shadow-sm flex flex-col items-center min-w-[85%] snap-center shrink-0">
+                            <div class="w-40 mb-4 flex items-center justify-center shrink-0">
+                                <img src="teacher-photo3.png" alt="여길우 멘토님" class="w-full h-auto object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <i data-lucide="user" class="w-20 h-20 text-slate-300 hidden"></i>
+                            </div>
+                            
+                            <div class="text-center w-full">
+                                <h4 class="text-emerald-700 font-bold mb-3 text-lg">여길우 멘토</h4>
+                                <div class="w-12 h-0.5 bg-emerald-100 mx-auto mb-3"></div>
+                                
+                                <ul class="text-slate-600 text-xs space-y-1.5 leading-relaxed text-left inline-block">
+                                    <li>• 심리상담사 1급</li>
+                                    <li>• SC 강사 1급</li>
+                                    <li>• 전) 한솥, 이디야, 돌코리아 대형 F&B 웰니스 컨설턴트</li>
+                                    <li>• 전) S.N.D AI 프로토타이핑 · UX 팀장</li>
+                                    <li>• 전) DBD.C 프로젝트 조직 심리 · 커뮤니케이션 자문위원</li>
+                                    <li>• 현) 드림하이 코칭 전문 멘토</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- 스와이프 유도 인디케이터 -->
+                    <div class="flex justify-center mt-3 text-emerald-400/80 animate-pulse">
+                        <div class="flex items-center gap-1 text-[11px] font-medium">
+                            <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i>
+                            <span>옆으로 넘겨서 확인해보세요</span>
                         </div>
                     </div>
                 </div>
@@ -253,19 +322,18 @@
                     </h3>
                     
                     <div class="space-y-3 text-sm">
-                         
-                        <!-- 새로 추가된 수업 기간 -->
-                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
-                            <span class="text-slate-400 font-medium w-20 shrink-0">수업 기간</span>
-                            <span class="text-slate-700 font-bold text-right">7개월</span>
-                        </div>
-                        
                         <!-- 교육 시작 -->
                         <div class="flex justify-between items-start border-b border-slate-50 pb-2">
                             <span class="text-slate-400 font-medium w-20 shrink-0">교육 시작</span>
                             <span class="text-slate-700 font-bold text-right">8월 11일(화)</span>
                         </div>
-                       
+                        
+                        <!-- 수업 기간 -->
+                        <div class="flex justify-between items-start border-b border-slate-50 pb-2">
+                            <span class="text-slate-400 font-medium w-20 shrink-0">수업 기간</span>
+                            <span class="text-slate-700 font-bold text-right">7개월</span>
+                        </div>
+                        
                         <!-- 수업 시간 -->
                         <div class="flex flex-col border-b border-slate-50 pb-2 gap-2">
                             <div class="flex justify-between items-start">
@@ -278,7 +346,7 @@
                             </div>
                         </div>
                         
-                        <!-- 과정 (이름 변경) -->
+                        <!-- 과정 -->
                         <div class="flex justify-between items-start border-b border-slate-50 pb-2">
                             <span class="text-slate-400 font-medium w-20 shrink-0">과정</span>
                             <span class="text-slate-700 font-bold text-right">Part 1. Soil : 흙 (기반)<br>Part 2. Tree : 나무 (성장)<br>Part 3. Forest : 숲 (정립)</span>
