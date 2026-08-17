@@ -18,12 +18,28 @@
     #landing-page { text-align: center; }
     
     .landing-title { font-size: 2.1rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; }
-    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .landing-desc { color: #666; margin-bottom: 25px; font-size: 1.05rem; line-height: 1.6; }
+    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .landing-desc { color: #555; margin-bottom: 30px; font-size: 1.05rem; line-height: 1.7; word-break: keep-all; }
     
     .input-group { text-align: left; margin-bottom: 15px; }
-    .input-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #444; font-size: 0.9rem; }
-    .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; box-sizing: border-box; font-family: 'NanumSquareRound', sans-serif; }
+    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #444; font-size: 0.95rem; }
+    
+    /* ★ 수정됨: 드롭다운과 입력 박스 크기 동일하게 맞춤 (글씨 잘림 방지) */
+    .input-group input, .input-group select { 
+      width: 100%; 
+      height: 52px; 
+      padding: 0 15px; 
+      border: 1px solid #ddd; 
+      border-radius: 10px; 
+      font-size: 1.05rem; 
+      box-sizing: border-box; 
+      font-family: 'NanumSquareRound', sans-serif;
+      background-color: #fff;
+      color: #333;
+      line-height: normal;
+    }
+    .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--accent); }
+
     .start-btn, .action-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #2c3e50, #34495e); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.2s; font-family: 'NanumSquareRound', sans-serif;}
     .start-btn:hover, .action-btn:hover { opacity: 0.9; }
     
@@ -83,14 +99,17 @@
   </div>
 
   <div class="container">
-    <!-- 1. 랜딩 페이지 -->
+    <!-- 1. 랜딩 페이지 (정보 입력) -->
     <div id="landing-page">
       <h1 class="landing-title">드림하이 : 핵심욕구</h1>
+      
       <img src="main-title.png" class="landing-image" alt="드림하이 메인 이미지" onerror="this.src='https://images.unsplash.com/photo-1509803874385-db7c23652552?auto=format&fit=crop&w=800&q=80'">
 
+      <!-- ★ 수정됨: 안내 문구를 더 부드럽고 친근하게 변경 -->
       <p class="landing-desc">
-        정밀한 심리 분석과 전문적인 리포트 제공을 위해<br>
-        기본 정보를 입력해 주세요. (입력하신 정보는 철저히 비밀이 보장됩니다.)
+        나를 더 깊이 이해하고 새로운 내일로 도약하기 위한 시간입니다. 🌱<br>
+        편안한 마음으로 기본 정보를 입력해 주세요.<br>
+        <span style="font-size:0.9rem; color:#888;">(작성해주신 소중한 정보는 안전하게 보호되니 안심하셔도 좋습니다.)</span>
       </p>
 
       <div class="input-group">
@@ -105,7 +124,8 @@
         </div>
         <div class="input-group" style="flex:1;">
           <label>성별</label>
-          <select id="user-gender" style="height:44px;">
+          <!-- inline style height 제거됨 -->
+          <select id="user-gender">
             <option value="남성">남성</option>
             <option value="여성">여성</option>
           </select>
@@ -114,7 +134,8 @@
 
       <div class="input-group">
         <label>MBTI (선택)</label>
-        <select id="user-mbti" style="height:44px;">
+        <!-- inline style height 제거됨 -->
+        <select id="user-mbti">
           <option value="">모름 / 선택안함</option>
           <option value="ISTJ">ISTJ</option><option value="ISFJ">ISFJ</option><option value="INFJ">INFJ</option><option value="INTJ">INTJ</option>
           <option value="ISTP">ISTP</option><option value="ISFP">ISFP</option><option value="INFP">INFP</option><option value="INTP">INTP</option>
@@ -129,10 +150,10 @@
         <button style="background: transparent; border: none; color: #999; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMainMentorLogin()">멘토 전용 페이지 입장</button>
       </div>
 
-      <div id="main-mentor-login-area" style="display:none; margin-top:15px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+      <div id="main-mentor-login-area" style="display:none; margin-top:15px; background: #f8f9fa; padding: 20px; border-radius: 12px;">
          <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
-         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif;">
-         <button id="main-mentor-btn" onclick="verifyMainMentor()" style="padding:10px 15px; background:#2c3e50; color:#fff; border:none; border-radius:5px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">접속</button>
+         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #ccc; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto;">
+         <button id="main-mentor-btn" onclick="verifyMainMentor()" style="padding:12px 18px; background:#2c3e50; color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">접속</button>
       </div>
     </div>
 
@@ -146,7 +167,7 @@
         </div>
         <div id="progress-text" style="text-align:right; color:#888; font-size:0.85rem; margin-bottom:20px; font-weight:bold;">1 / 20</div>
 
-        <form id="quiz-form"></form>
+        <form id="quiz-form" onsubmit="event.preventDefault();"></form>
       </div>
     </div>
     
@@ -162,7 +183,7 @@
             <span style="font-size:0.8rem; color:#888;">이름을 클릭하여 확인</span>
          </div>
          <div id="student-list-container" style="display:flex; flex-direction:column; max-height:450px; overflow-y:auto; padding-right:5px;">
-            <!-- 백엔드에서 불러온 리스트 -->
+            <!-- 백엔드에서 불러온 리스트가 여기에 생성됩니다 -->
          </div>
       </div>
       <div style="margin-top:20px; text-align:center;">
@@ -174,7 +195,7 @@
 
   <script>
     // =========================================================
-    // ★ 앱스 스크립트 '새 배포' 후 생성된 웹 앱 URL 입력
+    // ★ 앱스 스크립트 새 배포 후 생성된 '웹 앱 URL'을 아래에 꼭 붙여넣으세요.
     // =========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUvCIxFES9ASZmOjz9DM3cGeI3ZdcaqRU0ppsDFmpuCduGLKz7zb08olnFouzkzxKQzQ/exec';
 
@@ -389,6 +410,7 @@
             window.mentorData = { scores: data.scores, typeScores, topTypeStr, userResponses: fullUserResponses, name: data.userInfo.name };
             
             renderDetailedResults(window.mentorData, true);
+
           } else {
             alert(res.error || "데이터를 불러올 수 없습니다.");
           }
@@ -614,7 +636,7 @@
 
         <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #f8f9fa; padding: 20px; border-radius: 8px;">
            <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
-           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif;">
+           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto;">
            <button id="mentor-btn" onclick="verifyMentor()" style="padding:10px 15px; background:#2c3e50; color:#fff; border:none; border-radius:5px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
         </div>
       `;
@@ -713,7 +735,7 @@
              <div style="position: relative; height:250px; width:100%;"><canvas id="resultChart"></canvas></div>
           </div>
           <div id="ai-section" style="margin-top: 35px;">
-             <h3>4. AI 심층 분석 리포트(준비중)</h3>
+             <h3>4. AI 심층 분석 리포트</h3>
              <div id="ai-initial-view" style="text-align:center; padding:25px; background:#f8f9fa; border:1px solid #eee; border-radius:10px;">
                 <p style="margin-bottom:15px;">전문적인 심층 분석과 조언을 제공합니다.</p>
                 <button id="ai-btn" class="ai-btn" onclick="callAI()">AI 정밀 분석 시작하기</button>
