@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>드림하이 : 핵심욕구</title>
-  <!-- 말랑말랑한 둥근 고딕 폰트 적용 -->
   <link href="https://hangeul.pstatic.net/hangeul_font/css/nanum-square-round.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
   <style>
@@ -12,14 +11,12 @@
       --primary: #2c3e50; --accent: #3498db; --bg: #f4f6f9; 
       --text: #2c3e50; --growth: #27ae60; --stress: #e74c3c; 
     }
-    /* 전체 폰트를 둥글고 부드러운 느낌으로 일괄 설정 */
     body { font-family: 'NanumSquareRound', sans-serif; background: var(--bg); margin: 0; padding: 20px 10px; color: var(--text); display: flex; justify-content: center; }
     .container { position: relative; max-width: 900px; width: 100%; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); min-height: 500px; }
     
     #main-app, #result-area, #mentor-dashboard { display: none; }
     #landing-page { text-align: center; }
     
-    /* 그림 및 타이틀 스타일 */
     .landing-title { font-size: 2.1rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; }
     .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     .landing-desc { color: #666; margin-bottom: 25px; font-size: 1.05rem; line-height: 1.6; }
@@ -86,12 +83,9 @@
   </div>
 
   <div class="container">
-    <!-- 1. 랜딩 페이지 (정보 입력) -->
+    <!-- 1. 랜딩 페이지 -->
     <div id="landing-page">
-      <!-- 타이틀을 이미지 위로 배치 -->
       <h1 class="landing-title">드림하이 : 핵심욕구</h1>
-      
-      <!-- 깃허브에 업로드할 파일명(main-title.png) 연동 -->
       <img src="main-title.png" class="landing-image" alt="드림하이 메인 이미지" onerror="this.src='https://images.unsplash.com/photo-1509803874385-db7c23652552?auto=format&fit=crop&w=800&q=80'">
 
       <p class="landing-desc">
@@ -131,7 +125,6 @@
 
       <button class="start-btn" onclick="startTest()">검사 시작하기</button>
 
-      <!-- 메인 화면 멘토 전용 입장 버튼 -->
       <div style="margin-top:25px; padding-top:15px; border-top:1px dashed #eee;">
         <button style="background: transparent; border: none; color: #999; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMainMentorLogin()">멘토 전용 페이지 입장</button>
       </div>
@@ -169,7 +162,7 @@
             <span style="font-size:0.8rem; color:#888;">이름을 클릭하여 확인</span>
          </div>
          <div id="student-list-container" style="display:flex; flex-direction:column; max-height:450px; overflow-y:auto; padding-right:5px;">
-            <!-- 백엔드에서 불러온 리스트가 여기에 생성됩니다 -->
+            <!-- 백엔드에서 불러온 리스트 -->
          </div>
       </div>
       <div style="margin-top:20px; text-align:center;">
@@ -181,7 +174,7 @@
 
   <script>
     // =========================================================
-    // ★ 앱스 스크립트 새 배포 후 생성된 '웹 앱 URL'을 아래에 꼭 붙여넣으세요.
+    // ★ 앱스 스크립트 '새 배포' 후 생성된 웹 앱 URL 입력
     // =========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUvCIxFES9ASZmOjz9DM3cGeI3ZdcaqRU0ppsDFmpuCduGLKz7zb08olnFouzkzxKQzQ/exec';
 
@@ -224,7 +217,6 @@
     let currentQIndex = 0;
     let userAnswers = []; 
 
-    // 보안이 강화된 API 호출 함수
     async function callBackend(action, payload = null) {
       let url = SCRIPT_URL + "?action=" + action;
       let options = { redirect: "follow" };
@@ -251,7 +243,6 @@
       const params = new URLSearchParams(window.location.search);
       const testId = params.get('id');
 
-      // 다이렉트 링크로 접속한 경우 (일반 학생 본인 결과 조회 허용)
       if (testId) {
         document.getElementById('loading-overlay').style.display = 'flex';
         document.getElementById('loading-msg').innerText = "결과 데이터를 불러오고 있습니다...";
@@ -261,15 +252,15 @@
             if (data && data.scores) restoreResultScreen(data);
           })
           .catch(() => document.getElementById('loading-overlay').style.display = 'none');
-      } else if (localStorage.getItem('ksip_last_result')) {
+      } else if (localStorage.getItem('dreamhigh_last_result')) {
         try {
-          const localData = JSON.parse(localStorage.getItem('ksip_last_result'));
+          const localData = JSON.parse(localStorage.getItem('dreamhigh_last_result'));
           if (!localData || !localData.scores) throw new Error("데이터 손상");
           restoreResultScreen(localData);
         } catch(e) {
-          localStorage.removeItem('ksip_last_result');
+          localStorage.removeItem('dreamhigh_last_result');
         }
-      } else if (sessionStorage.getItem('ksip_status') === 'quiz') {
+      } else if (sessionStorage.getItem('dreamhigh_status') === 'quiz') {
         restoreSessionAndStart();
       }
     });
@@ -279,7 +270,6 @@
       el.style.display = el.style.display === 'none' ? 'block' : 'none';
     }
 
-    // 메인 화면에서 멘토 로그인 시 (보안 토큰 저장)
     function verifyMainMentor() {
       const inputId = document.getElementById('main-mentor-id-input').value;
       if (!inputId) { alert("비밀번호(아이디)를 입력해주세요."); return; }
@@ -290,12 +280,11 @@
       btn.disabled = true;
 
       callBackend('verifyMentor', { id: inputId })
-        .then(isValid => {
+        .then(res => {
           btn.innerText = originalText;
           btn.disabled = false;
           
-          if (isValid) {
-            // ★ 비밀번호를 세션에 임시 저장하여 보안 통신에 활용
+          if (res.isValid) {
             sessionStorage.setItem('mentor_pwd', inputId);
             loadMentorDashboard();
           } else {
@@ -309,7 +298,6 @@
         });
     }
 
-    // ★ 보안이 적용된 멘토 대시보드 리스트 호출
     function loadMentorDashboard() {
       document.getElementById('landing-page').style.display = 'none';
       document.getElementById('main-app').style.display = 'none';
@@ -320,7 +308,6 @@
 
       const pwd = sessionStorage.getItem('mentor_pwd');
 
-      // 보안 Action 'getStudentListSecure' 사용 및 비밀번호 전달
       callBackend('getStudentListSecure', { password: pwd })
         .then(res => {
           document.getElementById('loading-overlay').style.display = 'none';
@@ -329,7 +316,7 @@
             renderStudentList(res.list);
           } else {
             alert(res.error || "목록을 불러오는 중 오류가 발생했습니다.");
-            location.reload(); // 권한 없으면 메인으로
+            location.reload(); 
           }
         })
         .catch(err => {
@@ -362,14 +349,12 @@
       }).join('');
     }
 
-    // ★ 보안이 적용된 상세 데이터 호출
     function viewStudentResult(id) {
       document.getElementById('loading-msg').innerText = "결과 데이터를 불러오고 있습니다...";
       document.getElementById('loading-overlay').style.display = 'flex';
       
       const pwd = sessionStorage.getItem('mentor_pwd');
 
-      // 보안 Action 'getDataSecure' 사용 및 비밀번호 전달
       callBackend('getDataSecure', { id: id, password: pwd })
         .then(res => {
           document.getElementById('loading-overlay').style.display = 'none';
@@ -404,7 +389,6 @@
             window.mentorData = { scores: data.scores, typeScores, topTypeStr, userResponses: fullUserResponses, name: data.userInfo.name };
             
             renderDetailedResults(window.mentorData, true);
-
           } else {
             alert(res.error || "데이터를 불러올 수 없습니다.");
           }
@@ -430,9 +414,9 @@
       
       userInfo = { name, age, gender, mbti: mbti || "알수없음" };
       
-      localStorage.removeItem('ksip_last_result');
-      sessionStorage.setItem('ksip_status', 'quiz');
-      sessionStorage.setItem('ksip_userInfo', JSON.stringify(userInfo));
+      localStorage.removeItem('dreamhigh_last_result');
+      sessionStorage.setItem('dreamhigh_status', 'quiz');
+      sessionStorage.setItem('dreamhigh_userInfo', JSON.stringify(userInfo));
 
       rawQuestions = JSON.parse(JSON.stringify(PRELOADED_QUESTIONS));
       initQuiz(); 
@@ -444,7 +428,7 @@
 
     function restoreSessionAndStart() {
       try {
-        const storedUser = JSON.parse(sessionStorage.getItem('ksip_userInfo'));
+        const storedUser = JSON.parse(sessionStorage.getItem('dreamhigh_userInfo'));
         if (storedUser) {
           userInfo = storedUser;
           document.getElementById('user-name').value = userInfo.name;
@@ -545,10 +529,10 @@
           document.getElementById('loading-overlay').style.display = 'none';
           if (res.success && res.id) {
             finalResultData.id = res.id;
-            localStorage.setItem('ksip_last_result', JSON.stringify(finalResultData));
+            localStorage.setItem('dreamhigh_last_result', JSON.stringify(finalResultData));
             if (history.replaceState) history.replaceState(null, null, "?id=" + res.id);
           }
-          sessionStorage.removeItem('ksip_status'); 
+          sessionStorage.removeItem('dreamhigh_status'); 
           showResultScreen(scores, typeScores, topTypeStr, displayResponses);
         })
         .catch(err => {
@@ -629,7 +613,7 @@
         </div>
 
         <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #f8f9fa; padding: 20px; border-radius: 8px;">
-           <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
+           <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
            <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif;">
            <button id="mentor-btn" onclick="verifyMentor()" style="padding:10px 15px; background:#2c3e50; color:#fff; border:none; border-radius:5px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
         </div>
@@ -642,7 +626,6 @@
       el.style.display = el.style.display === 'none' ? 'block' : 'none';
     }
 
-    // 학생 결과화면에서 멘토 로그인 시 (보안 토큰 저장)
     function verifyMentor() {
       const inputId = document.getElementById('mentor-id-input').value;
       if (!inputId) { alert("비밀번호를 입력해주세요."); return; }
@@ -653,11 +636,11 @@
       btn.disabled = true;
 
       callBackend('verifyMentor', { id: inputId })
-        .then(isValid => {
+        .then(res => {
           btn.innerText = originalText;
           btn.disabled = false;
           
-          if (isValid) {
+          if (res.isValid) {
             sessionStorage.setItem('mentor_pwd', inputId);
             document.getElementById('mentor-login-area').style.display = 'none';
             document.querySelector('#result-area > div:first-child').style.display = 'none';
@@ -665,7 +648,7 @@
             
             renderDetailedResults(window.mentorData, false);
           } else {
-            alert("멘토 비밀번호가 일치하지 않습니다.");
+            alert("멘토 아이디가 일치하지 않습니다.");
           }
         })
         .catch(err => {
@@ -730,7 +713,7 @@
              <div style="position: relative; height:250px; width:100%;"><canvas id="resultChart"></canvas></div>
           </div>
           <div id="ai-section" style="margin-top: 35px;">
-             <h3>4. AI 심층 분석 리포트</h3>
+             <h3>4. AI 심층 분석 리포트(준비중)</h3>
              <div id="ai-initial-view" style="text-align:center; padding:25px; background:#f8f9fa; border:1px solid #eee; border-radius:10px;">
                 <p style="margin-bottom:15px;">전문적인 심층 분석과 조언을 제공합니다.</p>
                 <button id="ai-btn" class="ai-btn" onclick="callAI()">AI 정밀 분석 시작하기</button>
@@ -853,7 +836,7 @@
 
     function resetTest() {
       if (confirm("새로운 검사를 시작하시겠습니까?")) {
-        localStorage.removeItem('ksip_last_result');
+        localStorage.removeItem('dreamhigh_last_result');
         sessionStorage.clear();
         window.location.href = window.location.pathname;
       }
@@ -874,7 +857,7 @@
             renderAIResult(res);
             let targetId = finalResultData && finalResultData.id ? finalResultData.id : null;
             if(!targetId) {
-                let savedData = JSON.parse(localStorage.getItem('ksip_last_result') || '{}');
+                let savedData = JSON.parse(localStorage.getItem('dreamhigh_last_result') || '{}');
                 targetId = savedData.id;
             }
             if (targetId) {
@@ -896,10 +879,10 @@
       resultBox.style.display = 'block';
       
       try {
-        let savedData = JSON.parse(localStorage.getItem('ksip_last_result') || '{}');
+        let savedData = JSON.parse(localStorage.getItem('dreamhigh_last_result') || '{}');
         if (savedData.scores && savedData.id === finalResultData.id) { 
           savedData.aiResult = res;
-          localStorage.setItem('ksip_last_result', JSON.stringify(savedData));
+          localStorage.setItem('dreamhigh_last_result', JSON.stringify(savedData));
         }
       } catch(e) {}
 
