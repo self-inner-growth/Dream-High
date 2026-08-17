@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>드림하이 : 핵심욕구</title>
-  <!-- 말랑말랑한 느낌의 둥근 고딕 폰트 적용 (나눔스퀘어라운드) -->
+  <!-- 말랑말랑한 둥근 고딕 폰트 적용 -->
   <link href="https://hangeul.pstatic.net/hangeul_font/css/nanum-square-round.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
   <style>
@@ -12,16 +12,16 @@
       --primary: #2c3e50; --accent: #3498db; --bg: #f4f6f9; 
       --text: #2c3e50; --growth: #27ae60; --stress: #e74c3c; 
     }
-    /* 전체 폰트를 둥글고 부드러운 느낌으로 설정 */
+    /* 전체 폰트를 둥글고 부드러운 느낌으로 일괄 설정 */
     body { font-family: 'NanumSquareRound', sans-serif; background: var(--bg); margin: 0; padding: 20px 10px; color: var(--text); display: flex; justify-content: center; }
     .container { position: relative; max-width: 900px; width: 100%; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); min-height: 500px; }
     
     #main-app, #result-area, #mentor-dashboard { display: none; }
     #landing-page { text-align: center; }
     
-    /* 그림 스타일 (타이틀 아래 배치) */
-    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 20px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    /* 그림 및 타이틀 스타일 */
     .landing-title { font-size: 2.1rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; }
+    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     .landing-desc { color: #666; margin-bottom: 25px; font-size: 1.05rem; line-height: 1.6; }
     
     .input-group { text-align: left; margin-bottom: 15px; }
@@ -67,7 +67,7 @@
     .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     
-    .dashboard-list-btn { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border:1px solid #ddd; border-radius:8px; cursor:pointer; text-align:left; transition:0.2s; width: 100%; margin-bottom: 10px; }
+    .dashboard-list-btn { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border:1px solid #ddd; border-radius:8px; cursor:pointer; text-align:left; transition:0.2s; width: 100%; margin-bottom: 10px; font-family: 'NanumSquareRound', sans-serif;}
     .dashboard-list-btn:hover { background:#edf2f7; border-color:#bdc3c7; }
 
     @media (max-width: 700px) {
@@ -88,10 +88,10 @@
   <div class="container">
     <!-- 1. 랜딩 페이지 (정보 입력) -->
     <div id="landing-page">
-      <!-- 타이틀 -->
+      <!-- 타이틀을 이미지 위로 배치 -->
       <h1 class="landing-title">드림하이 : 핵심욕구</h1>
       
-      <!-- 그림 파일 (타이틀 아래 배치, 깃허브 main-title.png 연동) -->
+      <!-- 깃허브에 업로드할 파일명(main-title.png) 연동 -->
       <img src="main-title.png" class="landing-image" alt="드림하이 메인 이미지" onerror="this.src='https://images.unsplash.com/photo-1509803874385-db7c23652552?auto=format&fit=crop&w=800&q=80'">
 
       <p class="landing-desc">
@@ -138,7 +138,7 @@
 
       <div id="main-mentor-login-area" style="display:none; margin-top:15px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
          <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
-         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center;">
+         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif;">
          <button id="main-mentor-btn" onclick="verifyMainMentor()" style="padding:10px 15px; background:#2c3e50; color:#fff; border:none; border-radius:5px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">접속</button>
       </div>
     </div>
@@ -169,7 +169,7 @@
             <span style="font-size:0.8rem; color:#888;">이름을 클릭하여 확인</span>
          </div>
          <div id="student-list-container" style="display:flex; flex-direction:column; max-height:450px; overflow-y:auto; padding-right:5px;">
-            <!-- 백엔드에서 불러온 리스트 -->
+            <!-- 백엔드에서 불러온 리스트가 여기에 생성됩니다 -->
          </div>
       </div>
       <div style="margin-top:20px; text-align:center;">
@@ -181,7 +181,7 @@
 
   <script>
     // =========================================================
-    // ★ 앱스 스크립트 웹 앱 URL
+    // ★ 앱스 스크립트 새 배포 후 생성된 '웹 앱 URL'을 아래에 꼭 붙여넣으세요.
     // =========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUvCIxFES9ASZmOjz9DM3cGeI3ZdcaqRU0ppsDFmpuCduGLKz7zb08olnFouzkzxKQzQ/exec';
 
@@ -211,8 +211,8 @@
     const needsDescriptionMap = {
       "안정": "안전과 예측 가능성을 중시하며, 위험을 최소화하고 평온한 상태를 유지하려는 욕구가 큽니다.",
       "인정": "타인으로부터의 긍정적인 평가와 존중, 가치를 인정받고자 하는 욕구가 큽니다.",
-      "관계": "사람들과의 깊은 정서적 교류, 소속감, 친밀한 유대감을 형성하려는 욕구가 큽니다.",
-      "자율": "독립적으로 사고하고 행동하며, 자신의 삶을 통제하고 간섭받지 않으려는 욕구가 큽니다.",
+      "관계": "사람들과 정서적으로 깊이 교류하고, 소속감과 친밀한 유대감을 형성하려는 욕구가 큽니다.",
+      "자율": "독립적으로 사고하고 행동하며, 자신의 삶을 주도적으로 통제하고 간섭받지 않으려는 욕구가 큽니다.",
       "성취의미": "성장과 발전, 그리고 자신의 행동이나 삶에서 깊은 가치와 의미를 찾으려는 욕구가 큽니다."
     };
 
@@ -224,6 +224,7 @@
     let currentQIndex = 0;
     let userAnswers = []; 
 
+    // 보안이 강화된 API 호출 함수
     async function callBackend(action, payload = null) {
       let url = SCRIPT_URL + "?action=" + action;
       let options = { redirect: "follow" };
@@ -250,6 +251,7 @@
       const params = new URLSearchParams(window.location.search);
       const testId = params.get('id');
 
+      // 다이렉트 링크로 접속한 경우 (일반 학생 본인 결과 조회 허용)
       if (testId) {
         document.getElementById('loading-overlay').style.display = 'flex';
         document.getElementById('loading-msg').innerText = "결과 데이터를 불러오고 있습니다...";
@@ -277,9 +279,10 @@
       el.style.display = el.style.display === 'none' ? 'block' : 'none';
     }
 
+    // 메인 화면에서 멘토 로그인 시 (보안 토큰 저장)
     function verifyMainMentor() {
       const inputId = document.getElementById('main-mentor-id-input').value;
-      if (!inputId) { alert("아이디를 입력해주세요."); return; }
+      if (!inputId) { alert("비밀번호(아이디)를 입력해주세요."); return; }
       
       const btn = document.getElementById('main-mentor-btn');
       const originalText = btn.innerText;
@@ -292,9 +295,11 @@
           btn.disabled = false;
           
           if (isValid) {
+            // ★ 비밀번호를 세션에 임시 저장하여 보안 통신에 활용
+            sessionStorage.setItem('mentor_pwd', inputId);
             loadMentorDashboard();
           } else {
-            alert("멘토 아이디가 일치하지 않습니다.");
+            alert("멘토 비밀번호가 일치하지 않습니다.");
           }
         })
         .catch(err => {
@@ -304,6 +309,7 @@
         });
     }
 
+    // ★ 보안이 적용된 멘토 대시보드 리스트 호출
     function loadMentorDashboard() {
       document.getElementById('landing-page').style.display = 'none';
       document.getElementById('main-app').style.display = 'none';
@@ -312,15 +318,23 @@
       document.getElementById('loading-msg').innerText = "학생 목록을 불러오는 중입니다...";
       document.getElementById('loading-overlay').style.display = 'flex';
 
-      callBackend('getStudentList')
-        .then(list => {
+      const pwd = sessionStorage.getItem('mentor_pwd');
+
+      // 보안 Action 'getStudentListSecure' 사용 및 비밀번호 전달
+      callBackend('getStudentListSecure', { password: pwd })
+        .then(res => {
           document.getElementById('loading-overlay').style.display = 'none';
-          document.getElementById('mentor-dashboard').style.display = 'block';
-          renderStudentList(list);
+          if (res.success) {
+            document.getElementById('mentor-dashboard').style.display = 'block';
+            renderStudentList(res.list);
+          } else {
+            alert(res.error || "목록을 불러오는 중 오류가 발생했습니다.");
+            location.reload(); // 권한 없으면 메인으로
+          }
         })
         .catch(err => {
           document.getElementById('loading-overlay').style.display = 'none';
-          alert("목록을 불러오는 중 오류가 발생했습니다: " + err);
+          alert("서버 통신 오류: " + err);
         });
     }
 
@@ -348,14 +362,19 @@
       }).join('');
     }
 
+    // ★ 보안이 적용된 상세 데이터 호출
     function viewStudentResult(id) {
       document.getElementById('loading-msg').innerText = "결과 데이터를 불러오고 있습니다...";
       document.getElementById('loading-overlay').style.display = 'flex';
       
-      callBackend('getDataById&id=' + id)
-        .then(data => {
+      const pwd = sessionStorage.getItem('mentor_pwd');
+
+      // 보안 Action 'getDataSecure' 사용 및 비밀번호 전달
+      callBackend('getDataSecure', { id: id, password: pwd })
+        .then(res => {
           document.getElementById('loading-overlay').style.display = 'none';
-          if (data && data.scores) {
+          if (res.success && res.data) {
+            const data = res.data;
             document.getElementById('mentor-dashboard').style.display = 'none';
             document.getElementById('result-area').style.display = 'block';
             
@@ -387,7 +406,7 @@
             renderDetailedResults(window.mentorData, true);
 
           } else {
-            alert("데이터를 불러올 수 없습니다.");
+            alert(res.error || "데이터를 불러올 수 없습니다.");
           }
         })
         .catch(err => {
@@ -610,8 +629,8 @@
         </div>
 
         <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #f8f9fa; padding: 20px; border-radius: 8px;">
-           <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
-           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center;">
+           <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
+           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif;">
            <button id="mentor-btn" onclick="verifyMentor()" style="padding:10px 15px; background:#2c3e50; color:#fff; border:none; border-radius:5px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
         </div>
       `;
@@ -623,9 +642,10 @@
       el.style.display = el.style.display === 'none' ? 'block' : 'none';
     }
 
+    // 학생 결과화면에서 멘토 로그인 시 (보안 토큰 저장)
     function verifyMentor() {
       const inputId = document.getElementById('mentor-id-input').value;
-      if (!inputId) { alert("아이디를 입력해주세요."); return; }
+      if (!inputId) { alert("비밀번호를 입력해주세요."); return; }
       
       const btn = document.getElementById('mentor-btn');
       const originalText = btn.innerText;
@@ -638,13 +658,14 @@
           btn.disabled = false;
           
           if (isValid) {
+            sessionStorage.setItem('mentor_pwd', inputId);
             document.getElementById('mentor-login-area').style.display = 'none';
             document.querySelector('#result-area > div:first-child').style.display = 'none';
             document.querySelector('#result-area > div:nth-child(2)').style.display = 'none';
             
             renderDetailedResults(window.mentorData, false);
           } else {
-            alert("멘토 아이디가 일치하지 않습니다.");
+            alert("멘토 비밀번호가 일치하지 않습니다.");
           }
         })
         .catch(err => {
