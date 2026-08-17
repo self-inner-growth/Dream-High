@@ -8,39 +8,44 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
   <style>
     :root { 
-      --primary: #2c3e50; --accent: #3498db; --bg: #f4f6f9; 
-      --text: #2c3e50; --growth: #27ae60; --stress: #e74c3c; 
+      /* 밝은 우드 톤 테마 컬러 설정 */
+      --primary: #9C7A63; /* 따뜻하고 부드러운 브라운 */
+      --accent: #D9B497;  /* 밝은 샌드 우드 */
+      --bg: #FDFBF7;      /* 포근한 아이보리 배경 */
+      --text: #5C4A3D;    /* 텍스트도 완전 블랙이 아닌 다크 브라운 */
+      --growth: #8A9A73;  /* 올리브 우드 톤 */
+      --stress: #C97A63;  /* 붉은빛이 도는 테라코타 우드 톤 */
     }
     body { font-family: 'NanumSquareRound', sans-serif; background: var(--bg); margin: 0; padding: 20px 10px; color: var(--text); display: flex; justify-content: center; }
-    .container { position: relative; max-width: 900px; width: 100%; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); min-height: 500px; }
+    .container { position: relative; max-width: 900px; width: 100%; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(156,122,99,0.08); min-height: 500px; }
     
     #main-app, #result-area, #mentor-dashboard { display: none; }
     #landing-page { text-align: center; }
     
     .landing-title { font-size: 2.1rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; }
-    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .landing-desc { color: #555; margin-bottom: 30px; font-size: 1.05rem; line-height: 1.7; word-break: keep-all; }
+    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(156,122,99,0.08); }
+    .landing-desc { color: #7A6556; margin-bottom: 30px; font-size: 1.05rem; line-height: 1.7; word-break: keep-all; }
     
     .input-group { text-align: left; margin-bottom: 15px; }
-    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #444; font-size: 0.95rem; }
+    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #7A6556; font-size: 0.95rem; }
     
-    /* ★ 수정됨: 드롭다운과 입력 박스 크기 동일하게 맞춤 (글씨 잘림 방지) */
     .input-group input, .input-group select { 
       width: 100%; 
       height: 52px; 
       padding: 0 15px; 
-      border: 1px solid #ddd; 
+      border: 1px solid #E6D8CE; 
       border-radius: 10px; 
       font-size: 1.05rem; 
       box-sizing: border-box; 
       font-family: 'NanumSquareRound', sans-serif;
       background-color: #fff;
-      color: #333;
+      color: var(--text);
       line-height: normal;
+      transition: border-color 0.2s;
     }
-    .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--accent); }
+    .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--primary); }
 
-    .start-btn, .action-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #2c3e50, #34495e); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.2s; font-family: 'NanumSquareRound', sans-serif;}
+    .start-btn, .action-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #B5957D, #9C7A63); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.2s; font-family: 'NanumSquareRound', sans-serif;}
     .start-btn:hover, .action-btn:hover { opacity: 0.9; }
     
     h1 { text-align: center; color: var(--primary); margin-bottom: 10px; font-size: 1.8rem; }
@@ -48,40 +53,40 @@
     
     .question-box { background: #fff; margin-bottom: 15px; padding: 20px 0; animation: fadeIn 0.4s ease-in-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .question-text { font-weight: 700; display: block; margin-bottom: 30px; font-size: 1.3rem; text-align: center; line-height: 1.5; color: #111;}
+    .question-text { font-weight: 700; display: block; margin-bottom: 30px; font-size: 1.3rem; text-align: center; line-height: 1.5; color: var(--text);}
     
     .options { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; border: none; }
     .option-label { flex: 0 1 auto; cursor: pointer; text-align: center; }
     .option-label input { display: none; }
-    .btn-text { padding: 12px 22px; background: #fff; border: 2px solid #e0e0e0; border-radius: 30px; font-size: 1rem; color: #555; transition: 0.2s; word-break: keep-all; font-weight: 500;}
+    .btn-text { padding: 12px 22px; background: #fff; border: 2px solid #E6D8CE; border-radius: 30px; font-size: 1rem; color: #7A6556; transition: 0.2s; word-break: keep-all; font-weight: 500;}
     .option-label input:checked + .btn-text { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
-    .option-label:hover .btn-text { border-color: var(--primary); background: #f8f9fa; }
+    .option-label:hover .btn-text { border-color: var(--primary); background: #FAF5F0; }
     .option-label input:checked:hover + .btn-text { background: var(--primary); }
 
-    .one-liner-box { background: linear-gradient(135deg, #34495e, #2c3e50); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-    .one-liner-main { font-size: 2rem; font-weight: 800; margin: 10px 0; color: #3498db; }
+    .one-liner-box { background: linear-gradient(135deg, #B5957D, #9C7A63); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+    .one-liner-main { font-size: 2rem; font-weight: 800; margin: 10px 0; color: #FDFBF7; }
     .rank-container { display: flex; gap: 15px; margin: 15px 0; }
-    .rank-box { flex: 1; padding: 15px; border: 1px solid #eee; border-radius: 8px; background: #fafafa;}
-    .rank-title { display: block; margin-bottom: 10px; font-weight: bold; font-size: 1rem; border-bottom: 2px solid #eee; padding-bottom:5px; }
-    .rank-title.blue { color: #2980b9; }
-    .rank-item { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px dashed #e0e0e0; font-size: 0.95rem; display:flex; justify-content:space-between;}
+    .rank-box { flex: 1; padding: 15px; border: 1px solid #E6D8CE; border-radius: 8px; background: #FAF5F0;}
+    .rank-title { display: block; margin-bottom: 10px; font-weight: bold; font-size: 1rem; border-bottom: 2px solid #E6D8CE; padding-bottom:5px; }
+    .rank-title.wood { color: var(--primary); }
+    .rank-item { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px dashed #E6D8CE; font-size: 0.95rem; display:flex; justify-content:space-between;}
     .detail-table { width: 100%; border-collapse: collapse; margin-top: 10px; border-top: 2px solid var(--primary); font-size: 0.85rem; }
-    .detail-table th { background: #f8f9fa; padding: 8px; text-align: left; font-weight: bold; color: var(--primary); }
-    .detail-table td { padding: 8px; border-bottom: 1px solid #eee; }
+    .detail-table th { background: #FAF5F0; padding: 8px; text-align: left; font-weight: bold; color: var(--primary); }
+    .detail-table td { padding: 8px; border-bottom: 1px solid #E6D8CE; color: var(--text); }
     .flex-row-desktop { display: flex; gap: 20px; margin-top: 20px; }
     .flex-row-desktop > div { flex: 1; min-width: 0; }
     .ai-result-grid { display: flex; gap: 15px; margin-top: 15px; }
-    .ai-box { flex: 1; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-    .ai-box h4 { margin: 0 0 10px 0; font-size: 1rem; padding-bottom: 8px; border-bottom: 2px solid #eee; }
-    .ai-box p { font-size: 0.9rem; color: #444; line-height: 1.6; margin: 0; white-space: pre-wrap; }
-    .ai-btn { background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%); color: white; padding: 12px 30px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; font-family: 'NanumSquareRound', sans-serif;}
+    .ai-box { flex: 1; background: #fff; border: 1px solid #E6D8CE; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(156,122,99,0.05); }
+    .ai-box h4 { margin: 0 0 10px 0; font-size: 1rem; padding-bottom: 8px; border-bottom: 2px solid #E6D8CE; }
+    .ai-box p { font-size: 0.9rem; color: #7A6556; line-height: 1.6; margin: 0; white-space: pre-wrap; }
+    .ai-btn { background: linear-gradient(135deg, #A8856D 0%, #9C7A63 100%); color: white; padding: 12px 30px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; font-family: 'NanumSquareRound', sans-serif;}
     
-    #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
-    .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+    #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(253,251,247,0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #E6D8CE; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     
-    .dashboard-list-btn { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border:1px solid #ddd; border-radius:8px; cursor:pointer; text-align:left; transition:0.2s; width: 100%; margin-bottom: 10px; font-family: 'NanumSquareRound', sans-serif;}
-    .dashboard-list-btn:hover { background:#edf2f7; border-color:#bdc3c7; }
+    .dashboard-list-btn { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#FAF5F0; border:1px solid #E6D8CE; border-radius:8px; cursor:pointer; text-align:left; transition:0.2s; width: 100%; margin-bottom: 10px; font-family: 'NanumSquareRound', sans-serif;}
+    .dashboard-list-btn:hover { background:#F0E7DF; border-color:#D9B497; }
 
     @media (max-width: 700px) {
       .container { padding: 20px 15px; }
@@ -95,7 +100,7 @@
 <body>
   <div id="loading-overlay">
     <div class="spinner"></div>
-    <h3 id="loading-msg">처리 중...</h3>
+    <h3 id="loading-msg" style="color: #9C7A63;">처리 중...</h3>
   </div>
 
   <div class="container">
@@ -105,10 +110,10 @@
       
       <img src="main-title.png" class="landing-image" alt="드림하이 메인 이미지" onerror="this.src='https://images.unsplash.com/photo-1509803874385-db7c23652552?auto=format&fit=crop&w=800&q=80'">
 
-      <!-- ★ 수정됨: 안내 문구를 더 부드럽고 친근하게 변경 -->
       <p class="landing-desc">
         나를 더 깊이 이해하고 새로운 내일로 도약하기 위한 시간입니다.<br>
-        <span style="font-size:0.9rem; color:#888;">(작성해주신 소중한 정보는 안전하게 보호되니 안심하셔도 좋습니다.)</span>
+        편안한 마음으로 기본 정보를 입력해 주세요.<br>
+        <span style="font-size:0.9rem; color:#A8856D;">(작성해주신 소중한 정보는 안전하게 보호되니 안심하셔도 좋습니다.)</span>
       </p>
 
       <div class="input-group">
@@ -123,7 +128,6 @@
         </div>
         <div class="input-group" style="flex:1;">
           <label>성별</label>
-          <!-- inline style height 제거됨 -->
           <select id="user-gender">
             <option value="남성">남성</option>
             <option value="여성">여성</option>
@@ -133,7 +137,6 @@
 
       <div class="input-group">
         <label>MBTI (선택)</label>
-        <!-- inline style height 제거됨 -->
         <select id="user-mbti">
           <option value="">모름 / 선택안함</option>
           <option value="ISTJ">ISTJ</option><option value="ISFJ">ISFJ</option><option value="INFJ">INFJ</option><option value="INTJ">INTJ</option>
@@ -145,14 +148,14 @@
 
       <button class="start-btn" onclick="startTest()">검사 시작하기</button>
 
-      <div style="margin-top:25px; padding-top:15px; border-top:1px dashed #eee;">
-        <button style="background: transparent; border: none; color: #999; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMainMentorLogin()">멘토 전용 페이지 입장</button>
+      <div style="margin-top:25px; padding-top:15px; border-top:1px dashed #E6D8CE;">
+        <button style="background: transparent; border: none; color: #B5957D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMainMentorLogin()">멘토 전용 페이지 입장</button>
       </div>
 
-      <div id="main-mentor-login-area" style="display:none; margin-top:15px; background: #f8f9fa; padding: 20px; border-radius: 12px;">
-         <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
-         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #ccc; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto;">
-         <button id="main-mentor-btn" onclick="verifyMainMentor()" style="padding:12px 18px; background:#2c3e50; color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">접속</button>
+      <div id="main-mentor-login-area" style="display:none; margin-top:15px; background: #FAF5F0; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
+         <label style="display:block; font-size:0.85rem; color:#7A6556; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
+         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #D9B497; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto; margin-bottom: 10px;">
+         <button id="main-mentor-btn" onclick="verifyMainMentor()" style="padding:12px 18px; background:#9C7A63; color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">접속</button>
       </div>
     </div>
 
@@ -161,10 +164,10 @@
       <div id="quiz-area">
         <h1 id="main-title" style="margin-bottom: 30px;">나의 핵심욕구 프로파일</h1>
         
-        <div style="width: 100%; background: #e0e0e0; border-radius: 10px; height: 8px; margin-bottom: 10px; overflow:hidden;">
+        <div style="width: 100%; background: #E6D8CE; border-radius: 10px; height: 8px; margin-bottom: 10px; overflow:hidden;">
            <div id="progress-bar" style="width: 0%; background: var(--accent); height: 100%; border-radius: 10px; transition: width 0.3s ease;"></div>
         </div>
-        <div id="progress-text" style="text-align:right; color:#888; font-size:0.85rem; margin-bottom:20px; font-weight:bold;">1 / 20</div>
+        <div id="progress-text" style="text-align:right; color:#A8856D; font-size:0.85rem; margin-bottom:20px; font-weight:bold;">1 / 20</div>
 
         <form id="quiz-form" onsubmit="event.preventDefault();"></form>
       </div>
@@ -175,18 +178,18 @@
 
     <!-- 4. 멘토 전용 대시보드 화면 -->
     <div id="mentor-dashboard">
-      <h1 id="main-title" style="margin-bottom: 20px; color:#2c3e50;">멘토 전용 대시보드</h1>
-      <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #eee;">
-         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; margin-bottom:15px;">
-            <h3 style="margin:0; border:none; padding:0;">검사 완료 목록</h3>
-            <span style="font-size:0.8rem; color:#888;">이름을 클릭하여 확인</span>
+      <h1 id="main-title" style="margin-bottom: 20px; color:var(--primary);">멘토 전용 대시보드</h1>
+      <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
+         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom:15px;">
+            <h3 style="margin:0; border:none; padding:0; color:var(--primary);">검사 완료 목록</h3>
+            <span style="font-size:0.8rem; color:#A8856D;">이름을 클릭하여 확인</span>
          </div>
          <div id="student-list-container" style="display:flex; flex-direction:column; max-height:450px; overflow-y:auto; padding-right:5px;">
             <!-- 백엔드에서 불러온 리스트가 여기에 생성됩니다 -->
          </div>
       </div>
       <div style="margin-top:20px; text-align:center;">
-        <button class="action-btn" style="background:#95a5a6; width:auto; padding:10px 20px; font-size:1rem;" onclick="location.reload()">처음으로 돌아가기</button>
+        <button class="action-btn" style="background:#BCAAA0; width:auto; padding:10px 20px; font-size:1rem;" onclick="location.reload()">처음으로 돌아가기</button>
       </div>
     </div>
 
@@ -194,7 +197,7 @@
 
   <script>
     // =========================================================
-    // ★ 앱스 스크립트 새 배포 후 생성된 '웹 앱 URL'을 아래에 꼭 붙여넣으세요.
+    // ★ 앱스 스크립트 웹 앱 URL (배포 후 주소 유지)
     // =========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUvCIxFES9ASZmOjz9DM3cGeI3ZdcaqRU0ppsDFmpuCduGLKz7zb08olnFouzkzxKQzQ/exec';
 
@@ -323,7 +326,7 @@
       document.getElementById('main-app').style.display = 'none';
       document.getElementById('result-area').style.display = 'none';
       
-      document.getElementById('loading-msg').innerText = "목록을 불러오는 중입니다...";
+      document.getElementById('loading-msg').innerText = "학생 목록을 불러오는 중입니다...";
       document.getElementById('loading-overlay').style.display = 'flex';
 
       const pwd = sessionStorage.getItem('mentor_pwd');
@@ -348,7 +351,7 @@
     function renderStudentList(list) {
       const container = document.getElementById('student-list-container');
       if (!list || list.length === 0) {
-        container.innerHTML = '<div style="text-align:center; padding:30px; color:#999;">아직 완료된 검사가 없습니다.</div>';
+        container.innerHTML = '<div style="text-align:center; padding:30px; color:#A8856D;">아직 완료된 검사가 없습니다.</div>';
         return;
       }
 
@@ -359,11 +362,11 @@
 
         return `
           <button class="dashboard-list-btn" onclick="viewStudentResult('${item.id}')">
-            <div style="font-size:1.1rem; font-weight:bold; color:#2c3e50;">
+            <div style="font-size:1.1rem; font-weight:bold; color:var(--text);">
               ${item.name} 
-              <span style="font-size:0.85rem; background:#34495e; color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px; font-weight:normal;">${typeName}</span>
+              <span style="font-size:0.85rem; background:#B5957D; color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px; font-weight:normal;">${typeName}</span>
             </div>
-            <div style="font-size:0.85rem; color:#95a5a6;">${dateStr}</div>
+            <div style="font-size:0.85rem; color:#A8856D;">${dateStr}</div>
           </button>
         `;
       }).join('');
@@ -600,7 +603,7 @@
             for(let i=0; i<rawQuestions.length; i++) {
                 userAnswers[i] = Math.floor(Math.random() * 5) + 1;
             }
-            alert('⚡ 테스트 응답 자동 생성 완료');
+            alert('테스트 응답 자동 생성 완료');
             calculateResult();
             clickCount = 0;
           }
@@ -616,27 +619,26 @@
       window.mentorData = { scores, typeScores, topTypeStr, userResponses };
 
       resultArea.innerHTML = `
-        <div style="background: #fff; padding: 40px 20px; border-radius: 12px; text-align: center; border: 1px solid #eee;">
-            <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
-            <h2 style="color: #2c3e50; margin-bottom: 15px;">검사가 완료되었습니다!</h2>
-            <p style="color: #555; font-size: 1.05rem; line-height: 1.6; word-break: keep-all;">
+        <div style="background: #fff; padding: 40px 20px; border-radius: 12px; text-align: center; border: 1px solid #E6D8CE;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">검사가 완료되었습니다!</h2>
+            <p style="color: var(--text); font-size: 1.05rem; line-height: 1.6; word-break: keep-all;">
                 수고하셨습니다. 응답하신 내용은 안전하게 저장되었습니다.<br><br>
                 상세한 심리 검사 결과 및 분석은<br>
-                <b style="color:var(--accent);">담당 멘토 쌤을 통해서 직접 안내</b>받으실 수 있습니다.
+                <b style="color:#B85C38;">담당 멘토 쌤을 통해서 직접 안내</b>받으실 수 있습니다.
             </p>
             <div style="margin-top: 30px;">
-                <button class="action-btn" style="background: #95a5a6; width: auto; padding: 12px 30px; font-size: 1rem;" onclick="resetTest()">다시 검사하기</button>
+                <button class="action-btn" style="background: #BCAAA0; width: auto; padding: 12px 30px; font-size: 1rem;" onclick="resetTest()">다시 검사하기</button>
             </div>
         </div>
         
         <div style="margin-top:40px; text-align:center;">
-          <button style="background: transparent; border: none; color: #aaa; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMentorLogin()">멘토 전용 결과 확인</button>
+          <button style="background: transparent; border: none; color: #A8856D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMentorLogin()">멘토 전용 결과 확인</button>
         </div>
 
-        <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #f8f9fa; padding: 20px; border-radius: 8px;">
-           <label style="display:block; font-size:0.85rem; color:#666; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
-           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:10px; border:1px solid #ccc; border-radius:5px; width:150px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto;">
-           <button id="mentor-btn" onclick="verifyMentor()" style="padding:10px 15px; background:#2c3e50; color:#fff; border:none; border-radius:5px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
+        <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #FAF5F0; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
+           <label style="display:block; font-size:0.85rem; color:#7A6556; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
+           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #D9B497; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto; margin-bottom:10px;">
+           <button id="mentor-btn" onclick="verifyMentor()" style="padding:12px 18px; background:var(--primary); color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
         </div>
       `;
       window.scrollTo(0,0);
@@ -698,18 +700,18 @@
       if (fromDashboard) {
         backBtnHtml = `
           <div style="margin-bottom:20px;">
-             <button onclick="backToDashboard()" style="padding:10px 15px; background:#e0e0e0; color:#333; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-family: 'NanumSquareRound', sans-serif;">⬅ 대시보드 목록으로 돌아가기</button>
+             <button onclick="backToDashboard()" style="padding:10px 15px; background:#F0E7DF; color:var(--text); border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-family: 'NanumSquareRound', sans-serif;">< 대시보드 목록으로 돌아가기</button>
           </div>
         `;
       }
 
       detailArea.innerHTML = backBtnHtml + `
         <div style="padding: 5px; background: white;">
-          <h1 style="color:#2c3e50; border-bottom:2px solid #2c3e50; padding-bottom:10px;">${name ? name+'님의 ' : ''}핵심욕구 프로파일 (멘토용)</h1>
+          <h1 style="color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px;">${name ? name+'님의 ' : ''}핵심욕구 프로파일 (멘토용)</h1>
           <div class="one-liner-box">
-             <div style="color:#bdc3c7; font-size:1.2rem;">가장 강한 핵심 욕구</div>
+             <div style="color:#E2D1C3; font-size:1.2rem;">가장 강한 핵심 욕구</div>
              <div class="one-liner-main">${displayTopType}</div>
-             <div style="color:#ecf0f1; margin-top:10px; font-size:1rem; line-height:1.5;">
+             <div style="color:#FAF5F0; margin-top:10px; font-size:1rem; line-height:1.5;">
                ${needsDescriptionMap[topTypeStr]}
              </div>
           </div>
@@ -718,7 +720,7 @@
                <h3>1. 주요 욕구 분포</h3>
                <div class="rank-container" style="flex-direction:column; gap:10px;">
                  <div class="rank-box">
-                   <span class="rank-title blue">우선순위</span>
+                   <span class="rank-title wood">우선순위</span>
                    <div id="high-rank-list"></div>
                  </div>
                </div>
@@ -735,22 +737,22 @@
           </div>
           <div id="ai-section" style="margin-top: 35px;">
              <h3>4. AI 심층 분석 리포트</h3>
-             <div id="ai-initial-view" style="text-align:center; padding:25px; background:#f8f9fa; border:1px solid #eee; border-radius:10px;">
-                <p style="margin-bottom:15px;">전문적인 심층 분석과 조언을 제공합니다.</p>
+             <div id="ai-initial-view" style="text-align:center; padding:25px; background:#FAF5F0; border:1px solid #E6D8CE; border-radius:12px;">
+                <p style="margin-bottom:15px; color:var(--text);">전문적인 심층 분석과 조언을 제공합니다.</p>
                 <button id="ai-btn" class="ai-btn" onclick="callAI()">AI 정밀 분석 시작하기</button>
              </div>
-             <div id="ai-loading" style="display:none; text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto 15px auto;"></div><p>AI가 분석 중입니다...</p></div>
+             <div id="ai-loading" style="display:none; text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto 15px auto;"></div><p style="color:var(--text);">AI가 분석 중입니다...</p></div>
              <div id="ai-result-box" style="display:none;"></div>
           </div>
           
           <div style="margin-top:40px;">
-             <h3>5. 문항별 응답 상세 <span style="font-size:0.8rem; color:#999; font-weight:normal;">(헤더 더블 클릭: 정렬)</span></h3>
+             <h3>5. 문항별 응답 상세 <span style="font-size:0.8rem; color:#A8856D; font-weight:normal;">(헤더 더블 클릭: 정렬)</span></h3>
              <table class="detail-table">
                <thead>
                  <tr>
                    <th width="15%" style="cursor:pointer;" ondblclick="toggleSort('type')" title="더블클릭하여 정렬">유형 <span id="sort-icon-type" style="font-size:0.8rem">↕</span></th>
                    <th>문항 내용</th>
-                   <th width="15%" style="cursor:pointer;" ondblclick="toggleSort('score')" title="더블클릭하여 정렬">선택 <span id="sort-icon-score" style="font-size:0.8rem; color:#2980b9;">▼</span></th>
+                   <th width="15%" style="cursor:pointer;" ondblclick="toggleSort('score')" title="더블클릭하여 정렬">선택 <span id="sort-icon-score" style="font-size:0.8rem; color:var(--primary);">▼</span></th>
                  </tr>
                </thead>
                <tbody id="detail-tbody"></tbody>
@@ -759,14 +761,14 @@
         </div>
         ${!fromDashboard ? `
         <div style="margin-top:30px; text-align:center;">
-          <button class="action-btn" style="background:#95a5a6;" onclick="resetTest()">초기화 및 새 검사 시작</button>
+          <button class="action-btn" style="background:#BCAAA0;" onclick="resetTest()">초기화 및 새 검사 시작</button>
         </div>` : ''}
       `;
 
       document.getElementById('high-rank-list').innerHTML = typeScores.map((t,i) => {
         let n = t.id === "성취의미" ? "성취·의미" : t.id;
-        let boldStyle = i === 0 ? "font-weight:800; color:#c0392b;" : "";
-        return `<div class="rank-item" style="${boldStyle}"><span>${i+1}위: <b>${n}</b></span> <span>${t.score}점</span></div>`;
+        let boldStyle = i === 0 ? "font-weight:800; color:#B85C38;" : "";
+        return `<div class="rank-item" style="${boldStyle} color:var(--text);"><span>${i+1}위: <b>${n}</b></span> <span>${t.score}점</span></div>`;
       }).join('');
       
       new Chart(document.getElementById('centerChart'), {
@@ -776,9 +778,9 @@
           datasets: [{ 
             label: '점수', 
             data: [scores['안정'], scores['인정'], scores['관계'], scores['자율'], scores['성취의미']], 
-            backgroundColor: 'rgba(52, 152, 219, 0.2)', 
-            borderColor: '#3498db',
-            pointBackgroundColor: '#2980b9'
+            backgroundColor: 'rgba(217, 180, 151, 0.3)', 
+            borderColor: '#D9B497',
+            pointBackgroundColor: '#9C7A63'
           }] 
         },
         options: { responsive: true, maintainAspectRatio: false, scale: { ticks: { beginAtZero: true, max: 20, display: false } }, legend: { display: false } }
@@ -791,7 +793,7 @@
           datasets: [{ 
             label: '점수', 
             data: [scores['안정'], scores['인정'], scores['관계'], scores['자율'], scores['성취의미']], 
-            backgroundColor: '#2c3e50' 
+            backgroundColor: '#9C7A63' 
           }] 
         },
         options: { responsive: true, maintainAspectRatio: false, scales: { yAxes: [{ ticks: { beginAtZero: true, max: 20 } }] }, legend: { display: false } }
@@ -822,7 +824,7 @@
         
         const activeIcon = sortState.col === 'type' ? iconType : iconScore;
         activeIcon.innerHTML = sortState.order === 'asc' ? '▲' : '▼'; 
-        activeIcon.style.color = '#2980b9';
+        activeIcon.style.color = '#9C7A63';
       }
 
       currentDetailList.sort((a, b) => {
@@ -845,10 +847,10 @@
       const tbody = document.getElementById('detail-tbody');
       tbody.innerHTML = currentDetailList.map(item => {
         const typeName = item.type === "성취의미" ? "성취·의미" : item.type;
-        const style = item.score >= 4 ? 'color:#c0392b; font-weight:bold;' : 'color:#555;';
+        const style = item.score >= 4 ? 'color:#B85C38; font-weight:bold;' : 'color:var(--text);';
         
         return `<tr>
-          <td style="text-align:center;"><span style="background:#e2e8f0; color:#2c3e50; padding:4px 8px; border-radius:4px; font-weight:bold; font-size:0.8rem;">${typeName}</span></td>
+          <td style="text-align:center;"><span style="background:#F0E7DF; color:var(--primary); padding:4px 8px; border-radius:4px; font-weight:bold; font-size:0.8rem;">${typeName}</span></td>
           <td style="line-height:1.4;">${item.text}</td>
           <td style="text-align:center; ${style}">${item.score}점</td>
         </tr>`;
@@ -873,7 +875,7 @@
           if (res.error) {
             const box = document.getElementById('ai-result-box');
             box.style.display = 'block';
-            box.innerHTML = `<div style="color:red; padding:20px; border:1px solid red;">${res.error}</div>`;
+            box.innerHTML = `<div style="color:#B85C38; padding:20px; border:1px solid #B85C38; border-radius:8px;">${res.error}</div>`;
           } else {
             renderAIResult(res);
             let targetId = finalResultData && finalResultData.id ? finalResultData.id : null;
@@ -909,16 +911,16 @@
 
       resultBox.innerHTML = `
         <div class="ai-result-grid">
-          <div class="ai-box" style="border-top: 3px solid #2980b9;">
-            <h4 style="color:#2980b9;">핵심 강점 및 잠재력</h4>
+          <div class="ai-box" style="border-top: 3px solid var(--primary);">
+            <h4 style="color:var(--primary);">핵심 강점 및 잠재력</h4>
             <p>${res.strength.replace(/\n/g, '<br>')}</p>
           </div>
-          <div class="ai-box" style="border-top: 3px solid #e74c3c;">
-            <h4 style="color:#e74c3c;">내면의 그림자와 보완점</h4>
+          <div class="ai-box" style="border-top: 3px solid var(--stress);">
+            <h4 style="color:var(--stress);">내면의 그림자와 보완점</h4>
             <p>${res.weakness.replace(/\n/g, '<br>')}</p>
           </div>
-          <div class="ai-box" style="border-top: 3px solid #27ae60;">
-            <h4 style="color:#27ae60;">성장을 위한 조언</h4>
+          <div class="ai-box" style="border-top: 3px solid var(--growth);">
+            <h4 style="color:var(--growth);">성장을 위한 조언</h4>
             <p>${res.advice.replace(/\n/g, '<br>')}</p>
           </div>
         </div>`;
