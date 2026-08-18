@@ -19,7 +19,7 @@
     body { font-family: 'NanumSquareRound', sans-serif; background: var(--bg); margin: 0; padding: 20px 10px; color: var(--text); display: flex; justify-content: center; }
     .container { position: relative; max-width: 900px; width: 100%; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(156,122,99,0.08); min-height: 500px; }
     
-    #main-app, #result-area, #mentor-dashboard { display: none; }
+    #main-app, #result-area, #mentor-dashboard, #selection-area, #fear-test-area { display: none; }
     #landing-page { text-align: center; }
     
     .landing-title { font-size: 2.1rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; }
@@ -48,6 +48,10 @@
     .start-btn, .action-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #B5957D, #9C7A63); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.2s; font-family: 'NanumSquareRound', sans-serif;}
     .start-btn:hover, .action-btn:hover { opacity: 0.9; }
     
+    .menu-btn { width: 100%; padding: 25px; border: 2px solid #E6D8CE; background: #FAF5F0; color: var(--text); border-radius: 12px; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: 0.3s; font-family: 'NanumSquareRound', sans-serif; text-align: left; display: flex; flex-direction: column; gap: 8px;}
+    .menu-btn:hover { background: #F0E7DF; border-color: var(--accent); transform: translateY(-2px); }
+    .menu-desc { font-size: 0.95rem; font-weight: normal; color: #9C7A63; }
+
     h1 { text-align: center; color: var(--primary); margin-bottom: 10px; font-size: 1.8rem; }
     h3 { border-left: 4px solid var(--accent); padding-left: 10px; margin-top: 30px; margin-bottom: 15px; color: var(--primary); font-size: 1.2rem; }
     
@@ -63,8 +67,14 @@
     .option-label:hover .btn-text { border-color: var(--primary); background: #FAF5F0; }
     .option-label input:checked:hover + .btn-text { background: var(--primary); }
 
+    .fear-option-label { width: 100%; cursor: pointer; text-align: left; }
+    .fear-option-label input { display: none; }
+    .fear-btn-text { display: block; padding: 18px 20px; background: #FAF5F0; border: 2px solid #E6D8CE; border-radius: 12px; font-size: 1.05rem; color: #5C4A3D; transition: 0.2s; word-break: keep-all; line-height: 1.5;}
+    .fear-option-label input:checked + .fear-btn-text { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
+    .fear-option-label:hover .fear-btn-text { border-color: var(--primary); }
+
     .one-liner-box { background: linear-gradient(135deg, #B5957D, #9C7A63); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-    .one-liner-main { font-size: 2rem; font-weight: 800; margin: 10px 0; color: #FDFBF7; }
+    .one-liner-main { font-size: 2rem; font-weight: 800; margin: 10px 0; color: #FDFBF7; line-height:1.4; word-break: keep-all;}
     .rank-container { display: flex; gap: 15px; margin: 15px 0; }
     .rank-box { flex: 1; padding: 15px; border: 1px solid #E6D8CE; border-radius: 8px; background: #FAF5F0;}
     .rank-title { display: block; margin-bottom: 10px; font-weight: bold; font-size: 1rem; border-bottom: 2px solid #E6D8CE; padding-bottom:5px; }
@@ -112,7 +122,7 @@
 
       <p class="landing-desc">
         나를 더 깊이 이해하고 새로운 내일로 도약하기 위한 시간입니다.<br>
-        편안한 마음으로 입력해 주세요.<br>
+        편안한 마음으로 기본 정보를 입력해 주세요.<br>
         <span style="font-size:0.9rem; color:#A8856D;">(작성해주신 소중한 정보는 안전하게 보호되니 안심하셔도 좋습니다.)</span>
       </p>
 
@@ -146,7 +156,7 @@
         </select>
       </div>
 
-      <button class="start-btn" onclick="startTest()">검사 시작하기</button>
+      <button class="start-btn" onclick="goToSelection()">검사 시작하기</button>
 
       <div style="margin-top:25px; padding-top:15px; border-top:1px dashed #E6D8CE;">
         <button style="background: transparent; border: none; color: #B5957D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMainMentorLogin()">멘토 전용 페이지 입장</button>
@@ -159,7 +169,40 @@
       </div>
     </div>
 
-    <!-- 2. 검사 진행 화면 -->
+    <!-- 1.5 검사 선택 화면 (추가됨) -->
+    <div id="selection-area">
+       <h1 class="landing-title">검사 선택</h1>
+       <p class="landing-desc">어떤 검사를 진행하시겠습니까?</p>
+
+       <div style="display:flex; flex-direction:column; gap:15px; max-width: 600px; margin: 0 auto; margin-top:30px;">
+          <button class="menu-btn" onclick="startFearTest()">
+             내면의 그림자 (핵심 두려움) 검사
+             <span class="menu-desc">단 1문항으로 내면 깊은 곳의 두려움을 확인합니다.</span>
+          </button>
+          <button class="menu-btn" onclick="startNeedsTest()">
+             핵심욕구 프로파일
+             <span class="menu-desc">20문항을 통해 나를 움직이는 5대 욕구 밸런스를 확인합니다.</span>
+          </button>
+       </div>
+    </div>
+
+    <!-- 2-A. 핵심 두려움 검사 진행 화면 (추가됨) -->
+    <div id="fear-test-area">
+      <h1 id="main-title" style="margin-bottom: 20px;">내면의 그림자 검사</h1>
+      <div style="background: #FAF5F0; margin-bottom: 25px; padding: 20px; text-align:center; border-radius:12px; border:1px solid #E6D8CE;">
+        <span class="question-text" style="margin-bottom:5px; font-size:1.1rem; color:var(--text); word-break:keep-all;">
+          제시된 문구를 읽으면서<br><b style="color:var(--primary);">가장 두렵고 견딜 수 없는 문구 하나</b>를 찾아주세요.
+        </span>
+      </div>
+      <form id="fear-form">
+         <div class="options" style="flex-direction:column; gap:10px;" id="fear-options-container">
+            <!-- 자바스크립트에서 문구가 생성됩니다. -->
+         </div>
+      </form>
+      <button class="action-btn" onclick="calculateFearResult()" style="margin-top:30px;">결과 제출하기</button>
+    </div>
+
+    <!-- 2-B. 핵심 욕구 검사 진행 화면 (기존) -->
     <div id="main-app">
       <div id="quiz-area">
         <h1 id="main-title" style="margin-bottom: 30px;">나의 핵심욕구 프로파일</h1>
@@ -197,9 +240,24 @@
 
   <script>
     // =========================================================
-    // ★ 앱스 스크립트 웹 앱 URL (배포 후 주소 유지)
+    // ★ 앱스 스크립트 웹 앱 URL
     // =========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUvCIxFES9ASZmOjz9DM3cGeI3ZdcaqRU0ppsDFmpuCduGLKz7zb08olnFouzkzxKQzQ/exec';
+
+    // =========================================================
+    // ★ 사진 속 9가지 문구 (내면의 그림자 검사용)
+    // =========================================================
+    const FEAR_OPTIONS = [
+      "A. 아, 됐고! 넌 그냥 내가 시키는 대로 해! 약해 빠져가지고! 지금 당장 하라고!",
+      "B. 너 때문에 사람들이 싸우고 있는 거 안 보여? 네가 해결해! 지금 당장!!",
+      "C. 비겁하게 편법 쓰지 마! 게으르고 자기 욕망대로 사는 나쁜 사람 같으니라고! 넌 틀렸어!",
+      "D. 넌 너무 이기적이야. 그러니까 사람들이 다 싫어하지…. 쯧쯧.",
+      "E. 풉~ 뭐야? 왜 이렇게 일을 못해? 비효율적이고 타고난 재능은 1도 없잖아. 네가 제일 못해!",
+      "F. 훗, 평범하고 흔한 스타일이네. 누군가를 따라 하면서 사는 게 무슨 의미가 있니….",
+      "G. 넌 왜 이렇게 무식해? 낡고 얕은 지식밖에 없네. 너만 이해를 못해. 그리고 생각 좀 하면서 살아!",
+      "H. 너는 믿을 수가 없어. 너 때문에 위험한 일들이 생기잖아. 우리 모임에서 나가서 네가 알아서 해!",
+      "I. 너 완전 재미없어. 너무 지루해. 그리고 앞으로 재미있는 것 금지! 지금부터 철저하게 관리할 거야."
+    ];
 
     const PRELOADED_QUESTIONS = [
       { q: "결과가 불확실한 상황에서는 미리 여러 가능성을 생각해보는 편이다.", type: "안정" },
@@ -261,8 +319,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      setupTestCheat();
-
       const params = new URLSearchParams(window.location.search);
       const testId = params.get('id');
 
@@ -272,22 +328,21 @@
         callBackend('getDataById&id=' + testId)
           .then(data => {
             document.getElementById('loading-overlay').style.display = 'none';
-            if (data && data.scores) restoreResultScreen(data);
+            if (data && (data.scores || data.testType === 'fear')) restoreResultScreen(data);
           })
           .catch(() => document.getElementById('loading-overlay').style.display = 'none');
       } else if (localStorage.getItem('dreamhigh_last_result')) {
         try {
           const localData = JSON.parse(localStorage.getItem('dreamhigh_last_result'));
-          if (!localData || !localData.scores) throw new Error("데이터 손상");
+          if (!localData) throw new Error("데이터 손상");
           restoreResultScreen(localData);
         } catch(e) {
           localStorage.removeItem('dreamhigh_last_result');
         }
-      } else if (sessionStorage.getItem('dreamhigh_status') === 'quiz') {
-        restoreSessionAndStart();
       }
     });
 
+    // 멘토 접속 로직
     function toggleMainMentorLogin() {
       const el = document.getElementById('main-mentor-login-area');
       el.style.display = el.style.display === 'none' ? 'block' : 'none';
@@ -324,9 +379,10 @@
     function loadMentorDashboard() {
       document.getElementById('landing-page').style.display = 'none';
       document.getElementById('main-app').style.display = 'none';
+      document.getElementById('selection-area').style.display = 'none';
       document.getElementById('result-area').style.display = 'none';
       
-      document.getElementById('loading-msg').innerText = "목록을 불러오는 중입니다...";
+      document.getElementById('loading-msg').innerText = "학생 목록을 불러오는 중입니다...";
       document.getElementById('loading-overlay').style.display = 'flex';
 
       const pwd = sessionStorage.getItem('mentor_pwd');
@@ -358,13 +414,15 @@
       container.innerHTML = list.map(item => {
         const d = new Date(item.date);
         const dateStr = `${d.getFullYear()}.${('0'+(d.getMonth()+1)).slice(-2)}.${('0'+d.getDate()).slice(-2)} ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}`;
-        let typeName = item.topType === "성취의미" ? "성취·의미" : item.topType;
+        
+        let badgeColor = item.topType && item.topType.includes('그림자') ? '#8A9A73' : '#34495e';
+        let displayType = item.topType === "성취의미" ? "성취·의미" : item.topType;
 
         return `
           <button class="dashboard-list-btn" onclick="viewStudentResult('${item.id}')">
             <div style="font-size:1.1rem; font-weight:bold; color:var(--text);">
               ${item.name} 
-              <span style="font-size:0.85rem; background:#B5957D; color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px; font-weight:normal;">${typeName}</span>
+              <span style="font-size:0.85rem; background:${badgeColor}; color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px; font-weight:normal;">${displayType}</span>
             </div>
             <div style="font-size:0.85rem; color:#A8856D;">${dateStr}</div>
           </button>
@@ -389,30 +447,33 @@
             finalResultData = data;
             finalResultData.id = id;
 
-            let typeScores = [
-              { id: "안정", score: data.scores["안정"] || 0 },
-              { id: "인정", score: data.scores["인정"] || 0 },
-              { id: "관계", score: data.scores["관계"] || 0 },
-              { id: "자율", score: data.scores["자율"] || 0 },
-              { id: "성취의미", score: data.scores["성취의미"] || 0 }
-            ];
-            typeScores.sort((a, b) => b.score - a.score);
-            const topTypeStr = data.topType || typeScores[0].id;
+            if (data.testType === 'fear') {
+                renderFearDetailedResults(data, true);
+            } else {
+                let typeScores = [
+                  { id: "안정", score: data.scores["안정"] || 0 },
+                  { id: "인정", score: data.scores["인정"] || 0 },
+                  { id: "관계", score: data.scores["관계"] || 0 },
+                  { id: "자율", score: data.scores["자율"] || 0 },
+                  { id: "성취의미", score: data.scores["성취의미"] || 0 }
+                ];
+                typeScores.sort((a, b) => b.score - a.score);
+                const topTypeStr = data.topType || typeScores[0].id;
 
-            let fullUserResponses = [];
-            if (data.userResponses) {
-              fullUserResponses = data.userResponses.map(item => ({
-                text: item.text || "-", type: item.t || "?", score: item.v || item.score
-              }));
+                let fullUserResponses = [];
+                if (data.userResponses) {
+                  fullUserResponses = data.userResponses.map(item => ({
+                    text: item.text || "-", type: item.t || "?", score: item.v || item.score
+                  }));
+                }
+
+                if(data.aiResult) window.savedAiResult = data.aiResult;
+                else window.savedAiResult = null;
+
+                window.mentorData = { scores: data.scores, typeScores, topTypeStr, userResponses: fullUserResponses, name: data.userInfo.name, testType: 'needs' };
+                
+                renderDetailedResults(window.mentorData, true);
             }
-
-            if(data.aiResult) window.savedAiResult = data.aiResult;
-            else window.savedAiResult = null;
-
-            window.mentorData = { scores: data.scores, typeScores, topTypeStr, userResponses: fullUserResponses, name: data.userInfo.name };
-            
-            renderDetailedResults(window.mentorData, true);
-
           } else {
             alert(res.error || "데이터를 불러올 수 없습니다.");
           }
@@ -428,7 +489,10 @@
       document.getElementById('mentor-dashboard').style.display = 'block';
     }
 
-    function startTest() {
+    // ==========================================
+    // 검사 선택 로직 (신규)
+    // ==========================================
+    function goToSelection() {
       const name = document.getElementById('user-name').value;
       const age = document.getElementById('user-age').value;
       if (!name || !age) { alert('이름과 나이를 모두 입력해 주세요.'); return; }
@@ -438,32 +502,147 @@
       
       userInfo = { name, age, gender, mbti: mbti || "알수없음" };
       
-      localStorage.removeItem('dreamhigh_last_result');
-      sessionStorage.setItem('dreamhigh_status', 'quiz');
-      sessionStorage.setItem('dreamhigh_userInfo', JSON.stringify(userInfo));
-
-      rawQuestions = JSON.parse(JSON.stringify(PRELOADED_QUESTIONS));
-      initQuiz(); 
-      
       document.getElementById('landing-page').style.display = 'none';
-      document.getElementById('main-app').style.display = 'block';
+      document.getElementById('selection-area').style.display = 'block';
       window.scrollTo(0,0);
     }
 
-    function restoreSessionAndStart() {
-      try {
-        const storedUser = JSON.parse(sessionStorage.getItem('dreamhigh_userInfo'));
-        if (storedUser) {
-          userInfo = storedUser;
-          document.getElementById('user-name').value = userInfo.name;
-          document.getElementById('user-age').value = userInfo.age;
-          document.getElementById('landing-page').style.display = 'none';
-          document.getElementById('main-app').style.display = 'block';
-          
-          rawQuestions = JSON.parse(JSON.stringify(PRELOADED_QUESTIONS));
-          initQuiz();
-        }
-      } catch (e) {}
+    // ==========================================
+    // 1번 검사: 내면의 그림자 (핵심 두려움) 검사
+    // ==========================================
+    function startFearTest() {
+      document.getElementById('selection-area').style.display = 'none';
+      document.getElementById('fear-test-area').style.display = 'block';
+
+      const container = document.getElementById('fear-options-container');
+      container.innerHTML = FEAR_OPTIONS.map((text, index) => {
+        return `
+          <label class="fear-option-label">
+             <input type="radio" name="fear_option" value="${index + 1}">
+             <span class="fear-btn-text">${text}</span>
+          </label>
+        `;
+      }).join('');
+      window.scrollTo(0,0);
+    }
+
+    function calculateFearResult() {
+      const selected = document.querySelector('input[name="fear_option"]:checked');
+      if (!selected) {
+        alert("가장 두렵게 느껴지는 문구 하나를 선택해주세요.");
+        return;
+      }
+      
+      const fearIndex = selected.value;
+      const fearText = FEAR_OPTIONS[fearIndex - 1];
+      const typeLetter = fearText.charAt(0); // A, B, C 등 추출
+
+      document.getElementById('loading-msg').innerText = "결과를 저장하는 중입니다...";
+      document.getElementById('loading-overlay').style.display = 'flex';
+
+      finalResultData = { 
+        testType: 'fear',
+        scores: {}, // 기존 호환성을 위해 빈 객체
+        topType: "그림자 " + typeLetter + "유형", // 멘토 대시보드 리스트 표시용
+        userInfo: userInfo, 
+        userResponses: [], 
+        fearAnswer: fearText,
+        baseUrl: window.location.href.split('?')[0]
+      };
+
+      callBackend('saveData', finalResultData)
+        .then(res => {
+          document.getElementById('loading-overlay').style.display = 'none';
+          if (res.success && res.id) {
+            finalResultData.id = res.id;
+            localStorage.setItem('dreamhigh_last_result', JSON.stringify(finalResultData));
+            if (history.replaceState) history.replaceState(null, null, "?id=" + res.id);
+          }
+          showFearResultScreen(finalResultData);
+        })
+        .catch(err => {
+          document.getElementById('loading-overlay').style.display = 'none';
+          alert("저장 오류: " + err);
+        });
+    }
+
+    // 학생용 핵심 두려움 완료 안내
+    function showFearResultScreen(data) {
+      document.getElementById('fear-test-area').style.display = 'none';
+      const resultArea = document.getElementById('result-area');
+      resultArea.style.display = 'block';
+      
+      // 멘토가 열람할 데이터 세팅
+      window.mentorData = data;
+
+      resultArea.innerHTML = `
+        <div style="background: #fff; padding: 40px 20px; border-radius: 12px; text-align: center; border: 1px solid #E6D8CE;">
+            <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
+            <h2 style="color: var(--primary); margin-bottom: 15px;">검사가 완료되었습니다!</h2>
+            <p style="color: var(--text); font-size: 1.05rem; line-height: 1.6; word-break: keep-all;">
+                선택하신 무의식 속 두려움에 대한 깊은 이야기는<br>
+                <b style="color:#B85C38;">담당 멘토 쌤을 통해서 직접 안내</b>받으실 수 있습니다.
+            </p>
+            <div style="margin-top: 30px;">
+                <button class="action-btn" style="background: #BCAAA0; width: auto; padding: 12px 30px; font-size: 1rem;" onclick="resetTest()">다시 검사하기</button>
+            </div>
+        </div>
+        
+        <div style="margin-top:40px; text-align:center;">
+          <button style="background: transparent; border: none; color: #A8856D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMentorLogin()">멘토 전용 결과 확인</button>
+        </div>
+
+        <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #FAF5F0; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
+           <label style="display:block; font-size:0.85rem; color:#7A6556; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
+           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #D9B497; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto; margin-bottom:10px;">
+           <button id="mentor-btn" onclick="verifyMentor()" style="padding:12px 18px; background:var(--primary); color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
+        </div>
+      `;
+      window.scrollTo(0,0);
+    }
+
+    // 멘토용 핵심 두려움 상세 결과
+    function renderFearDetailedResults(data, fromDashboard = false) {
+      const resultArea = document.getElementById('result-area');
+      resultArea.innerHTML = '';
+      
+      let backBtnHtml = "";
+      if (fromDashboard) {
+        backBtnHtml = `
+          <div style="margin-bottom:20px;">
+             <button onclick="backToDashboard()" style="padding:10px 15px; background:#F0E7DF; color:var(--text); border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-family: 'NanumSquareRound', sans-serif;">< 대시보드 목록으로 돌아가기</button>
+          </div>
+        `;
+      }
+
+      resultArea.innerHTML = backBtnHtml + `
+        <div style="padding: 20px; background: white; border-radius:12px; border: 1px solid #E6D8CE;">
+          <h1 style="color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1.5rem;">${data.userInfo.name ? data.userInfo.name+'님의 ' : ''}내면의 그림자 (멘토용)</h1>
+          <div style="margin-top:20px;">
+             <h3 style="color:#B85C38; margin-bottom:10px;">선택한 핵심 두려움 문구:</h3>
+             <div style="padding:20px; background:#FAF5F0; border-radius:8px; border:1px solid #E6D8CE; font-size:1.1rem; line-height:1.6; color:var(--text); font-weight:bold; word-break:keep-all;">
+                "${data.fearAnswer}"
+             </div>
+          </div>
+        </div>
+        ${!fromDashboard ? `
+        <div style="margin-top:30px; text-align:center;">
+          <button class="action-btn" style="background:#BCAAA0;" onclick="resetTest()">초기화 및 새 검사 시작</button>
+        </div>` : ''}
+      `;
+      resultArea.style.display = 'block';
+    }
+
+
+    // ==========================================
+    // 2번 검사: 핵심욕구 프로파일 로직 (기존 유지)
+    // ==========================================
+    function startNeedsTest() {
+      document.getElementById('selection-area').style.display = 'none';
+      document.getElementById('main-app').style.display = 'block';
+      rawQuestions = JSON.parse(JSON.stringify(PRELOADED_QUESTIONS));
+      initQuiz(); 
+      window.scrollTo(0,0);
     }
 
     function initQuiz() {
@@ -541,6 +720,7 @@
       const topTypeStr = typeScores[0].id;
       
       finalResultData = { 
+        testType: 'needs',
         scores: scores, 
         topType: topTypeStr, 
         userInfo: userInfo, 
@@ -556,7 +736,6 @@
             localStorage.setItem('dreamhigh_last_result', JSON.stringify(finalResultData));
             if (history.replaceState) history.replaceState(null, null, "?id=" + res.id);
           }
-          sessionStorage.removeItem('dreamhigh_status'); 
           showResultScreen(scores, typeScores, topTypeStr, displayResponses);
         })
         .catch(err => {
@@ -565,11 +744,18 @@
         });
     }
 
+    // 공통 Result 라우터
     function restoreResultScreen(data) {
       finalResultData = data;
       document.getElementById('landing-page').style.display = 'none';
-      document.getElementById('main-app').style.display = 'block';
       
+      if (data.testType === 'fear') {
+         showFearResultScreen(data);
+         return;
+      }
+
+      // 기존 Needs Test 복원
+      document.getElementById('main-app').style.display = 'block';
       const scores = data.scores;
       let typeScores = [
         { id: "안정", score: scores["안정"] || 0 },
@@ -592,31 +778,12 @@
       showResultScreen(scores, typeScores, topTypeStr, fullUserResponses);
     }
 
-    function setupTestCheat() {
-      let clickCount = 0;
-      const mainTitle = document.getElementById('main-title');
-      if (mainTitle) {
-        mainTitle.style.cursor = "pointer";
-        mainTitle.title = "테스트용";
-        mainTitle.addEventListener('click', function() {
-          if (++clickCount === 3) {
-            for(let i=0; i<rawQuestions.length; i++) {
-                userAnswers[i] = Math.floor(Math.random() * 5) + 1;
-            }
-            alert('테스트 응답 자동 생성 완료');
-            calculateResult();
-            clickCount = 0;
-          }
-        });
-      }
-    }
-
     function showResultScreen(scores, typeScores, topTypeStr, userResponses) {
       document.getElementById('quiz-area').style.display = 'none';
       const resultArea = document.getElementById('result-area');
       resultArea.style.display = 'block';
       
-      window.mentorData = { scores, typeScores, topTypeStr, userResponses };
+      window.mentorData = { scores, typeScores, topTypeStr, userResponses, testType: 'needs', userInfo: userInfo };
 
       resultArea.innerHTML = `
         <div style="background: #fff; padding: 40px 20px; border-radius: 12px; text-align: center; border: 1px solid #E6D8CE;">
@@ -669,7 +836,11 @@
             document.querySelector('#result-area > div:first-child').style.display = 'none';
             document.querySelector('#result-area > div:nth-child(2)').style.display = 'none';
             
-            renderDetailedResults(window.mentorData, false);
+            if (window.mentorData.testType === 'fear') {
+                renderFearDetailedResults(window.mentorData, false);
+            } else {
+                renderDetailedResults(window.mentorData, false);
+            }
           } else {
             alert("멘토 아이디가 일치하지 않습니다.");
           }
@@ -875,7 +1046,7 @@
           if (res.error) {
             const box = document.getElementById('ai-result-box');
             box.style.display = 'block';
-            box.innerHTML = `<div style="color:#B85C38; padding:20px; border:1px solid #B85C38; border-radius:8px;">${res.error}</div>`;
+            box.innerHTML = `<div style="color:red; padding:20px; border:1px solid red;">${res.error}</div>`;
           } else {
             renderAIResult(res);
             let targetId = finalResultData && finalResultData.id ? finalResultData.id : null;
