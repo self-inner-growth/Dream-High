@@ -264,9 +264,10 @@
 
 <script>
   // ★ 백엔드 배포 URL 삽입 ★
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFEQeooBhbPXET0ujyBiWoAp0WMxXiI6BEVbox667uUVTn_yKJye1fYJDKtCLt9kCV2Q/exec';
+  const SCRIPT_URL = 'YOUR_WEB_APP_URL_HERE';
   
   let currentUser = '';
+  let currentDashboardData = []; // 데이터를 로컬에 임시 보관하여 상태 체크
 
   const svgSun = `<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
   const svgMoon = `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
@@ -362,10 +363,11 @@
     showLoading(false);
 
     if(res.success) {
+      currentDashboardData = res.data; // 전역 변수에 저장
       const grid = document.getElementById('bingoGrid');
       grid.innerHTML = '';
       
-      res.data.forEach(user => {
+      currentDashboardData.forEach(user => {
         const isMe = user.name === currentUser;
         const st = user.stickers;
         
@@ -387,7 +389,19 @@
     }
   }
 
-  function goForm() { switchScreen('screen-form'); }
+  // ★ 오늘의 체크보드 작성 버튼 클릭 시 작동하는 함수
+  function goForm() { 
+    const myData = currentDashboardData.find(u => u.name === currentUser);
+    
+    // 이미 오늘 제출한 이력이 있다면 폼 입장을 차단
+    if (myData && myData.submittedToday) {
+      alert("오늘의 체크보드는 이미 제출하셨습니다. 내일 다시 참여해주세요! 🚀");
+      return;
+    }
+    
+    switchScreen('screen-form'); 
+  }
+  
   function goDashboard() { switchScreen('screen-dashboard'); }
 
   document.getElementById('bingoForm').addEventListener('submit', async e => {
@@ -404,7 +418,7 @@
       e.target.reset();
       loadDashboard();
     } else {
-      alert('데이터 전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      alert(res.message || '데이터 전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
   });
 </script>
