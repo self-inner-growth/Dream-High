@@ -3,1099 +3,285 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>드림하이 : 핵심욕구</title>
-  <link href="https://hangeul.pstatic.net/hangeul_font/css/nanum-square-round.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <title>드림하이 색깔빙고</title>
   <style>
-    :root { 
-      /* 밝은 우드 톤 테마 컬러 설정 */
-      --primary: #9C7A63; /* 따뜻하고 부드러운 브라운 */
-      --accent: #D9B497;  /* 밝은 샌드 우드 */
-      --bg: #FDFBF7;      /* 포근한 아이보리 배경 */
-      --text: #5C4A3D;    /* 텍스트도 완전 블랙이 아닌 다크 브라운 */
-      --growth: #8A9A73;  /* 올리브 우드 톤 */
-      --stress: #C97A63;  /* 붉은빛이 도는 테라코타 우드 톤 */
+    :root {
+      --red: #FF4B4B;
+      --blue: #4B8CFF;
+      --yellow: #FFC800;
+      --orange: #FF8C00;
+      --green: #4CAF50;
+      --bg: #F9F7F3;
     }
-    body { font-family: 'NanumSquareRound', sans-serif; background: var(--bg); margin: 0; padding: 20px 10px; color: var(--text); display: flex; justify-content: center; }
-    .container { position: relative; max-width: 900px; width: 100%; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(156,122,99,0.08); min-height: 500px; }
-    
-    #main-app, #result-area, #mentor-dashboard, #selection-area, #fear-test-area { display: none; }
-    #landing-page { text-align: center; }
-    
-    .landing-title { font-size: 2.1rem; color: var(--primary); margin-bottom: 5px; font-weight: 800; }
-    .landing-image { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin-top: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(156,122,99,0.08); }
-    .landing-desc { color: #7A6556; margin-bottom: 30px; font-size: 1.05rem; line-height: 1.7; word-break: keep-all; }
-    
-    .input-group { text-align: left; margin-bottom: 15px; }
-    .input-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #7A6556; font-size: 0.95rem; }
-    
-    .input-group input, .input-group select { 
-      width: 100%; 
-      height: 52px; 
-      padding: 0 15px; 
-      border: 1px solid #E6D8CE; 
-      border-radius: 10px; 
-      font-size: 1.05rem; 
-      box-sizing: border-box; 
-      font-family: 'NanumSquareRound', sans-serif;
-      background-color: #fff;
-      color: var(--text);
-      line-height: normal;
-      transition: border-color 0.2s;
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: var(--bg);
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
     }
-    .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--primary); }
-
-    .start-btn, .action-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #B5957D, #9C7A63); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-top: 20px; transition: 0.2s; font-family: 'NanumSquareRound', sans-serif;}
-    .start-btn:hover, .action-btn:hover { opacity: 0.9; }
-    
-    .menu-btn { width: 100%; padding: 25px; border: 2px solid #E6D8CE; background: #FAF5F0; color: var(--text); border-radius: 12px; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: 0.3s; font-family: 'NanumSquareRound', sans-serif; text-align: left; display: flex; flex-direction: column; gap: 8px;}
-    .menu-btn:hover { background: #F0E7DF; border-color: var(--accent); transform: translateY(-2px); }
-    .menu-desc { font-size: 0.95rem; font-weight: normal; color: #9C7A63; }
-
-    h1 { text-align: center; color: var(--primary); margin-bottom: 10px; font-size: 1.8rem; }
-    h3 { border-left: 4px solid var(--accent); padding-left: 10px; margin-top: 30px; margin-bottom: 15px; color: var(--primary); font-size: 1.2rem; }
-    
-    .question-box { background: #fff; margin-bottom: 15px; padding: 20px 0; animation: fadeIn 0.4s ease-in-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .question-text { font-weight: 700; display: block; margin-bottom: 30px; font-size: 1.3rem; text-align: center; line-height: 1.5; color: var(--text);}
-    
-    .options { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; border: none; }
-    .option-label { flex: 0 1 auto; cursor: pointer; text-align: center; }
-    .option-label input { display: none; }
-    .btn-text { padding: 12px 22px; background: #fff; border: 2px solid #E6D8CE; border-radius: 30px; font-size: 1rem; color: #7A6556; transition: 0.2s; word-break: keep-all; font-weight: 500;}
-    .option-label input:checked + .btn-text { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
-    .option-label:hover .btn-text { border-color: var(--primary); background: #FAF5F0; }
-    .option-label input:checked:hover + .btn-text { background: var(--primary); }
-
-    .fear-option-label { width: 100%; cursor: pointer; text-align: left; }
-    .fear-option-label input { display: none; }
-    .fear-btn-text { display: block; padding: 18px 20px; background: #FAF5F0; border: 2px solid #E6D8CE; border-radius: 12px; font-size: 1.05rem; color: #5C4A3D; transition: 0.2s; word-break: keep-all; line-height: 1.5;}
-    .fear-option-label input:checked + .fear-btn-text { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
-    .fear-option-label:hover .fear-btn-text { border-color: var(--primary); }
-
-    .one-liner-box { background: linear-gradient(135deg, #B5957D, #9C7A63); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
-    .one-liner-main { font-size: 2rem; font-weight: 800; margin: 10px 0; color: #FDFBF7; line-height:1.4; word-break: keep-all;}
-    .rank-container { display: flex; gap: 15px; margin: 15px 0; }
-    .rank-box { flex: 1; padding: 15px; border: 1px solid #E6D8CE; border-radius: 8px; background: #FAF5F0;}
-    .rank-title { display: block; margin-bottom: 10px; font-weight: bold; font-size: 1rem; border-bottom: 2px solid #E6D8CE; padding-bottom:5px; }
-    .rank-title.wood { color: var(--primary); }
-    .rank-item { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px dashed #E6D8CE; font-size: 0.95rem; display:flex; justify-content:space-between;}
-    .detail-table { width: 100%; border-collapse: collapse; margin-top: 10px; border-top: 2px solid var(--primary); font-size: 0.85rem; }
-    .detail-table th { background: #FAF5F0; padding: 8px; text-align: left; font-weight: bold; color: var(--primary); }
-    .detail-table td { padding: 8px; border-bottom: 1px solid #E6D8CE; color: var(--text); }
-    .flex-row-desktop { display: flex; gap: 20px; margin-top: 20px; }
-    .flex-row-desktop > div { flex: 1; min-width: 0; }
-    .ai-result-grid { display: flex; gap: 15px; margin-top: 15px; }
-    .ai-box { flex: 1; background: #fff; border: 1px solid #E6D8CE; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(156,122,99,0.05); }
-    .ai-box h4 { margin: 0 0 10px 0; font-size: 1rem; padding-bottom: 8px; border-bottom: 2px solid #E6D8CE; }
-    .ai-box p { font-size: 0.9rem; color: #7A6556; line-height: 1.6; margin: 0; white-space: pre-wrap; }
-    .ai-btn { background: linear-gradient(135deg, #A8856D 0%, #9C7A63 100%); color: white; padding: 12px 30px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; font-family: 'NanumSquareRound', sans-serif;}
-    
-    #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(253,251,247,0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
-    .spinner { width: 40px; height: 40px; border: 4px solid #E6D8CE; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    
-    .dashboard-list-btn { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#FAF5F0; border:1px solid #E6D8CE; border-radius:8px; cursor:pointer; text-align:left; transition:0.2s; width: 100%; margin-bottom: 10px; font-family: 'NanumSquareRound', sans-serif;}
-    .dashboard-list-btn:hover { background:#F0E7DF; border-color:#D9B497; }
-
-    @media (max-width: 700px) {
-      .container { padding: 20px 15px; }
-      .options { flex-direction: column; gap: 8px; }
-      .option-label { width: 100%; }
-      .btn-text { width: 100%; box-sizing: border-box; }
-      .flex-row-desktop, .rank-container, .ai-result-grid { flex-direction: column; gap: 15px; }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 5px;
+      font-size: 28px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .form-section {
+      margin-bottom: 25px;
+      padding: 20px;
+      border-radius: 10px;
+      background: #fafafa;
+      border-left: 5px solid #ccc;
+    }
+    /* 색깔빙고 테마별 보더 색상 */
+    .sec-basic { border-left-color: #666; }
+    .sec-red { border-left-color: var(--red); background: #fffcfc; }
+    .sec-blue { border-left-color: var(--blue); background: #fcfcff; }
+    .sec-yellow { border-left-color: var(--yellow); background: #fffefc; }
+    .sec-orange { border-left-color: var(--orange); background: #fffbfa; }
+    .sec-green { border-left-color: var(--green); background: #fbfffb; }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group:last-child { margin-bottom: 0; }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 15px;
+      font-family: inherit;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #FF4B4B, #FF8C00);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(255, 75, 75, 0.3);
+    }
+    button[type="submit"]:hover {
+      opacity: 0.9;
+    }
+    
+    /* 하단 규칙 섹션 */
+    .rules-container {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f1f3f5;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .rules-container h3 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 10px;
+    }
+    .rules-list {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+    .rules-list li { margin-bottom: 8px; }
+    .badge {
+      display: inline-block;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+    .bg-red { background: var(--red); }
+    .bg-blue { background: var(--blue); }
+    .bg-yellow { background: var(--yellow); }
+    .bg-orange { background: var(--orange); }
+    .bg-green { background: var(--green); }
   </style>
 </head>
 <body>
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-    <h3 id="loading-msg" style="color: #9C7A63;">처리 중...</h3>
-  </div>
 
-  <div class="container">
-    <!-- 1. 랜딩 페이지 (정보 입력) -->
-    <div id="landing-page">
-      <h1 class="landing-title">드림하이 : 핵심욕구</h1>
-      
-      <img src="main-title.png" class="landing-image" alt="드림하이 메인 이미지" onerror="this.src='https://images.unsplash.com/photo-1509803874385-db7c23652552?auto=format&fit=crop&w=800&q=80'">
+<div class="container">
+  <h1>드림하이 색깔빙고</h1>
+  <div class="subtitle">오늘 하루의 미션을 체크하고 제출해주세요!</div>
 
-      <p class="landing-desc">
-        나를 더 깊이 이해하고 새로운 내일로 도약하기 위한 시간입니다.<br>
-        편안한 마음으로 입력해 주세요.<br>
-        <span style="font-size:0.9rem; color:#A8856D;">(작성해주신 소중한 정보는 안전하게 보호되니 안심하셔도 좋습니다.)</span>
-      </p>
-
-      <div class="input-group">
-        <label>이름</label>
-        <input type="text" id="user-name" placeholder="예: 홍길동" autocomplete="off">
+  <form id="bingoForm">
+    <!-- 기본 정보 -->
+    <div class="form-section sec-basic">
+      <div class="form-group">
+        <label for="studentName">이름</label>
+        <input type="text" id="studentName" name="studentName" placeholder="이름을 입력하세요" required>
       </div>
-      
-      <div style="display:flex; gap:10px;">
-        <div class="input-group" style="flex:1;">
-          <label>나이</label>
-          <input type="number" id="user-age" placeholder="예: 25" autocomplete="off">
-        </div>
-        <div class="input-group" style="flex:1;">
-          <label>성별</label>
-          <select id="user-gender">
-            <option value="남성">남성</option>
-            <option value="여성">여성</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="input-group">
-        <label>MBTI (선택)</label>
-        <select id="user-mbti">
-          <option value="">모름 / 선택안함</option>
-          <option value="ISTJ">ISTJ</option><option value="ISFJ">ISFJ</option><option value="INFJ">INFJ</option><option value="INTJ">INTJ</option>
-          <option value="ISTP">ISTP</option><option value="ISFP">ISFP</option><option value="INFP">INFP</option><option value="INTP">INTP</option>
-          <option value="ESTP">ESTP</option><option value="ESFP">ESFP</option><option value="ENFP">ENFP</option><option value="ENTP">ENTP</option>
-          <option value="ESTJ">ESTJ</option><option value="ESFJ">ESFJ</option><option value="ENFJ">ENFJ</option><option value="ENTJ">ENTJ</option>
-        </select>
-      </div>
-
-      <button class="start-btn" onclick="goToSelection()">검사 시작하기</button>
-
-      <div style="margin-top:25px; padding-top:15px; border-top:1px dashed #E6D8CE;">
-        <button style="background: transparent; border: none; color: #B5957D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMainMentorLogin()">멘토 전용 페이지 입장</button>
-      </div>
-
-      <div id="main-mentor-login-area" style="display:none; margin-top:15px; background: #FAF5F0; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
-         <label style="display:block; font-size:0.85rem; color:#7A6556; margin-bottom:8px;">멘토 비밀번호(아이디)를 입력해주세요</label>
-         <input type="password" id="main-mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #D9B497; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto; margin-bottom: 10px;">
-         <button id="main-mentor-btn" onclick="verifyMainMentor()" style="padding:12px 18px; background:#9C7A63; color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">접속</button>
+      <div class="form-group">
+        <label for="teacherName">어떤 쌤 반인가요?</label>
+        <input type="text" id="teacherName" name="teacherName" placeholder="ex) OOO 쌤 반" required>
       </div>
     </div>
 
-    <!-- 1.5 검사 선택 화면 (추가됨) -->
-    <div id="selection-area">
-       <h1 class="landing-title">검사 선택</h1>
-       <p class="landing-desc">어떤 검사를 진행하시겠습니까?</p>
-
-       <div style="display:flex; flex-direction:column; gap:15px; max-width: 600px; margin: 0 auto; margin-top:30px;">
-          <button class="menu-btn" onclick="startFearTest()">
-             내면의 그림자 (핵심 두려움) 검사
-             <span class="menu-desc">단 1문항으로 내면 깊은 곳의 두려움을 확인합니다.</span>
-          </button>
-          <button class="menu-btn" onclick="startNeedsTest()">
-             핵심욕구 프로파일
-             <span class="menu-desc">20문항을 통해 나를 움직이는 5대 욕구 밸런스를 확인합니다.</span>
-          </button>
-       </div>
-    </div>
-
-    <!-- 2-A. 핵심 두려움 검사 진행 화면 (추가됨) -->
-    <div id="fear-test-area">
-      <h1 id="main-title" style="margin-bottom: 20px;">내면의 그림자 검사</h1>
-      <div style="background: #FAF5F0; margin-bottom: 25px; padding: 20px; text-align:center; border-radius:12px; border:1px solid #E6D8CE;">
-        <span class="question-text" style="margin-bottom:5px; font-size:1.1rem; color:var(--text); word-break:keep-all;">
-          제시된 문구를 읽으면서<br><b style="color:var(--primary);">가장 두렵고 견딜 수 없는 문구 하나</b>를 찾아주세요.
-        </span>
+    <!-- 빨강 -->
+    <div class="form-section sec-red">
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="arrive"> 1. [빨강] 10분 전 도착 완료
+        </label>
       </div>
-      <form id="fear-form">
-         <div class="options" style="flex-direction:column; gap:10px;" id="fear-options-container">
-            <!-- 자바스크립트에서 문구가 생성됩니다. -->
-         </div>
-      </form>
-      <button class="action-btn" onclick="calculateFearResult()" style="margin-top:30px;">결과 제출하기</button>
-    </div>
-
-    <!-- 2-B. 핵심 욕구 검사 진행 화면 (기존) -->
-    <div id="main-app">
-      <div id="quiz-area">
-        <h1 id="main-title" style="margin-bottom: 30px;">나의 핵심욕구 프로파일</h1>
-        
-        <div style="width: 100%; background: #E6D8CE; border-radius: 10px; height: 8px; margin-bottom: 10px; overflow:hidden;">
-           <div id="progress-bar" style="width: 0%; background: var(--accent); height: 100%; border-radius: 10px; transition: width 0.3s ease;"></div>
-        </div>
-        <div id="progress-text" style="text-align:right; color:#A8856D; font-size:0.85rem; margin-bottom:20px; font-weight:bold;">1 / 20</div>
-
-        <form id="quiz-form" onsubmit="event.preventDefault();"></form>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="loud"> 2. [빨강] 크게 화답하기 완료
+        </label>
       </div>
     </div>
+
+    <!-- 파랑 -->
+    <div class="form-section sec-blue">
+      <div class="form-group">
+        <label for="service">3. [파랑] 봉사</label>
+        <input type="text" id="service" name="service" placeholder="어떤 봉사를 했나요?">
+      </div>
+      <div class="form-group">
+        <label for="sponsor">4. [파랑] 후원</label>
+        <input type="text" id="sponsor" name="sponsor" placeholder="후원 내용을 적어주세요">
+      </div>
+    </div>
+
+    <!-- 노랑 (기도) -->
+    <div class="form-section sec-yellow">
+      <label>5. [노랑] 기도</label>
+      <div class="form-group" style="margin-top: 10px;">
+        <label class="checkbox-label">
+          <input type="checkbox" name="pray1"> 1) 하나님께 기도했나요?
+        </label>
+      </div>
+      <div class="form-group">
+        <input type="text" name="pray2" placeholder="2) 감사한 내용">
+      </div>
+      <div class="form-group">
+        <input type="text" name="pray3" placeholder="3) 회개 (용서해주세요)">
+      </div>
+      <div class="form-group">
+        <input type="text" name="pray4" placeholder="4) 간구 (도와주세요)">
+      </div>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="pray5"> 5) 예수님의 이름으로 기도드립니다. 아멘 했나요?
+        </label>
+      </div>
+    </div>
+
+    <!-- 주황 -->
+    <div class="form-section sec-orange">
+      <div class="form-group">
+        <label for="compliment">6. [주황] 칭찬</label>
+        <input type="text" id="compliment" name="compliment" placeholder="누구에게, 어떻게 칭찬했나요?">
+      </div>
+    </div>
+
+    <!-- 초록 -->
+    <div class="form-section sec-green">
+      <div class="form-group">
+        <label for="bible">7. [초록] 성경읽기</label>
+        <textarea id="bible" name="bible" placeholder="성경을 읽고 느낀 점을 자유롭게 적어주세요"></textarea>
+      </div>
+    </div>
+
+    <button type="submit" id="submitBtn">제출하기</button>
+  </form>
+
+  <!-- 하단 규칙 섹션[cite: 1] -->
+  <div class="rules-container">
+    <h3>📌 색깔빙고 규칙 안내</h3>
+    <ul class="rules-list">
+      <li><strong>스티커 획득:</strong> '하루에 항목당 최대 1개'까지만 획득 가능[cite: 1]</li>
+    </ul>
     
-    <!-- 3. 검사 결과 화면 -->
-    <div id="result-area"></div>
+    <div style="font-weight: bold; margin-top: 15px; margin-bottom: 5px;">항목별 주간 획득 한도[cite: 1]</div>
+    <ul class="rules-list">
+      <li><span class="badge bg-red"></span>빨강 (10분 전 도착, 화답) : 주 최대 3회 제한[cite: 1]</li>
+      <li><span class="badge bg-blue"></span>파랑 (봉사, 후원) : 주 최대 2회 제한[cite: 1]</li>
+      <li><span class="badge bg-yellow"></span>노랑 (기도) : 주 최대 5회 제한[cite: 1]</li>
+      <li><span class="badge bg-orange"></span>주황 (칭찬) : 주 최대 5회 제한[cite: 1]</li>
+      <li><span class="badge bg-green"></span>초록 (성경읽기) : 주 최대 7회 제한[cite: 1]</li>
+    </ul>
 
-    <!-- 4. 멘토 전용 대시보드 화면 -->
-    <div id="mentor-dashboard">
-      <h1 id="main-title" style="margin-bottom: 20px; color:var(--primary);">멘토 전용 대시보드</h1>
-      <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
-         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom:15px;">
-            <h3 style="margin:0; border:none; padding:0; color:var(--primary);">검사 완료 목록</h3>
-            <span style="font-size:0.8rem; color:#A8856D;">이름을 클릭하여 확인</span>
-         </div>
-         <div id="student-list-container" style="display:flex; flex-direction:column; max-height:450px; overflow-y:auto; padding-right:5px;">
-            <!-- 백엔드에서 불러온 리스트가 여기에 생성됩니다 -->
-         </div>
-      </div>
-      <div style="margin-top:20px; text-align:center;">
-        <button class="action-btn" style="background:#BCAAA0; width:auto; padding:10px 20px; font-size:1rem;" onclick="location.reload()">처음으로 돌아가기</button>
-      </div>
-    </div>
-
+    <div style="font-weight: bold; margin-top: 15px; margin-bottom: 5px;">색깔 조합에 따른 가산점 부여[cite: 1]</div>
+    <ul class="rules-list">
+      <li><strong>기본 빙고 (1점):</strong> 색상 상관없이 섞어서 1줄 완성[cite: 1]</li>
+      <li><strong>무지개 빙고 (2점):</strong> 1줄이 모두 '다른 색깔'로 완성[cite: 1]</li>
+      <li><strong>단색 빙고 (3점):</strong> 1줄이 모두 '같은 색깔'로 완성 (최고점)[cite: 1]</li>
+    </ul>
   </div>
+</div>
 
-  <script>
-    // =========================================================
-    // ★ 앱스 스크립트 웹 앱 URL
-    // =========================================================
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUvCIxFES9ASZmOjz9DM3cGeI3ZdcaqRU0ppsDFmpuCduGLKz7zb08olnFouzkzxKQzQ/exec';
+<script>
+  const form = document.getElementById('bingoForm');
+  const submitBtn = document.getElementById('submitBtn');
 
-    // =========================================================
-    // ★ 사진 속 9가지 문구 (내면의 그림자 검사용)
-    // =========================================================
-    const FEAR_OPTIONS = [
-      "A. 아, 됐고! 넌 그냥 내가 시키는 대로 해! 약해 빠져가지고! 지금 당장 하라고!",
-      "B. 너 때문에 사람들이 싸우고 있는 거 안 보여? 네가 해결해! 지금 당장!!",
-      "C. 비겁하게 편법 쓰지 마! 게으르고 자기 욕망대로 사는 나쁜 사람 같으니라고! 넌 틀렸어!",
-      "D. 넌 너무 이기적이야. 그러니까 사람들이 다 싫어하지…. 쯧쯧.",
-      "E. 풉~ 뭐야? 왜 이렇게 일을 못해? 비효율적이고 타고난 재능은 1도 없잖아. 네가 제일 못해!",
-      "F. 훗, 평범하고 흔한 스타일이네. 누군가를 따라 하면서 사는 게 무슨 의미가 있니….",
-      "G. 넌 왜 이렇게 무식해? 낡고 얕은 지식밖에 없네. 너만 이해를 못해. 그리고 생각 좀 하면서 살아!",
-      "H. 너는 믿을 수가 없어. 너 때문에 위험한 일들이 생기잖아. 우리 모임에서 나가서 네가 알아서 해!",
-      "I. 너 완전 재미없어. 너무 지루해. 그리고 앞으로 재미있는 것 금지! 지금부터 철저하게 관리할 거야."
-    ];
+  // ★ 1단계에서 복사한 웹 앱 URL을 아래에 붙여넣어주세요 ★
+  const SCRIPT_URL = 'YOUR_WEB_APP_URL_HERE';
 
-    const PRELOADED_QUESTIONS = [
-      { q: "결과가 불확실한 상황에서는 미리 여러 가능성을 생각해보는 편이다.", type: "안정" },
-      { q: "내가 노력한 것을 다른 사람이 알아줄 때 큰 힘을 얻는다.", type: "인정" },
-      { q: "가까운 사람들과 정서적으로 연결되어 있다는 느낌이 중요하다.", type: "관계" },
-      { q: "다른 사람이 내 선택을 지나치게 간섭하면 답답함을 느낀다.", type: "자율" },
-      { q: "내가 하는 일이 의미 있고 가치 있다고 느껴질 때 가장 큰 만족을 얻는다.", type: "성취의미" },
-      { q: "갑작스러운 변화가 생기면 마음이 쉽게 흔들리는 편이다.", type: "안정" },
-      { q: "인정받지 못하면 내가 부족한 사람처럼 느껴질 때가 있다.", type: "인정" },
-      { q: "중요한 사람과 관계가 멀어지는 것은 상당히 힘든 일이다.", type: "관계" },
-      { q: "다른 사람의 기대보다 내가 납득할 수 있는 기준에 따라 선택하고 싶다.", type: "자율" },
-      { q: "단순히 성공하는 것보다 내가 성장하고 있다는 느낌이 중요하다.", type: "성취의미" },
-      { q: "미래가 어떻게 될지 알 수 없을 때 불안해지는 편이다.", type: "안정" },
-      { q: "다른 사람에게 존중받는다는 느낌이 나에게 중요하다.", type: "인정" },
-      { q: "혼자 잘하는 것보다 마음을 나눌 수 있는 사람이 있는 것이 중요하다.", type: "관계" },
-      { q: "내가 원하는 방식대로 결정하고 행동할 수 있을 때 능력을 잘 발휘한다.", type: "자율" },
-      { q: "목표를 이루는 것뿐 아니라 그 과정에서 무엇을 배우는지도 중요하다.", type: "성취의미" },
-      { q: "예상하지 못한 문제가 생기면 먼저 걱정부터 하는 편이다.", type: "안정" },
-      { q: "나의 노력이나 능력을 아무도 알아주지 않는다면 의욕이 떨어질 수 있다.", type: "인정" },
-      { q: "관계를 유지하기 위해 때로는 내 의견을 양보하는 편이다.", type: "관계" },
-      { q: "누군가 나에게 무엇을 해야 하는지 일방적으로 정해주면 반발심이 생긴다.", type: "자율" },
-      { q: "삶에서 '무엇을 위해 살아가는가'를 생각해보는 편이다.", type: "성취의미" }
-    ];
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    submitBtn.innerText = "제출 중...";
+    submitBtn.disabled = true;
 
-    const needsDescriptionMap = {
-      "안정": "안전과 예측 가능성을 중시하며, 위험을 최소화하고 평온한 상태를 유지하려는 욕구가 큽니다.",
-      "인정": "타인으로부터의 긍정적인 평가와 존중, 가치를 인정받고자 하는 욕구가 큽니다.",
-      "관계": "사람들과 정서적으로 깊이 교류하고, 소속감과 친밀한 유대감을 형성하려는 욕구가 큽니다.",
-      "자율": "독립적으로 사고하고 행동하며, 자신의 삶을 주도적으로 통제하고 간섭받지 않으려는 욕구가 큽니다.",
-      "성취의미": "성장과 발전, 그리고 자신의 행동이나 삶에서 깊은 가치와 의미를 찾으려는 욕구가 큽니다."
-    };
+    let requestBody = new FormData(form);
 
-    let userInfo = {};
-    let finalResultData = null;
-    let rawQuestions = []; 
-    let currentDetailList = [];
-    let sortState = { col: 'score', order: 'desc' };
-    let currentQIndex = 0;
-    let userAnswers = []; 
-
-    async function callBackend(action, payload = null) {
-      let url = SCRIPT_URL + "?action=" + action;
-      let options = { redirect: "follow" };
-      
-      if (payload) {
-        options.method = "POST";
-        options.headers = { "Content-Type": "text/plain;charset=utf-8" };
-        options.body = JSON.stringify(payload);
-      } else {
-        options.method = "GET";
-      }
-      
-      try {
-        let response = await fetch(url, options);
-        return await response.json();
-      } catch (error) {
-        throw new Error("서버 통신 실패: " + error.message);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const params = new URLSearchParams(window.location.search);
-      const testId = params.get('id');
-
-      if (testId) {
-        document.getElementById('loading-overlay').style.display = 'flex';
-        document.getElementById('loading-msg').innerText = "결과 데이터를 불러오고 있습니다...";
-        callBackend('getDataById&id=' + testId)
-          .then(data => {
-            document.getElementById('loading-overlay').style.display = 'none';
-            if (data && (data.scores || data.testType === 'fear')) restoreResultScreen(data);
-          })
-          .catch(() => document.getElementById('loading-overlay').style.display = 'none');
-      } else if (localStorage.getItem('dreamhigh_last_result')) {
-        try {
-          const localData = JSON.parse(localStorage.getItem('dreamhigh_last_result'));
-          if (!localData) throw new Error("데이터 손상");
-          restoreResultScreen(localData);
-        } catch(e) {
-          localStorage.removeItem('dreamhigh_last_result');
-        }
-      }
-    });
-
-    // 멘토 접속 로직
-    function toggleMainMentorLogin() {
-      const el = document.getElementById('main-mentor-login-area');
-      el.style.display = el.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function verifyMainMentor() {
-      const inputId = document.getElementById('main-mentor-id-input').value;
-      if (!inputId) { alert("비밀번호(아이디)를 입력해주세요."); return; }
-      
-      const btn = document.getElementById('main-mentor-btn');
-      const originalText = btn.innerText;
-      btn.innerText = "접속 중...";
-      btn.disabled = true;
-
-      callBackend('verifyMentor', { id: inputId })
-        .then(res => {
-          btn.innerText = originalText;
-          btn.disabled = false;
-          
-          if (res.isValid) {
-            sessionStorage.setItem('mentor_pwd', inputId);
-            loadMentorDashboard();
-          } else {
-            alert("멘토 비밀번호가 일치하지 않습니다.");
-          }
-        })
-        .catch(err => {
-          btn.innerText = originalText;
-          btn.disabled = false;
-          alert("서버 오류: " + err);
-        });
-    }
-
-    function loadMentorDashboard() {
-      document.getElementById('landing-page').style.display = 'none';
-      document.getElementById('main-app').style.display = 'none';
-      document.getElementById('selection-area').style.display = 'none';
-      document.getElementById('result-area').style.display = 'none';
-      
-      document.getElementById('loading-msg').innerText = "학생 목록을 불러오는 중입니다...";
-      document.getElementById('loading-overlay').style.display = 'flex';
-
-      const pwd = sessionStorage.getItem('mentor_pwd');
-
-      callBackend('getStudentListSecure', { password: pwd })
-        .then(res => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          if (res.success) {
-            document.getElementById('mentor-dashboard').style.display = 'block';
-            renderStudentList(res.list);
-          } else {
-            alert(res.error || "목록을 불러오는 중 오류가 발생했습니다.");
-            location.reload(); 
-          }
-        })
-        .catch(err => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          alert("서버 통신 오류: " + err);
-        });
-    }
-
-    function renderStudentList(list) {
-      const container = document.getElementById('student-list-container');
-      if (!list || list.length === 0) {
-        container.innerHTML = '<div style="text-align:center; padding:30px; color:#A8856D;">아직 완료된 검사가 없습니다.</div>';
-        return;
-      }
-
-      container.innerHTML = list.map(item => {
-        const d = new Date(item.date);
-        const dateStr = `${d.getFullYear()}.${('0'+(d.getMonth()+1)).slice(-2)}.${('0'+d.getDate()).slice(-2)} ${('0'+d.getHours()).slice(-2)}:${('0'+d.getMinutes()).slice(-2)}`;
-        
-        let badgeColor = item.topType && item.topType.includes('그림자') ? '#8A9A73' : '#34495e';
-        let displayType = item.topType === "성취의미" ? "성취·의미" : item.topType;
-
-        return `
-          <button class="dashboard-list-btn" onclick="viewStudentResult('${item.id}')">
-            <div style="font-size:1.1rem; font-weight:bold; color:var(--text);">
-              ${item.name} 
-              <span style="font-size:0.85rem; background:${badgeColor}; color:#fff; padding:2px 6px; border-radius:4px; margin-left:8px; font-weight:normal;">${displayType}</span>
-            </div>
-            <div style="font-size:0.85rem; color:#A8856D;">${dateStr}</div>
-          </button>
-        `;
-      }).join('');
-    }
-
-    function viewStudentResult(id) {
-      document.getElementById('loading-msg').innerText = "결과 데이터를 불러오고 있습니다...";
-      document.getElementById('loading-overlay').style.display = 'flex';
-      
-      const pwd = sessionStorage.getItem('mentor_pwd');
-
-      callBackend('getDataSecure', { id: id, password: pwd })
-        .then(res => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          if (res.success && res.data) {
-            const data = res.data;
-            document.getElementById('mentor-dashboard').style.display = 'none';
-            document.getElementById('result-area').style.display = 'block';
-            
-            finalResultData = data;
-            finalResultData.id = id;
-
-            if (data.testType === 'fear') {
-                renderFearDetailedResults(data, true);
-            } else {
-                let typeScores = [
-                  { id: "안정", score: data.scores["안정"] || 0 },
-                  { id: "인정", score: data.scores["인정"] || 0 },
-                  { id: "관계", score: data.scores["관계"] || 0 },
-                  { id: "자율", score: data.scores["자율"] || 0 },
-                  { id: "성취의미", score: data.scores["성취의미"] || 0 }
-                ];
-                typeScores.sort((a, b) => b.score - a.score);
-                const topTypeStr = data.topType || typeScores[0].id;
-
-                let fullUserResponses = [];
-                if (data.userResponses) {
-                  fullUserResponses = data.userResponses.map(item => ({
-                    text: item.text || "-", type: item.t || "?", score: item.v || item.score
-                  }));
-                }
-
-                if(data.aiResult) window.savedAiResult = data.aiResult;
-                else window.savedAiResult = null;
-
-                window.mentorData = { scores: data.scores, typeScores, topTypeStr, userResponses: fullUserResponses, name: data.userInfo.name, testType: 'needs' };
-                
-                renderDetailedResults(window.mentorData, true);
-            }
-          } else {
-            alert(res.error || "데이터를 불러올 수 없습니다.");
-          }
-        })
-        .catch(err => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          alert("오류 발생: " + err);
-        });
-    }
-
-    function backToDashboard() {
-      document.getElementById('result-area').style.display = 'none';
-      document.getElementById('mentor-dashboard').style.display = 'block';
-    }
-
-    // ==========================================
-    // 검사 선택 로직 (신규)
-    // ==========================================
-    function goToSelection() {
-      const name = document.getElementById('user-name').value;
-      const age = document.getElementById('user-age').value;
-      if (!name || !age) { alert('이름과 나이를 모두 입력해 주세요.'); return; }
-
-      const gender = document.getElementById('user-gender').value;
-      const mbti = document.getElementById('user-mbti').value;
-      
-      userInfo = { name, age, gender, mbti: mbti || "알수없음" };
-      
-      document.getElementById('landing-page').style.display = 'none';
-      document.getElementById('selection-area').style.display = 'block';
-      window.scrollTo(0,0);
-    }
-
-    // ==========================================
-    // 1번 검사: 내면의 그림자 (핵심 두려움) 검사
-    // ==========================================
-    function startFearTest() {
-      document.getElementById('selection-area').style.display = 'none';
-      document.getElementById('fear-test-area').style.display = 'block';
-
-      const container = document.getElementById('fear-options-container');
-      container.innerHTML = FEAR_OPTIONS.map((text, index) => {
-        return `
-          <label class="fear-option-label">
-             <input type="radio" name="fear_option" value="${index + 1}">
-             <span class="fear-btn-text">${text}</span>
-          </label>
-        `;
-      }).join('');
-      window.scrollTo(0,0);
-    }
-
-    function calculateFearResult() {
-      const selected = document.querySelector('input[name="fear_option"]:checked');
-      if (!selected) {
-        alert("가장 두렵게 느껴지는 문구 하나를 선택해주세요.");
-        return;
-      }
-      
-      const fearIndex = selected.value;
-      const fearText = FEAR_OPTIONS[fearIndex - 1];
-      const typeLetter = fearText.charAt(0); // A, B, C 등 추출
-
-      document.getElementById('loading-msg').innerText = "결과를 저장하는 중입니다...";
-      document.getElementById('loading-overlay').style.display = 'flex';
-
-      finalResultData = { 
-        testType: 'fear',
-        scores: {}, // 기존 호환성을 위해 빈 객체
-        topType: "그림자 " + typeLetter + "유형", // 멘토 대시보드 리스트 표시용
-        userInfo: userInfo, 
-        userResponses: [], 
-        fearAnswer: fearText,
-        baseUrl: window.location.href.split('?')[0]
-      };
-
-      callBackend('saveData', finalResultData)
-        .then(res => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          if (res.success && res.id) {
-            finalResultData.id = res.id;
-            localStorage.setItem('dreamhigh_last_result', JSON.stringify(finalResultData));
-            if (history.replaceState) history.replaceState(null, null, "?id=" + res.id);
-          }
-          showFearResultScreen(finalResultData);
-        })
-        .catch(err => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          alert("저장 오류: " + err);
-        });
-    }
-
-    // 학생용 핵심 두려움 완료 안내
-    function showFearResultScreen(data) {
-      document.getElementById('fear-test-area').style.display = 'none';
-      const resultArea = document.getElementById('result-area');
-      resultArea.style.display = 'block';
-      
-      // 멘토가 열람할 데이터 세팅
-      window.mentorData = data;
-
-      resultArea.innerHTML = `
-        <div style="background: #fff; padding: 40px 20px; border-radius: 12px; text-align: center; border: 1px solid #E6D8CE;">
-            <div style="font-size: 50px; margin-bottom: 20px;">🎉</div>
-            <h2 style="color: var(--primary); margin-bottom: 15px;">검사가 완료되었습니다!</h2>
-            <p style="color: var(--text); font-size: 1.05rem; line-height: 1.6; word-break: keep-all;">
-                선택하신 무의식 속 두려움에 대한 깊은 이야기는<br>
-                <b style="color:#B85C38;">담당 멘토 쌤을 통해서 직접 안내</b>받으실 수 있습니다.
-            </p>
-            <div style="margin-top: 30px;">
-                <button class="action-btn" style="background: #BCAAA0; width: auto; padding: 12px 30px; font-size: 1rem;" onclick="resetTest()">다시 검사하기</button>
-            </div>
-        </div>
-        
-        <div style="margin-top:40px; text-align:center;">
-          <button style="background: transparent; border: none; color: #A8856D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMentorLogin()">멘토 전용 결과 확인</button>
-        </div>
-
-        <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #FAF5F0; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
-           <label style="display:block; font-size:0.85rem; color:#7A6556; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
-           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #D9B497; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto; margin-bottom:10px;">
-           <button id="mentor-btn" onclick="verifyMentor()" style="padding:12px 18px; background:var(--primary); color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
-        </div>
-      `;
-      window.scrollTo(0,0);
-    }
-
-    // 멘토용 핵심 두려움 상세 결과
-    function renderFearDetailedResults(data, fromDashboard = false) {
-      const resultArea = document.getElementById('result-area');
-      resultArea.innerHTML = '';
-      
-      let backBtnHtml = "";
-      if (fromDashboard) {
-        backBtnHtml = `
-          <div style="margin-bottom:20px;">
-             <button onclick="backToDashboard()" style="padding:10px 15px; background:#F0E7DF; color:var(--text); border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-family: 'NanumSquareRound', sans-serif;">< 대시보드 목록으로 돌아가기</button>
-          </div>
-        `;
-      }
-
-      resultArea.innerHTML = backBtnHtml + `
-        <div style="padding: 20px; background: white; border-radius:12px; border: 1px solid #E6D8CE;">
-          <h1 style="color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1.5rem;">${data.userInfo.name ? data.userInfo.name+'님의 ' : ''}내면의 그림자 (멘토용)</h1>
-          <div style="margin-top:20px;">
-             <h3 style="color:#B85C38; margin-bottom:10px;">선택한 핵심 두려움 문구:</h3>
-             <div style="padding:20px; background:#FAF5F0; border-radius:8px; border:1px solid #E6D8CE; font-size:1.1rem; line-height:1.6; color:var(--text); font-weight:bold; word-break:keep-all;">
-                "${data.fearAnswer}"
-             </div>
-          </div>
-        </div>
-        ${!fromDashboard ? `
-        <div style="margin-top:30px; text-align:center;">
-          <button class="action-btn" style="background:#BCAAA0;" onclick="resetTest()">초기화 및 새 검사 시작</button>
-        </div>` : ''}
-      `;
-      resultArea.style.display = 'block';
-    }
-
-
-    // ==========================================
-    // 2번 검사: 핵심욕구 프로파일 로직 (기존 유지)
-    // ==========================================
-    function startNeedsTest() {
-      document.getElementById('selection-area').style.display = 'none';
-      document.getElementById('main-app').style.display = 'block';
-      rawQuestions = JSON.parse(JSON.stringify(PRELOADED_QUESTIONS));
-      initQuiz(); 
-      window.scrollTo(0,0);
-    }
-
-    function initQuiz() {
-      for (let i = rawQuestions.length - 1; i > 0; i--) { 
-        const j = Math.floor(Math.random() * (i + 1)); 
-        [rawQuestions[i], rawQuestions[j]] = [rawQuestions[j], rawQuestions[i]]; 
-      }
-      currentQIndex = 0;
-      userAnswers = new Array(rawQuestions.length).fill(0);
-      renderQuestion();
-    }
-
-    function renderQuestion() {
-      if (currentQIndex >= rawQuestions.length) {
-        calculateResult();
-        return;
-      }
-
-      const item = rawQuestions[currentQIndex];
-      const percent = ((currentQIndex) / rawQuestions.length) * 100;
-      
-      document.getElementById('progress-bar').style.width = percent + '%';
-      document.getElementById('progress-text').innerText = `${currentQIndex + 1} / ${rawQuestions.length}`;
-
-      const container = document.getElementById('quiz-form');
-      container.innerHTML = `
-        <div class="question-box">
-          <span class="question-text">${item.q}</span>
-          <div class="options">
-            ${[1,2,3,4,5].map(v => {
-              let labelText = v === 1 ? "전혀 그렇지 않다" : v === 2 ? "그렇지 않은 편이다" : v === 3 ? "보통이다" : v === 4 ? "그런 편이다" : "매우 그렇다";
-              return `<label class="option-label">
-                        <input type="radio" name="q_current" value="${v}" onclick="handleAnswer(${v})">
-                        <div class="btn-text">${labelText}</div>
-                      </label>`;
-            }).join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    function handleAnswer(val) {
-      userAnswers[currentQIndex] = val;
-      setTimeout(() => {
-        currentQIndex++;
-        renderQuestion();
-      }, 250); 
-    }
-
-    function calculateResult() {
-      let scores = { "안정":0, "인정":0, "관계":0, "자율":0, "성취의미":0 };
-      let compressedResponses = []; 
-      let displayResponses = []; 
-
-      for(let i=0; i<rawQuestions.length; i++) {
-        const val = userAnswers[i];
-        const type = rawQuestions[i].type;
-        const text = rawQuestions[i].q;
-        scores[type] += val;
-        compressedResponses.push({ i: i, v: val, t: type, text: text });
-        displayResponses.push({ text: text, score: val, type: type });
-      }
-
-      document.getElementById('loading-msg').innerText = "결과를 저장하고 분석하는 중입니다...";
-      document.getElementById('loading-overlay').style.display = 'flex';
-      
-      let typeScores = [
-        { id: "안정", score: scores["안정"] },
-        { id: "인정", score: scores["인정"] },
-        { id: "관계", score: scores["관계"] },
-        { id: "자율", score: scores["자율"] },
-        { id: "성취의미", score: scores["성취의미"] }
-      ];
-      typeScores.sort((a, b) => b.score - a.score);
-      const topTypeStr = typeScores[0].id;
-      
-      finalResultData = { 
-        testType: 'needs',
-        scores: scores, 
-        topType: topTypeStr, 
-        userInfo: userInfo, 
-        userResponses: compressedResponses,
-        baseUrl: window.location.href.split('?')[0]
-      };
-
-      callBackend('saveData', finalResultData)
-        .then(res => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          if (res.success && res.id) {
-            finalResultData.id = res.id;
-            localStorage.setItem('dreamhigh_last_result', JSON.stringify(finalResultData));
-            if (history.replaceState) history.replaceState(null, null, "?id=" + res.id);
-          }
-          showResultScreen(scores, typeScores, topTypeStr, displayResponses);
-        })
-        .catch(err => {
-          document.getElementById('loading-overlay').style.display = 'none';
-          alert("저장 오류: " + err);
-        });
-    }
-
-    // 공통 Result 라우터
-    function restoreResultScreen(data) {
-      finalResultData = data;
-      document.getElementById('landing-page').style.display = 'none';
-      
-      if (data.testType === 'fear') {
-         showFearResultScreen(data);
-         return;
-      }
-
-      // 기존 Needs Test 복원
-      document.getElementById('main-app').style.display = 'block';
-      const scores = data.scores;
-      let typeScores = [
-        { id: "안정", score: scores["안정"] || 0 },
-        { id: "인정", score: scores["인정"] || 0 },
-        { id: "관계", score: scores["관계"] || 0 },
-        { id: "자율", score: scores["자율"] || 0 },
-        { id: "성취의미", score: scores["성취의미"] || 0 }
-      ];
-      typeScores.sort((a, b) => b.score - a.score);
-      const topTypeStr = data.topType || typeScores[0].id;
-
-      let fullUserResponses = [];
-      if (data.userResponses) {
-        fullUserResponses = data.userResponses.map(item => ({
-          text: item.text || "-", type: item.t || "?", score: item.v || item.score
-        }));
-      }
-      if(data.aiResult) window.savedAiResult = data.aiResult;
-      
-      showResultScreen(scores, typeScores, topTypeStr, fullUserResponses);
-    }
-
-    function showResultScreen(scores, typeScores, topTypeStr, userResponses) {
-      document.getElementById('quiz-area').style.display = 'none';
-      const resultArea = document.getElementById('result-area');
-      resultArea.style.display = 'block';
-      
-      window.mentorData = { scores, typeScores, topTypeStr, userResponses, testType: 'needs', userInfo: userInfo };
-
-      resultArea.innerHTML = `
-        <div style="background: #fff; padding: 40px 20px; border-radius: 12px; text-align: center; border: 1px solid #E6D8CE;">
-            <h2 style="color: var(--primary); margin-bottom: 15px;">검사가 완료되었습니다!</h2>
-            <p style="color: var(--text); font-size: 1.05rem; line-height: 1.6; word-break: keep-all;">
-                수고하셨습니다. 응답하신 내용은 안전하게 저장되었습니다.<br><br>
-                상세한 심리 검사 결과 및 분석은<br>
-                <b style="color:#B85C38;">담당 멘토 쌤을 통해서 직접 안내</b>받으실 수 있습니다.
-            </p>
-            <div style="margin-top: 30px;">
-                <button class="action-btn" style="background: #BCAAA0; width: auto; padding: 12px 30px; font-size: 1rem;" onclick="resetTest()">다시 검사하기</button>
-            </div>
-        </div>
-        
-        <div style="margin-top:40px; text-align:center;">
-          <button style="background: transparent; border: none; color: #A8856D; text-decoration: underline; cursor: pointer; font-size: 0.85rem; font-family: 'NanumSquareRound', sans-serif;" onclick="toggleMentorLogin()">멘토 전용 결과 확인</button>
-        </div>
-
-        <div id="mentor-login-area" style="display:none; margin-top:20px; text-align:center; background: #FAF5F0; padding: 20px; border-radius: 12px; border: 1px solid #E6D8CE;">
-           <label style="display:block; font-size:0.85rem; color:#7A6556; margin-bottom:8px;">멘토 확인용 아이디를 입력해주세요</label>
-           <input type="password" id="mentor-id-input" placeholder="비밀번호 입력" style="padding:12px; border:1px solid #D9B497; border-radius:8px; width:180px; text-align:center; font-family: 'NanumSquareRound', sans-serif; height:auto; margin-bottom:10px;">
-           <button id="mentor-btn" onclick="verifyMentor()" style="padding:12px 18px; background:var(--primary); color:#fff; border:none; border-radius:8px; cursor:pointer; font-family: 'NanumSquareRound', sans-serif;">확인</button>
-        </div>
-      `;
-      window.scrollTo(0,0);
-    }
-
-    function toggleMentorLogin() {
-      const el = document.getElementById('mentor-login-area');
-      el.style.display = el.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function verifyMentor() {
-      const inputId = document.getElementById('mentor-id-input').value;
-      if (!inputId) { alert("비밀번호를 입력해주세요."); return; }
-      
-      const btn = document.getElementById('mentor-btn');
-      const originalText = btn.innerText;
-      btn.innerText = "확인 중...";
-      btn.disabled = true;
-
-      callBackend('verifyMentor', { id: inputId })
-        .then(res => {
-          btn.innerText = originalText;
-          btn.disabled = false;
-          
-          if (res.isValid) {
-            sessionStorage.setItem('mentor_pwd', inputId);
-            document.getElementById('mentor-login-area').style.display = 'none';
-            document.querySelector('#result-area > div:first-child').style.display = 'none';
-            document.querySelector('#result-area > div:nth-child(2)').style.display = 'none';
-            
-            if (window.mentorData.testType === 'fear') {
-                renderFearDetailedResults(window.mentorData, false);
-            } else {
-                renderDetailedResults(window.mentorData, false);
-            }
-          } else {
-            alert("멘토 아이디가 일치하지 않습니다.");
-          }
-        })
-        .catch(err => {
-          btn.innerText = originalText;
-          btn.disabled = false;
-          alert("서버 오류가 발생했습니다.");
-        });
-    }
-
-    function renderDetailedResults(data, fromDashboard = false) {
-      const { scores, typeScores, topTypeStr, userResponses, name } = data;
-      const resultArea = document.getElementById('result-area');
-      
-      let detailArea = document.getElementById('detailed-result-area');
-      if (!detailArea) {
-         resultArea.innerHTML += '<div id="detailed-result-area" style="margin-top: 30px;"></div>';
-         detailArea = document.getElementById('detailed-result-area');
-      }
-      
-      detailArea.style.display = 'block';
-      
-      currentDetailList = userResponses || [];
-      let displayTopType = topTypeStr === "성취의미" ? "성취·의미" : topTypeStr;
-
-      let backBtnHtml = "";
-      if (fromDashboard) {
-        backBtnHtml = `
-          <div style="margin-bottom:20px;">
-             <button onclick="backToDashboard()" style="padding:10px 15px; background:#F0E7DF; color:var(--text); border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-family: 'NanumSquareRound', sans-serif;">< 대시보드 목록으로 돌아가기</button>
-          </div>
-        `;
-      }
-
-      detailArea.innerHTML = backBtnHtml + `
-        <div style="padding: 5px; background: white;">
-          <h1 style="color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px;">${name ? name+'님의 ' : ''}핵심욕구 프로파일 (멘토용)</h1>
-          <div class="one-liner-box">
-             <div style="color:#E2D1C3; font-size:1.2rem;">가장 강한 핵심 욕구</div>
-             <div class="one-liner-main">${displayTopType}</div>
-             <div style="color:#FAF5F0; margin-top:10px; font-size:1rem; line-height:1.5;">
-               ${needsDescriptionMap[topTypeStr]}
-             </div>
-          </div>
-          <div class="flex-row-desktop">
-            <div>
-               <h3>1. 주요 욕구 분포</h3>
-               <div class="rank-container" style="flex-direction:column; gap:10px;">
-                 <div class="rank-box">
-                   <span class="rank-title wood">우선순위</span>
-                   <div id="high-rank-list"></div>
-                 </div>
-               </div>
-            </div>
-            <div>
-               <h3>2. 5대 핵심욕구 밸런스</h3>
-               <div style="position: relative; height:220px; width:100%;"><canvas id="centerChart"></canvas></div>
-            </div>
-          </div>
-
-          <div style="margin-top: 30px;">
-             <h3>3. 전체 욕구 점수 분포도</h3>
-             <div style="position: relative; height:250px; width:100%;"><canvas id="resultChart"></canvas></div>
-          </div>
-          <div id="ai-section" style="margin-top: 35px;">
-             <h3>4. AI 심층 분석 리포트</h3>
-             <div id="ai-initial-view" style="text-align:center; padding:25px; background:#FAF5F0; border:1px solid #E6D8CE; border-radius:12px;">
-                <p style="margin-bottom:15px; color:var(--text);">전문적인 심층 분석과 조언을 제공합니다.</p>
-                <button id="ai-btn" class="ai-btn" onclick="callAI()">AI 정밀 분석 시작하기</button>
-             </div>
-             <div id="ai-loading" style="display:none; text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto 15px auto;"></div><p style="color:var(--text);">AI가 분석 중입니다...</p></div>
-             <div id="ai-result-box" style="display:none;"></div>
-          </div>
-          
-          <div style="margin-top:40px;">
-             <h3>5. 문항별 응답 상세 <span style="font-size:0.8rem; color:#A8856D; font-weight:normal;">(헤더 더블 클릭: 정렬)</span></h3>
-             <table class="detail-table">
-               <thead>
-                 <tr>
-                   <th width="15%" style="cursor:pointer;" ondblclick="toggleSort('type')" title="더블클릭하여 정렬">유형 <span id="sort-icon-type" style="font-size:0.8rem">↕</span></th>
-                   <th>문항 내용</th>
-                   <th width="15%" style="cursor:pointer;" ondblclick="toggleSort('score')" title="더블클릭하여 정렬">선택 <span id="sort-icon-score" style="font-size:0.8rem; color:var(--primary);">▼</span></th>
-                 </tr>
-               </thead>
-               <tbody id="detail-tbody"></tbody>
-             </table>
-          </div>
-        </div>
-        ${!fromDashboard ? `
-        <div style="margin-top:30px; text-align:center;">
-          <button class="action-btn" style="background:#BCAAA0;" onclick="resetTest()">초기화 및 새 검사 시작</button>
-        </div>` : ''}
-      `;
-
-      document.getElementById('high-rank-list').innerHTML = typeScores.map((t,i) => {
-        let n = t.id === "성취의미" ? "성취·의미" : t.id;
-        let boldStyle = i === 0 ? "font-weight:800; color:#B85C38;" : "";
-        return `<div class="rank-item" style="${boldStyle} color:var(--text);"><span>${i+1}위: <b>${n}</b></span> <span>${t.score}점</span></div>`;
-      }).join('');
-      
-      new Chart(document.getElementById('centerChart'), {
-        type: 'radar',
-        data: { 
-          labels: ['안정', '인정', '관계', '자율', '성취·의미'], 
-          datasets: [{ 
-            label: '점수', 
-            data: [scores['안정'], scores['인정'], scores['관계'], scores['자율'], scores['성취의미']], 
-            backgroundColor: 'rgba(217, 180, 151, 0.3)', 
-            borderColor: '#D9B497',
-            pointBackgroundColor: '#9C7A63'
-          }] 
-        },
-        options: { responsive: true, maintainAspectRatio: false, scale: { ticks: { beginAtZero: true, max: 20, display: false } }, legend: { display: false } }
+    fetch(SCRIPT_URL, { method: 'POST', body: requestBody })
+      .then(response => {
+        alert('성공적으로 제출되었습니다! 오늘도 수고하셨습니다.');
+        form.reset();
+        submitBtn.innerText = "제출하기";
+        submitBtn.disabled = false;
+      })
+      .catch(error => {
+        console.error('Error!', error.message);
+        alert('제출에 실패했습니다. 관리자에게 문의해주세요.');
+        submitBtn.innerText = "제출하기";
+        submitBtn.disabled = false;
       });
+  });
+</script>
 
-      new Chart(document.getElementById('resultChart'), {
-        type: 'bar',
-        data: { 
-          labels: ['안정', '인정', '관계', '자율', '성취·의미'], 
-          datasets: [{ 
-            label: '점수', 
-            data: [scores['안정'], scores['인정'], scores['관계'], scores['자율'], scores['성취의미']], 
-            backgroundColor: '#9C7A63' 
-          }] 
-        },
-        options: { responsive: true, maintainAspectRatio: false, scales: { yAxes: [{ ticks: { beginAtZero: true, max: 20 } }] }, legend: { display: false } }
-      });
-
-      applySort();
-
-      if(window.savedAiResult) {
-          renderAIResult(window.savedAiResult);
-          document.getElementById('ai-btn').style.display = 'none';
-      }
-    }
-
-    function toggleSort(col) {
-      if (sortState.col === col) { sortState.order = sortState.order === 'asc' ? 'desc' : 'asc'; } 
-      else { sortState.col = col; sortState.order = 'desc'; }
-      applySort();
-    }
-
-    function applySort() {
-      if (!currentDetailList || currentDetailList.length === 0) return;
-
-      const iconType = document.getElementById('sort-icon-type');
-      const iconScore = document.getElementById('sort-icon-score');
-      if (iconType && iconScore) {
-        iconType.innerHTML = '↕'; iconType.style.color = '#ccc';
-        iconScore.innerHTML = '↕'; iconScore.style.color = '#ccc';
-        
-        const activeIcon = sortState.col === 'type' ? iconType : iconScore;
-        activeIcon.innerHTML = sortState.order === 'asc' ? '▲' : '▼'; 
-        activeIcon.style.color = '#9C7A63';
-      }
-
-      currentDetailList.sort((a, b) => {
-        let valA = a[sortState.col];
-        let valB = b[sortState.col];
-
-        if (sortState.col === 'type') {
-          valA = (valA || "").toString();
-          valB = (valB || "").toString();
-        } else {
-          valA = parseInt(valA || 0);
-          valB = parseInt(valB || 0);
-        }
-
-        if (valA < valB) return sortState.order === 'asc' ? -1 : 1;
-        if (valA > valB) return sortState.order === 'asc' ? 1 : -1;
-        return 0;
-      });
-
-      const tbody = document.getElementById('detail-tbody');
-      tbody.innerHTML = currentDetailList.map(item => {
-        const typeName = item.type === "성취의미" ? "성취·의미" : item.type;
-        const style = item.score >= 4 ? 'color:#B85C38; font-weight:bold;' : 'color:var(--text);';
-        
-        return `<tr>
-          <td style="text-align:center;"><span style="background:#F0E7DF; color:var(--primary); padding:4px 8px; border-radius:4px; font-weight:bold; font-size:0.8rem;">${typeName}</span></td>
-          <td style="line-height:1.4;">${item.text}</td>
-          <td style="text-align:center; ${style}">${item.score}점</td>
-        </tr>`;
-      }).join('');
-    }
-
-    function resetTest() {
-      if (confirm("새로운 검사를 시작하시겠습니까?")) {
-        localStorage.removeItem('dreamhigh_last_result');
-        sessionStorage.clear();
-        window.location.href = window.location.pathname;
-      }
-    }
-
-    function callAI() {
-      document.getElementById('ai-initial-view').style.display = 'none';
-      document.getElementById('ai-loading').style.display = 'block';
-      
-      callBackend('generateAIAnalysis', finalResultData)
-        .then(res => {
-          document.getElementById('ai-loading').style.display = 'none';
-          if (res.error) {
-            const box = document.getElementById('ai-result-box');
-            box.style.display = 'block';
-            box.innerHTML = `<div style="color:red; padding:20px; border:1px solid red;">${res.error}</div>`;
-          } else {
-            renderAIResult(res);
-            let targetId = finalResultData && finalResultData.id ? finalResultData.id : null;
-            if(!targetId) {
-                let savedData = JSON.parse(localStorage.getItem('dreamhigh_last_result') || '{}');
-                targetId = savedData.id;
-            }
-            if (targetId) {
-               callBackend('saveAIResult', { id: targetId, result: res });
-            }
-          }
-        })
-        .catch(err => {
-          document.getElementById('ai-loading').style.display = 'none';
-          alert("서버 연결 실패: " + err);
-        });
-    }
-
-    function renderAIResult(res) {
-      const resultBox = document.getElementById('ai-result-box');
-      let initView = document.getElementById('ai-initial-view');
-      if(initView) initView.style.display = 'none';
-      
-      resultBox.style.display = 'block';
-      
-      try {
-        let savedData = JSON.parse(localStorage.getItem('dreamhigh_last_result') || '{}');
-        if (savedData.scores && savedData.id === finalResultData.id) { 
-          savedData.aiResult = res;
-          localStorage.setItem('dreamhigh_last_result', JSON.stringify(savedData));
-        }
-      } catch(e) {}
-
-      resultBox.innerHTML = `
-        <div class="ai-result-grid">
-          <div class="ai-box" style="border-top: 3px solid var(--primary);">
-            <h4 style="color:var(--primary);">핵심 강점 및 잠재력</h4>
-            <p>${res.strength.replace(/\n/g, '<br>')}</p>
-          </div>
-          <div class="ai-box" style="border-top: 3px solid var(--stress);">
-            <h4 style="color:var(--stress);">내면의 그림자와 보완점</h4>
-            <p>${res.weakness.replace(/\n/g, '<br>')}</p>
-          </div>
-          <div class="ai-box" style="border-top: 3px solid var(--growth);">
-            <h4 style="color:var(--growth);">성장을 위한 조언</h4>
-            <p>${res.advice.replace(/\n/g, '<br>')}</p>
-          </div>
-        </div>`;
-    }
-  </script>
 </body>
 </html>
