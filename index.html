@@ -64,7 +64,6 @@
     }
     
     h1 { text-align: center; color: var(--header-color); margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-    .subtitle { text-align: center; color: var(--text-sub); margin-bottom: 35px; font-size: 14px; font-weight: 400; }
     
     /* 1. 로그인 화면 */
     .login-box {
@@ -72,10 +71,14 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
     
-    /* 포스터 이미지 스타일 추가 */
+    /* ★ 수정된 포스터 이미지 스타일: 가로 공백을 줄이고 더 크게 보이도록 조정 */
     .poster-img {
-      width: 100%; max-width: 300px; display: block; margin: 0 auto 25px auto;
-      border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%; 
+      max-width: 450px; /* 기존 300px에서 크기 확대 */
+      display: block; 
+      margin: 0 auto 25px auto;
+      border-radius: 8px; /* 세로형 포스터에 맞게 모서리 둥글기 살짝 조절 */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
     .input-header {
@@ -188,11 +191,8 @@
   </div>
 
   <div id="screen-login" class="screen">
-    <div class="subtitle">색깔빙고 대시보드</div>
-    
     <div class="login-box">
-      <!-- 깃허브에 올릴 때 적용될 포스터 이미지 추가 영역 -->
-      <!-- 만약 이미지가 없거나 깨질 경우를 대비해 alt 속성을 넣었습니다. -->
+      <!-- ★ 파일명 main-title1.png 로 변경 & 텍스트(subtitle) 제거 -->
       <img src="main-title1.png" alt="드림하이 색깔빙고 포스터" class="poster-img" onerror="this.style.display='none'">
       
       <div class="input-header">
