@@ -6,280 +6,287 @@
   <title>드림하이 색깔빙고</title>
   <style>
     :root {
-      --red: #FF4B4B;
-      --blue: #4B8CFF;
-      --yellow: #FFC800;
-      --orange: #FF8C00;
-      --green: #4CAF50;
+      --red: #FF4B4B; --blue: #4B8CFF; --yellow: #FFC800; --orange: #FF8C00; --green: #4CAF50;
       --bg: #F9F7F3;
     }
     body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      font-family: 'Pretendard', sans-serif;
       background-color: var(--bg);
+      margin: 0; padding: 0;
       color: #333;
-      margin: 0;
-      padding: 20px;
-      line-height: 1.6;
     }
-    .container {
+    .app-container {
       max-width: 600px;
       margin: 0 auto;
-      background: #fff;
-      padding: 30px 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 5px;
-      font-size: 28px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #777;
-      margin-bottom: 30px;
-      font-size: 14px;
-    }
-    .form-section {
-      margin-bottom: 25px;
       padding: 20px;
-      border-radius: 10px;
-      background: #fafafa;
-      border-left: 5px solid #ccc;
-    }
-    /* 색깔빙고 테마별 보더 색상 */
-    .sec-basic { border-left-color: #666; }
-    .sec-red { border-left-color: var(--red); background: #fffcfc; }
-    .sec-blue { border-left-color: var(--blue); background: #fcfcff; }
-    .sec-yellow { border-left-color: var(--yellow); background: #fffefc; }
-    .sec-orange { border-left-color: var(--orange); background: #fffbfa; }
-    .sec-green { border-left-color: var(--green); background: #fbfffb; }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group:last-child { margin-bottom: 0; }
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      font-weight: normal;
-      cursor: pointer;
-    }
-    .checkbox-label input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      min-height: 100vh;
       box-sizing: border-box;
-      font-size: 15px;
-      font-family: inherit;
+      position: relative;
     }
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-    button[type="submit"] {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #FF4B4B, #FF8C00);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      box-shadow: 0 4px 10px rgba(255, 75, 75, 0.3);
-    }
-    button[type="submit"]:hover {
-      opacity: 0.9;
-    }
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
-    /* 하단 규칙 섹션 */
-    .rules-container {
-      margin-top: 40px;
-      padding: 20px;
-      background: #f1f3f5;
-      border-radius: 10px;
-      font-size: 14px;
+    h1 { text-align: center; color: #333; margin-top: 10px; margin-bottom: 5px; font-size: 26px; }
+    .subtitle { text-align: center; color: #777; margin-bottom: 25px; font-size: 14px; }
+    
+    /* 버튼 공통 */
+    button { cursor: pointer; border: none; border-radius: 8px; font-weight: bold; }
+    
+    /* --- 로그인 & 추가 화면 --- */
+    .login-box {
+      background: #fff; padding: 30px; border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 50px; position: relative;
     }
-    .rules-container h3 {
-      margin-top: 0;
-      color: #333;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 10px;
+    .btn-add {
+      position: absolute; top: 15px; right: 15px;
+      background: #eee; width: 35px; height: 35px; border-radius: 50%;
+      font-size: 24px; color: #555; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    .rules-list {
-      padding-left: 20px;
-      margin-bottom: 10px;
+    input.login-input {
+      width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px;
+      font-size: 18px; text-align: center; box-sizing: border-box; margin-bottom: 15px;
     }
-    .rules-list li { margin-bottom: 8px; }
-    .badge {
-      display: inline-block;
-      width: 12px; height: 12px;
-      border-radius: 50%;
-      margin-right: 5px;
-      vertical-align: middle;
+    .btn-login { width: 100%; padding: 15px; background: #333; color: #fff; font-size: 18px; }
+    
+    /* --- 대시보드 화면 --- */
+    .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .btn-write {
+      width: 100%; padding: 15px; background: linear-gradient(135deg, #FF4B4B, #FF8C00);
+      color: white; font-size: 18px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(255, 75, 75, 0.3);
     }
-    .bg-red { background: var(--red); }
-    .bg-blue { background: var(--blue); }
-    .bg-yellow { background: var(--yellow); }
-    .bg-orange { background: var(--orange); }
-    .bg-green { background: var(--green); }
+    .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .bingo-card {
+      background: #fff; padding: 15px; border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;
+      border: 2px solid transparent;
+    }
+    .bingo-card.my-card { border-color: #333; }
+    .card-name { font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+    .stickers-display {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; font-size: 12px;
+    }
+    .sticker-badge {
+      display: flex; align-items: center; background: #f5f5f5; padding: 3px 6px; border-radius: 12px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+    .bg-red { background: var(--red); } .bg-blue { background: var(--blue); }
+    .bg-yellow { background: var(--yellow); } .bg-orange { background: var(--orange); } .bg-green { background: var(--green); }
+
+    /* --- 폼 화면 --- */
+    .form-box { background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .btn-back { background: transparent; color: #777; margin-bottom: 15px; font-size: 16px; padding: 0; }
+    .form-section {
+      margin-bottom: 25px; padding: 15px; border-radius: 10px; background: #fafafa; border-left: 5px solid #ccc;
+    }
+    .sec-basic { border-left-color: #666; } .sec-red { border-left-color: var(--red); }
+    .sec-blue { border-left-color: var(--blue); } .sec-yellow { border-left-color: var(--yellow); }
+    .sec-orange { border-left-color: var(--orange); } .sec-green { border-left-color: var(--green); }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-weight: bold; margin-bottom: 6px; }
+    .checkbox-label { display: flex; align-items: center; font-weight: normal; cursor: pointer; }
+    .checkbox-label input { width: 20px; height: 20px; margin-right: 10px; }
+    input[type="text"], textarea {
+      width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px;
+    }
+    .btn-submit { width: 100%; padding: 15px; background: #4CAF50; color: white; font-size: 18px; margin-top: 10px; }
+    
+    /* 로딩 오버레이 */
+    #loading {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.8); z-index: 1000; justify-content: center; align-items: center;
+      font-size: 20px; font-weight: bold; color: #333;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>드림하이 색깔빙고</h1>
-  <div class="subtitle">오늘 하루의 미션을 체크하고 제출해주세요!</div>
+<div id="loading">처리 중입니다... 잠시만 기다려주세요⏳</div>
 
-  <form id="bingoForm">
-    <!-- 기본 정보 -->
-    <div class="form-section sec-basic">
-      <div class="form-group">
-        <label for="studentName">이름</label>
-        <input type="text" id="studentName" name="studentName" placeholder="이름을 입력하세요" required>
-      </div>
-      <div class="form-group">
-        <label for="teacherName">어떤 쌤 반인가요?</label>
-        <input type="text" id="teacherName" name="teacherName" placeholder="ex) OOO 쌤 반" required>
-      </div>
+<div class="app-container">
+  
+  <!-- 1. 로그인 & 추가 화면 -->
+  <div id="screen-login" class="screen active">
+    <h1>드림하이 색깔빙고</h1>
+    <div class="subtitle">이름을 입력하고 입장해주세요</div>
+    <div class="login-box">
+      <button class="btn-add" onclick="addNewUser()" title="이름 추가하기">+</button>
+      <input type="text" id="loginName" class="login-input" placeholder="이름 입력" onkeypress="if(event.key==='Enter') login()">
+      <button class="btn-login" onclick="login()">입장</button>
     </div>
-
-    <!-- 빨강 -->
-    <div class="form-section sec-red">
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input type="checkbox" name="arrive"> 1. [빨강] 10분 전 도착 완료
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input type="checkbox" name="loud"> 2. [빨강] 크게 화답하기 완료
-        </label>
-      </div>
-    </div>
-
-    <!-- 파랑 -->
-    <div class="form-section sec-blue">
-      <div class="form-group">
-        <label for="service">3. [파랑] 봉사</label>
-        <input type="text" id="service" name="service" placeholder="어떤 봉사를 했나요?">
-      </div>
-      <div class="form-group">
-        <label for="sponsor">4. [파랑] 후원</label>
-        <input type="text" id="sponsor" name="sponsor" placeholder="후원 내용을 적어주세요">
-      </div>
-    </div>
-
-    <!-- 노랑 (기도) -->
-    <div class="form-section sec-yellow">
-      <label>5. [노랑] 기도</label>
-      <div class="form-group" style="margin-top: 10px;">
-        <label class="checkbox-label">
-          <input type="checkbox" name="pray1"> 1) 하나님께 기도했나요?
-        </label>
-      </div>
-      <div class="form-group">
-        <input type="text" name="pray2" placeholder="2) 감사한 내용">
-      </div>
-      <div class="form-group">
-        <input type="text" name="pray3" placeholder="3) 회개 (용서해주세요)">
-      </div>
-      <div class="form-group">
-        <input type="text" name="pray4" placeholder="4) 간구 (도와주세요)">
-      </div>
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input type="checkbox" name="pray5"> 5) 예수님의 이름으로 기도드립니다. 아멘 했나요?
-        </label>
-      </div>
-    </div>
-
-    <!-- 주황 -->
-    <div class="form-section sec-orange">
-      <div class="form-group">
-        <label for="compliment">6. [주황] 칭찬</label>
-        <input type="text" id="compliment" name="compliment" placeholder="누구에게, 어떻게 칭찬했나요?">
-      </div>
-    </div>
-
-    <!-- 초록 -->
-    <div class="form-section sec-green">
-      <div class="form-group">
-        <label for="bible">7. [초록] 성경읽기</label>
-        <textarea id="bible" name="bible" placeholder="성경을 읽고 느낀 점을 자유롭게 적어주세요"></textarea>
-      </div>
-    </div>
-
-    <button type="submit" id="submitBtn">제출하기</button>
-  </form>
-
-  <!-- 하단 규칙 섹션[cite: 1] -->
-  <div class="rules-container">
-    <h3>📌 색깔빙고 규칙 안내</h3>
-    <ul class="rules-list">
-      <li><strong>스티커 획득:</strong> '하루에 항목당 최대 1개'까지만 획득 가능[cite: 1]</li>
-    </ul>
-    
-    <div style="font-weight: bold; margin-top: 15px; margin-bottom: 5px;">항목별 주간 획득 한도[cite: 1]</div>
-    <ul class="rules-list">
-      <li><span class="badge bg-red"></span>빨강 (10분 전 도착, 화답) : 주 최대 3회 제한[cite: 1]</li>
-      <li><span class="badge bg-blue"></span>파랑 (봉사, 후원) : 주 최대 2회 제한[cite: 1]</li>
-      <li><span class="badge bg-yellow"></span>노랑 (기도) : 주 최대 5회 제한[cite: 1]</li>
-      <li><span class="badge bg-orange"></span>주황 (칭찬) : 주 최대 5회 제한[cite: 1]</li>
-      <li><span class="badge bg-green"></span>초록 (성경읽기) : 주 최대 7회 제한[cite: 1]</li>
-    </ul>
-
-    <div style="font-weight: bold; margin-top: 15px; margin-bottom: 5px;">색깔 조합에 따른 가산점 부여[cite: 1]</div>
-    <ul class="rules-list">
-      <li><strong>기본 빙고 (1점):</strong> 색상 상관없이 섞어서 1줄 완성[cite: 1]</li>
-      <li><strong>무지개 빙고 (2점):</strong> 1줄이 모두 '다른 색깔'로 완성[cite: 1]</li>
-      <li><strong>단색 빙고 (3점):</strong> 1줄이 모두 '같은 색깔'로 완성 (최고점)[cite: 1]</li>
-    </ul>
   </div>
+
+  <!-- 2. 대시보드 화면 -->
+  <div id="screen-dashboard" class="screen">
+    <div class="dashboard-header">
+      <h1 style="margin:0;">전체 빙고 현황</h1>
+      <span id="currentUserDisplay" style="font-weight:bold; color:var(--orange);"></span>
+    </div>
+    <button class="btn-write" onclick="goForm()">내 빙고 체크하기 📝</button>
+    
+    <!-- 빙고 카드 리스트가 들어갈 2열 그리드 -->
+    <div id="bingoGrid" class="grid-container"></div>
+  </div>
+
+  <!-- 3. 체크 폼 화면 -->
+  <div id="screen-form" class="screen">
+    <button class="btn-back" onclick="goDashboard()">← 대시보드로 돌아가기</button>
+    <h1>오늘의 색깔빙고</h1>
+    
+    <div class="form-box">
+      <form id="bingoForm">
+        <!-- 기본정보 (이름은 로그인된 유저로 자동 처리, 담당쌤만 입력) -->
+        <div class="form-section sec-basic">
+          <div class="form-group">
+            <label>담당 쌤</label>
+            <input type="text" name="teacherName" placeholder="어떤 쌤 반인가요?">
+          </div>
+        </div>
+        <!-- 빨강 -->
+        <div class="form-section sec-red">
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="arrive"> 1. [빨강] 10분 전 도착</label></div>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="loud"> 2. [빨강] 크게 화답하기</label></div>
+        </div>
+        <!-- 파랑 -->
+        <div class="form-section sec-blue">
+          <div class="form-group"><label>3. [파랑] 봉사</label><input type="text" name="service" placeholder="봉사 내용"></div>
+          <div class="form-group"><label>4. [파랑] 후원</label><input type="text" name="sponsor" placeholder="후원 내용"></div>
+        </div>
+        <!-- 노랑(기도) -->
+        <div class="form-section sec-yellow">
+          <label>5. [노랑] 기도</label>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="pray1"> 1) 하나님께 기도했나요?</label></div>
+          <div class="form-group"><input type="text" name="pray2" placeholder="2) 감사한 내용"></div>
+          <div class="form-group"><input type="text" name="pray3" placeholder="3) 회개 (용서해주세요)"></div>
+          <div class="form-group"><input type="text" name="pray4" placeholder="4) 간구 (도와주세요)"></div>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="pray5"> 5) 예수님의 이름으로 기도드립니다. 아멘</label></div>
+        </div>
+        <!-- 주황 -->
+        <div class="form-section sec-orange">
+          <div class="form-group"><label>6. [주황] 칭찬</label><input type="text" name="compliment" placeholder="누구에게 어떻게 칭찬했나요?"></div>
+        </div>
+        <!-- 초록 -->
+        <div class="form-section sec-green">
+          <div class="form-group"><label>7. [초록] 성경읽기</label><textarea name="bible" placeholder="느낀점" rows="3"></textarea></div>
+        </div>
+        <button type="submit" class="btn-submit">제출하기</button>
+      </form>
+    </div>
+  </div>
+
 </div>
 
 <script>
-  const form = document.getElementById('bingoForm');
-  const submitBtn = document.getElementById('submitBtn');
+  // ★ 백엔드 배포 URL 삽입 ★
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFEQeooBhbPXET0ujyBiWoAp0WMxXiI6BEVbox667uUVTn_yKJye1fYJDKtCLt9kCV2Q/exec';
+  
+  let currentUser = '';
 
-  // ★ 1단계에서 복사한 웹 앱 URL을 아래에 붙여넣어주세요 ★
-  const SCRIPT_URL = 'YOUR_WEB_APP_URL_HERE';
+  // API 호출용 공통 함수
+  async function callAPI(action, dataObj = {}) {
+    showLoading(true);
+    const payload = { action: action, ...dataObj };
+    const formData = new URLSearchParams();
+    formData.append('payload', JSON.stringify(payload));
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    submitBtn.innerText = "제출 중...";
-    submitBtn.disabled = true;
+    try {
+      const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+      const result = await response.json();
+      showLoading(false);
+      return result;
+    } catch (e) {
+      showLoading(false);
+      alert('네트워크 오류가 발생했습니다.');
+      console.error(e);
+      return { success: false };
+    }
+  }
 
-    let requestBody = new FormData(form);
+  function showLoading(show) {
+    document.getElementById('loading').style.display = show ? 'flex' : 'none';
+  }
 
-    fetch(SCRIPT_URL, { method: 'POST', body: requestBody })
-      .then(response => {
-        alert('성공적으로 제출되었습니다! 오늘도 수고하셨습니다.');
-        form.reset();
-        submitBtn.innerText = "제출하기";
-        submitBtn.disabled = false;
-      })
-      .catch(error => {
-        console.error('Error!', error.message);
-        alert('제출에 실패했습니다. 관리자에게 문의해주세요.');
-        submitBtn.innerText = "제출하기";
-        submitBtn.disabled = false;
+  function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+  }
+
+  // 로그인 기능
+  async function login() {
+    const name = document.getElementById('loginName').value.trim();
+    if(!name) return alert('이름을 입력해주세요.');
+    
+    const res = await callAPI('login', { name: name });
+    if(res.success) {
+      currentUser = name;
+      document.getElementById('currentUserDisplay').innerText = currentUser + '님 환영합니다';
+      loadDashboard();
+    } else {
+      alert(res.message);
+    }
+  }
+
+  // 새 유저 추가 (+)
+  async function addNewUser() {
+    const name = prompt("추가할 참가자의 이름을 입력하세요.");
+    if(!name || name.trim() === '') return;
+    
+    const res = await callAPI('addUser', { name: name.trim() });
+    if(res.success) {
+      alert(name + '님의 이름(시트)이 생성되었습니다! 이제 로그인할 수 있습니다.');
+    } else {
+      alert(res.message);
+    }
+  }
+
+  // 대시보드 현황 불러오기 및 렌더링 (2열 종대)
+  async function loadDashboard() {
+    const res = await callAPI('getDashboard');
+    if(res.success) {
+      const grid = document.getElementById('bingoGrid');
+      grid.innerHTML = ''; // 초기화
+      
+      res.data.forEach(user => {
+        const isMe = user.name === currentUser;
+        const st = user.stickers;
+        
+        // 카드 HTML 생성
+        const card = document.createElement('div');
+        card.className = `bingo-card ${isMe ? 'my-card' : ''}`;
+        card.innerHTML = `
+          <div class="card-name">${user.maskedName}</div>
+          <div class="stickers-display">
+            <span class="sticker-badge"><span class="dot bg-red"></span>${st.red}</span>
+            <span class="sticker-badge"><span class="dot bg-blue"></span>${st.blue}</span>
+            <span class="sticker-badge"><span class="dot bg-yellow"></span>${st.yellow}</span>
+            <span class="sticker-badge"><span class="dot bg-orange"></span>${st.orange}</span>
+            <span class="sticker-badge"><span class="dot bg-green"></span>${st.green}</span>
+          </div>
+        `;
+        grid.appendChild(card);
       });
+      switchScreen('screen-dashboard');
+    }
+  }
+
+  function goForm() { switchScreen('screen-form'); }
+  function goDashboard() { switchScreen('screen-dashboard'); }
+
+  // 폼 제출 이벤트
+  document.getElementById('bingoForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const dataObj = Object.fromEntries(formData.entries());
+    
+    const res = await callAPI('submitForm', { name: currentUser, data: dataObj });
+    if(res.success) {
+      alert('성공적으로 제출되었습니다!');
+      e.target.reset(); // 폼 초기화
+      loadDashboard();  // 제출 후 최신 데이터 갱신하여 대시보드로 이동
+    } else {
+      alert('제출에 실패했습니다. 관리자에게 문의해주세요.');
+    }
   });
 </script>
 
