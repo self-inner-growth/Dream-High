@@ -71,14 +71,51 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
     
-    /* ★ 수정된 포스터 이미지 스타일: 가로 공백을 줄이고 더 크게 보이도록 조정 */
-    .poster-img {
-      width: 100%; 
-      max-width: 450px; /* 기존 300px에서 크기 확대 */
-      display: block; 
+    /* ★ 슬라이드 캐러셀 스타일 추가 */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
       margin: 0 auto 25px auto;
-      border-radius: 8px; /* 세로형 포스터에 맞게 모서리 둥글기 살짝 조절 */
+      border-radius: 8px;
+      overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+      scroll-behavior: smooth;
+    }
+    .carousel-track::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    .carousel-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      display: block;
+      object-fit: cover;
+    }
+    .carousel-indicators {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .ind-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.2);
+      transition: background 0.3s;
+    }
+    .ind-dot.active {
+      background: rgba(0, 0, 0, 0.6);
     }
 
     .input-header {
@@ -192,8 +229,20 @@
 
   <div id="screen-login" class="screen">
     <div class="login-box">
-      <!-- ★ 파일명 main-title1.png 로 변경 & 텍스트(subtitle) 제거 -->
-      <img src="main-title1.png" alt="드림하이 색깔빙고 포스터" class="poster-img" onerror="this.style.display='none'">
+      <!-- ★ 좌우 스와이프가 가능한 이미지 슬라이드 캐러셀 -->
+      <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+          <!-- 첫 번째 이미지 (기본 포스터) -->
+          <img src="main-title1.png" alt="드림하이 색깔빙고 포스터" class="carousel-slide" onerror="this.style.display='none'">
+          <!-- 두 번째 이미지 (빙고 배치도) -->
+          <img src="bingo.png" alt="드림하이 색깔빙고 최고점 배치도" class="carousel-slide" onerror="this.style.display='none'">
+        </div>
+        <!-- 하단 인디케이터 점 -->
+        <div class="carousel-indicators">
+          <span class="ind-dot active"></span>
+          <span class="ind-dot"></span>
+        </div>
+      </div>
       
       <div class="input-header">
         <label for="loginName">참가자 이름</label>
@@ -285,11 +334,13 @@
   const svgMoon = `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
 
   document.addEventListener("DOMContentLoaded", () => {
+    // 다크모드 적용 확인
     if(localStorage.getItem('dreamHighTheme') === 'dark') {
       document.body.classList.add('dark-mode');
       document.getElementById('themeToggle').innerHTML = svgSun;
     }
     
+    // 자동 로그인 확인
     const savedName = localStorage.getItem('dreamHighUser');
     if(savedName) {
       currentUser = savedName;
@@ -297,6 +348,19 @@
       loadDashboard();
     } else {
       switchScreen('screen-login');
+    }
+
+    // ★ 캐러셀 스크롤 이벤트 (인디케이터 점 업데이트)
+    const track = document.getElementById('carouselTrack');
+    const dots = document.querySelectorAll('.ind-dot');
+    if(track && dots.length > 0) {
+      track.addEventListener('scroll', () => {
+        let index = Math.round(track.scrollLeft / track.clientWidth);
+        dots.forEach((dot, i) => {
+          if(i === index) dot.classList.add('active');
+          else dot.classList.remove('active');
+        });
+      });
     }
   });
 
