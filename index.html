@@ -71,6 +71,13 @@
       background: var(--card-bg); padding: 35px 25px; border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
+    
+    /* 포스터 이미지 스타일 추가 */
+    .poster-img {
+      width: 100%; max-width: 300px; display: block; margin: 0 auto 25px auto;
+      border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
     .input-header {
       display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
     }
@@ -182,7 +189,12 @@
 
   <div id="screen-login" class="screen">
     <div class="subtitle">색깔빙고 대시보드</div>
+    
     <div class="login-box">
+      <!-- 깃허브에 올릴 때 적용될 포스터 이미지 추가 영역 -->
+      <!-- 만약 이미지가 없거나 깨질 경우를 대비해 alt 속성을 넣었습니다. -->
+      <img src="main-title1.png" alt="드림하이 색깔빙고 포스터" class="poster-img" onerror="this.style.display='none'">
+      
       <div class="input-header">
         <label for="loginName">참가자 이름</label>
         <button class="btn-add" onclick="addNewUser()" title="새 참가자 등록">
@@ -267,7 +279,7 @@
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFEQeooBhbPXET0ujyBiWoAp0WMxXiI6BEVbox667uUVTn_yKJye1fYJDKtCLt9kCV2Q/exec';
   
   let currentUser = '';
-  let currentDashboardData = []; // 데이터를 로컬에 임시 보관하여 상태 체크
+  let currentDashboardData = [];
 
   const svgSun = `<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
   const svgMoon = `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
@@ -363,7 +375,7 @@
     showLoading(false);
 
     if(res.success) {
-      currentDashboardData = res.data; // 전역 변수에 저장
+      currentDashboardData = res.data;
       const grid = document.getElementById('bingoGrid');
       grid.innerHTML = '';
       
@@ -389,11 +401,9 @@
     }
   }
 
-  // ★ 오늘의 체크보드 작성 버튼 클릭 시 작동하는 함수
   function goForm() { 
     const myData = currentDashboardData.find(u => u.name === currentUser);
     
-    // 이미 오늘 제출한 이력이 있다면 폼 입장을 차단
     if (myData && myData.submittedToday) {
       alert("오늘의 체크보드는 이미 제출하셨습니다. 내일 다시 참여해주세요! 🚀");
       return;
