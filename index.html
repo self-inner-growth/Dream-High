@@ -76,7 +76,6 @@
     }
     .input-header label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin: 0; }
     
-    /* + 버튼을 입력칸 위쪽 우측으로 단정하게 이동 */
     .btn-add {
       background: transparent; border: none; color: var(--text-sub); 
       font-size: 13px; font-weight: 600; cursor: pointer; padding: 0;
@@ -161,7 +160,6 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* SVG 아이콘 스타일 */
     svg { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   </style>
 </head>
@@ -178,17 +176,13 @@
     <div style="width:42px;"></div>
     <h1>DREAM HIGH</h1>
     <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="테마 변경">
-      <!-- 기본 달 아이콘 -->
       <svg width="20" height="20" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
   </div>
 
-  <!-- 1. 로그인 화면 -->
   <div id="screen-login" class="screen">
     <div class="subtitle">색깔빙고 대시보드</div>
     <div class="login-box">
-      
-      <!-- 수정된 입력창 헤더 (+ 버튼 위치 조정) -->
       <div class="input-header">
         <label for="loginName">참가자 이름</label>
         <button class="btn-add" onclick="addNewUser()" title="새 참가자 등록">
@@ -205,7 +199,6 @@
     </div>
   </div>
 
-  <!-- 2. 대시보드 화면 -->
   <div id="screen-dashboard" class="screen">
     <div class="dashboard-header">
       <div class="user-greeting">
@@ -223,7 +216,6 @@
     <div id="bingoGrid" class="grid-container"></div>
   </div>
 
-  <!-- 3. 체크 폼 화면 -->
   <div id="screen-form" class="screen">
     <button class="btn-back" onclick="goDashboard()">
       <svg width="16" height="16" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
@@ -235,7 +227,7 @@
         <div class="form-section sec-basic">
           <div class="form-group">
             <label>담당 쌤</label>
-            <input type="text" name="teacherName" placeholder="예: 길우쌤 반">
+            <input type="text" name="teacherName" placeholder="예: 길우쌤 반, 수정쌤 반">
           </div>
         </div>
         <div class="form-section sec-red">
