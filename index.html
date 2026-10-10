@@ -5,51 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>드림하이 색깔빙고</title>
   <style>
-    /* 라이트 모드 변수 */
     :root {
       --bg-gradient: linear-gradient(135deg, #F0F4F8 0%, #D9E2EC 100%);
       --card-bg: rgba(255, 255, 255, 0.95);
-      --text-main: #102A43;
-      --text-sub: #627D98;
-      --input-bg: #FFFFFF;
-      --input-border: #BCCCDC;
-      --btn-primary: #243B53;
-      --btn-hover: #102A43;
-      --header-color: #243B53;
-      
+      --text-main: #102A43; --text-sub: #627D98;
+      --input-bg: #FFFFFF; --input-border: #BCCCDC;
+      --btn-primary: #243B53; --btn-hover: #102A43; --header-color: #243B53;
       --red: #E12D39; --blue: #1C7ED6; --yellow: #F59F00; --orange: #F76707; --green: #2B8A3E;
     }
-
-    /* 다크 모드 변수 */
     body.dark-mode {
       --bg-gradient: linear-gradient(135deg, #102A43 0%, #243B53 100%);
       --card-bg: rgba(16, 42, 67, 0.95);
-      --text-main: #F0F4F8;
-      --text-sub: #9FB3C8;
-      --input-bg: #243B53;
-      --input-border: #334E68;
-      --btn-primary: #627D98;
-      --btn-hover: #829AB1;
-      --header-color: #F0F4F8;
+      --text-main: #F0F4F8; --text-sub: #9FB3C8;
+      --input-bg: #243B53; --input-border: #334E68;
+      --btn-primary: #627D98; --btn-hover: #829AB1; --header-color: #F0F4F8;
     }
-
     body {
       font-family: 'Pretendard', -apple-system, sans-serif;
-      background: var(--bg-gradient);
-      background-attachment: fixed;
-      color: var(--text-main);
-      margin: 0; padding: 0;
-      transition: background 0.4s, color 0.4s;
+      background: var(--bg-gradient); background-attachment: fixed;
+      color: var(--text-main); margin: 0; padding: 0; transition: background 0.4s, color 0.4s;
     }
-
-    .app-container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 30px 20px;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-
+    .app-container { max-width: 600px; margin: 0 auto; padding: 30px 20px; min-height: 100vh; box-sizing: border-box; }
     .screen { display: none; }
     .screen.active { display: block; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -57,152 +33,72 @@
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
     .theme-toggle { 
       background: transparent; border: 1px solid var(--input-border); border-radius: 50%;
-      width: 42px; height: 42px; color: var(--text-main);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
+      width: 42px; height: 42px; color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
     }
-    
     h1 { text-align: center; color: var(--header-color); margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
     
-    /* 1. 로그인 화면 */
-    .login-box {
-      background: var(--card-bg); padding: 35px 25px; border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-    
-    .carousel-container {
-      position: relative; width: 100%; max-width: 450px; margin: 0 auto 25px auto;
-      border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .carousel-track {
-      display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-      scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth;
-    }
+    .login-box { background: var(--card-bg); padding: 35px 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .carousel-container { position: relative; width: 100%; max-width: 450px; margin: 0 auto 25px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
     .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-slide { flex: 0 0 100%; width: 100%; scroll-snap-align: start; display: block; object-fit: cover; }
-    .carousel-indicators {
-      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;
-    }
+    .carousel-indicators { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
     .ind-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0, 0, 0, 0.2); transition: background 0.3s; }
     .ind-dot.active { background: rgba(0, 0, 0, 0.6); }
 
     .input-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .input-header label { font-size: 13px; font-weight: 600; color: var(--text-sub); margin: 0; }
-    
-    .btn-add {
-      background: transparent; border: none; color: var(--text-sub); 
-      font-size: 13px; font-weight: 600; cursor: pointer; padding: 0;
-      display: flex; align-items: center; gap: 4px; transition: color 0.2s;
-    }
+    .btn-add { background: transparent; border: none; color: var(--text-sub); font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; display: flex; align-items: center; gap: 4px; transition: color 0.2s; }
     .btn-add:hover { color: var(--header-color); }
 
-    input.login-input {
+    input.login-input, select.login-input {
       width: 100%; padding: 15px; border: 1px solid var(--input-border); border-radius: 8px;
       font-size: 16px; box-sizing: border-box; margin-bottom: 25px;
       background: var(--input-bg); color: var(--text-main); transition: border 0.2s;
     }
-    input.login-input:focus { outline: none; border-color: var(--text-main); }
+    input.login-input:focus, select.login-input:focus { outline: none; border-color: var(--text-main); }
     
     .btn-submit { 
-      width: 100%; padding: 16px; background: var(--btn-primary); color: #fff; 
-      border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
+      width: 100%; padding: 16px; background: var(--btn-primary); color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
       transition: background 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px;
     }
     .btn-submit:hover { background: var(--btn-hover); }
     
-    /* 2. 대시보드 화면 */
     .dashboard-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
     .user-greeting { font-weight: 700; font-size: 20px; color: var(--header-color); display: flex; align-items: center; gap: 6px; }
-    .btn-logout { 
-      background: transparent; border: 1px solid var(--input-border); color: var(--text-sub); 
-      padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s;
-    }
+    .btn-logout { background: transparent; border: 1px solid var(--input-border); color: var(--text-sub); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .btn-logout:hover { background: var(--input-bg); color: var(--text-main); }
     
     .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    
-    .bingo-card {
-      background: var(--card-bg); padding: 15px 10px; border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03); text-align: center;
-      border: 1px solid var(--input-border); transition: border 0.2s;
-    }
+    .bingo-card { background: var(--card-bg); padding: 15px 10px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); text-align: center; border: 1px solid var(--input-border); transition: border 0.2s; }
     .bingo-card.my-card { border: 2px solid var(--header-color); background: var(--input-bg); }
     .card-name { font-weight: 600; font-size: 15px; margin-bottom: 10px; color: var(--text-main); }
     
-    /* ★ 미니 빙고판 스타일 (5x5 그리드) */
-    .mini-bingo-board {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 3px;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: var(--input-border); /* 선 색상 */
-      border: 2px solid var(--input-border);
-      border-radius: 6px;
-      padding: 2px;
-      box-sizing: border-box;
-    }
-    .bingo-cell {
-      background: var(--input-bg);
-      border-radius: 4px;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    /* 채워진 스티커(동그라미) 디자인 */
-    .bingo-dot {
-      width: 80%;
-      height: 80%;
-      border-radius: 50%;
-      box-shadow: inset -2px -2px 4px rgba(0,0,0,0.2);
-    }
-    .bg-red { background: var(--red); } 
-    .bg-blue { background: var(--blue); }
-    .bg-yellow { background: var(--yellow); } 
-    .bg-orange { background: var(--orange); } 
-    .bg-green { background: var(--green); }
+    .mini-bingo-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; width: 100%; aspect-ratio: 1 / 1; background: var(--input-border); border: 2px solid var(--input-border); border-radius: 6px; padding: 2px; box-sizing: border-box; }
+    .bingo-cell { background: var(--input-bg); border-radius: 4px; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .bingo-dot { width: 80%; height: 80%; border-radius: 50%; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.2); }
+    .bg-red { background: var(--red); } .bg-blue { background: var(--blue); } .bg-yellow { background: var(--yellow); } .bg-orange { background: var(--orange); } .bg-green { background: var(--green); }
 
-    /* 3. 체크 폼 화면 */
     .form-box { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-    .btn-back { 
-      background: transparent; border: none; color: var(--text-sub); margin-bottom: 20px; 
-      font-size: 14px; padding: 0; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px;
-    }
-    
-    .form-section {
-      margin-bottom: 25px; padding: 20px; border-radius: 12px; background: rgba(150,150,150,0.03); border-left: 3px solid #ccc;
-    }
-    .sec-basic { border-left-color: var(--text-sub); } .sec-red { border-left-color: var(--red); }
-    .sec-blue { border-left-color: var(--blue); } .sec-yellow { border-left-color: var(--yellow); }
-    .sec-orange { border-left-color: var(--orange); } .sec-green { border-left-color: var(--green); }
+    .btn-back { background: transparent; border: none; color: var(--text-sub); margin-bottom: 20px; font-size: 14px; padding: 0; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .form-section { margin-bottom: 25px; padding: 20px; border-radius: 12px; background: rgba(150,150,150,0.03); border-left: 3px solid #ccc; }
+    .sec-basic { border-left-color: var(--text-sub); } .sec-red { border-left-color: var(--red); } .sec-blue { border-left-color: var(--blue); } .sec-yellow { border-left-color: var(--yellow); } .sec-orange { border-left-color: var(--orange); } .sec-green { border-left-color: var(--green); }
     
     .form-group { margin-bottom: 15px; }
     label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-main); font-size: 14px; }
     .checkbox-label { display: flex; align-items: center; font-weight: 400; cursor: pointer; font-size: 14px; }
     .checkbox-label input { width: 18px; height: 18px; margin-right: 12px; accent-color: var(--header-color); }
     
-    input[type="text"], textarea {
-      width: 100%; padding: 14px; border: 1px solid var(--input-border); border-radius: 8px; 
-      box-sizing: border-box; font-size: 14px; font-family: inherit;
-      background: var(--input-bg); color: var(--text-main); transition: border 0.2s;
-    }
+    input[type="text"], textarea { width: 100%; padding: 14px; border: 1px solid var(--input-border); border-radius: 8px; box-sizing: border-box; font-size: 14px; font-family: inherit; background: var(--input-bg); color: var(--text-main); transition: border 0.2s; }
     input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--text-main); }
     
-    /* 로딩 오버레이 */
-    #loading {
-      display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--bg-gradient); z-index: 1000; justify-content: center; align-items: center;
-      flex-direction: column; color: var(--text-main); font-size: 15px; font-weight: 500;
-    }
-    .spinner {
-      width: 30px; height: 30px; border: 3px solid var(--input-border);
-      border-top: 3px solid var(--text-main); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;
-    }
+    #loading { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; color: var(--text-main); font-size: 15px; font-weight: 500; }
+    .spinner { width: 30px; height: 30px; border: 3px solid var(--input-border); border-top: 3px solid var(--text-main); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
     svg { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    
+    /* 강조 테두리 효과 */
+    .highlight-border { border-color: var(--header-color) !important; box-shadow: 0 0 8px rgba(36, 59, 83, 0.2); }
   </style>
 </head>
 <body>
@@ -222,12 +118,14 @@
     </button>
   </div>
 
+  <!-- 로그인 화면 -->
   <div id="screen-login" class="screen">
     <div class="login-box">
       <div class="carousel-container">
         <div class="carousel-track" id="carouselTrack">
-          <img src="main-title2.png" alt="드림하이 색깔빙고 포스터" class="carousel-slide" onerror="this.style.display='none'">
-          <img src="bingo.png" alt="드림하이 색깔빙고 최고점 배치도" class="carousel-slide" onerror="this.style.display='none'">
+          <!-- ★ main-title2.png로 파일명 변경 적용 완료 -->
+          <img src="main-title2.png" alt="포스터" class="carousel-slide" onerror="this.style.display='none'">
+          <img src="bingo.png" alt="빙고 배치도" class="carousel-slide" onerror="this.style.display='none'">
         </div>
         <div class="carousel-indicators">
           <span class="ind-dot active"></span>
@@ -238,19 +136,15 @@
       <div class="input-header">
         <label for="loginName">참가자 이름</label>
         <button class="btn-add" onclick="addNewUser()" title="새 참가자 등록">
-          <svg width="14" height="14" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          새 참가자 추가
+          <svg width="14" height="14" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 새 참가자 추가
         </button>
       </div>
-
       <input type="text" id="loginName" class="login-input" placeholder="이름을 입력해주세요" onkeypress="if(event.key==='Enter') login()">
-      <button class="btn-submit" onclick="login()">
-        입장하기
-        <svg width="18" height="18" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
+      <button class="btn-submit" onclick="login()">입장하기 <svg width="18" height="18" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
     </div>
   </div>
 
+  <!-- 대시보드 화면 -->
   <div id="screen-dashboard" class="screen">
     <div class="dashboard-header">
       <div class="user-greeting">
@@ -259,55 +153,65 @@
       </div>
       <button class="btn-logout" onclick="logout()">처음으로</button>
     </div>
-    
     <button class="btn-submit" onclick="goForm()" style="margin-bottom: 25px;">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      오늘의 체크보드 작성
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> 체크보드 작성 / 수정
     </button>
-    
-    <!-- 빙고판 현황이 렌더링될 곳 -->
     <div id="bingoGrid" class="grid-container"></div>
   </div>
 
+  <!-- 체크 폼 화면 -->
   <div id="screen-form" class="screen">
     <button class="btn-back" onclick="goDashboard()">
-      <svg width="16" height="16" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      전체 현황판
+      <svg width="16" height="16" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> 전체 현황판
     </button>
     
     <div class="form-box">
       <form id="bingoForm">
+        <!-- 날짜 선택 드롭다운 (이번주 토~금 활성화) -->
         <div class="form-section sec-basic">
           <div class="form-group">
+            <label>작성할 날짜 선택 📅</label>
+            <select id="submitDate" class="login-input highlight-border" style="margin-bottom: 15px;" onchange="handleDateChange()">
+              <option value="" disabled selected>기록할 날짜를 골라주세요</option>
+              <option value="2026-10-10">10월 10일 (토요일)</option>
+              <option value="2026-10-11">10월 11일 (일요일)</option>
+              <option value="2026-10-12">10월 12일 (월요일)</option>
+              <option value="2026-10-13">10월 13일 (화요일)</option>
+              <option value="2026-10-14">10월 14일 (수요일)</option>
+              <option value="2026-10-15">10월 15일 (목요일)</option>
+              <option value="2026-10-16">10월 16일 (금요일)</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>담당 쌤</label>
-            <input type="text" name="teacherName" placeholder="예: 길우쌤 반, 수정쌤 반">
+            <input type="text" id="teacherName" name="teacherName" placeholder="예: 길우쌤 반, 수정쌤 반">
           </div>
         </div>
+
         <div class="form-section sec-red">
-          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="arrive"> 1. [빨강] 10분 전 도착</label></div>
-          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="loud"> 2. [빨강] 크게 화답하기</label></div>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="arrive" name="arrive"> 1. [빨강] 10분 전 도착</label></div>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="loud" name="loud"> 2. [빨강] 크게 화답하기</label></div>
         </div>
         <div class="form-section sec-blue">
-          <div class="form-group"><label>3. [파랑] 봉사</label><input type="text" name="service" placeholder="봉사 내용"></div>
-          <div class="form-group"><label>4. [파랑] 후원</label><input type="text" name="sponsor" placeholder="후원 내용"></div>
+          <div class="form-group"><label>3. [파랑] 봉사</label><input type="text" id="service" name="service" placeholder="봉사 내용"></div>
+          <div class="form-group"><label>4. [파랑] 후원</label><input type="text" id="sponsor" name="sponsor" placeholder="후원 내용"></div>
         </div>
         <div class="form-section sec-yellow">
           <label>5. [노랑] 기도 (5개 항목 필수 기입)</label>
-          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="pray1"> 1) 하나님께 기도했나요?</label></div>
-          <div class="form-group"><input type="text" name="pray2" placeholder="2) 감사한 내용"></div>
-          <div class="form-group"><input type="text" name="pray3" placeholder="3) 회개 (용서해주세요)"></div>
-          <div class="form-group"><input type="text" name="pray4" placeholder="4) 간구 (도와주세요)"></div>
-          <div class="form-group"><label class="checkbox-label"><input type="checkbox" name="pray5"> 5) 예수님의 이름으로 기도드립니다. 아멘</label></div>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="pray1" name="pray1"> 1) 하나님께 기도했나요?</label></div>
+          <div class="form-group"><input type="text" id="pray2" name="pray2" placeholder="2) 감사한 내용"></div>
+          <div class="form-group"><input type="text" id="pray3" name="pray3" placeholder="3) 회개 (용서해주세요)"></div>
+          <div class="form-group"><input type="text" id="pray4" name="pray4" placeholder="4) 간구 (도와주세요)"></div>
+          <div class="form-group"><label class="checkbox-label"><input type="checkbox" id="pray5" name="pray5"> 5) 예수님의 이름으로 기도드립니다. 아멘</label></div>
         </div>
         <div class="form-section sec-orange">
-          <div class="form-group"><label>6. [주황] 칭찬</label><input type="text" name="compliment" placeholder="누구에게 어떻게 칭찬했나요?"></div>
+          <div class="form-group"><label>6. [주황] 칭찬</label><input type="text" id="compliment" name="compliment" placeholder="누구에게 어떻게 칭찬했나요?"></div>
         </div>
         <div class="form-section sec-green">
-          <div class="form-group"><label>7. [초록] 성경읽기</label><textarea name="bible" placeholder="느낀 점을 작성해주세요" rows="3"></textarea></div>
+          <div class="form-group"><label>7. [초록] 성경읽기</label><textarea id="bible" name="bible" placeholder="느낀 점을 작성해주세요" rows="3"></textarea></div>
         </div>
         <button type="submit" class="btn-submit" style="margin-top:20px;">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          기록 제출
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 제출 (저장)하기
         </button>
       </form>
     </div>
@@ -316,7 +220,7 @@
 </div>
 
 <script>
-  // ★ 백엔드 배포 URL 삽입 (기존 URL 그대로 사용) ★
+  // ★ 입력해주신 웹 앱 URL 적용 완료 ★
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFEQeooBhbPXET0ujyBiWoAp0WMxXiI6BEVbox667uUVTn_yKJye1fYJDKtCLt9kCV2Q/exec';
   
   let currentUser = '';
@@ -373,31 +277,26 @@
     const payload = { action: action, ...dataObj };
     const formData = new URLSearchParams();
     formData.append('payload', JSON.stringify(payload));
-
     try {
       const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
       return await response.json();
     } catch (e) {
-      return { success: false, message: '서버와 연결을 실패했습니다.' };
+      return { success: false, message: '서버 연결 실패' };
     }
   }
 
   async function login() {
     const name = document.getElementById('loginName').value.trim();
     if(!name) return alert('참가자 이름을 입력해주세요.');
-    
-    showLoading(true, "데이터를 확인하고 있습니다.");
+    showLoading(true, "데이터 확인 중...");
     const res = await callAPI('login', { name: name });
     showLoading(false);
-
     if(res.success) {
       currentUser = name;
       localStorage.setItem('dreamHighUser', name);
       document.getElementById('currentUserDisplay').innerText = `${currentUser}님`;
       loadDashboard();
-    } else {
-      alert(res.message);
-    }
+    } else alert(res.message);
   }
 
   function logout() {
@@ -408,26 +307,19 @@
   }
 
   async function addNewUser() {
-    const name = prompt("새로 등록할 참가자의 이름을 입력하세요.");
+    const name = prompt("새 참가자 이름을 입력하세요.");
     if(!name || name.trim() === '') return;
-    
-    showLoading(true, "참가자를 등록하고 있습니다.");
+    showLoading(true, "등록 중...");
     const res = await callAPI('addUser', { name: name.trim() });
     showLoading(false);
-
-    if(res.success) {
-      alert(`성공적으로 등록되었습니다. 입력란에 이름을 적고 입장해주세요.`);
-    } else {
-      alert(res.message);
-    }
+    if(res.success) alert(`등록되었습니다. 이름을 적고 입장해주세요.`);
+    else alert(res.message);
   }
 
-  // ★ 최고점(26점) 배치도에 따른 5x5 빙고판 렌더링 로직 ★
   async function loadDashboard() {
-    showLoading(true, "전체 현황을 불러오는 중입니다.");
+    showLoading(true, "현황판 불러오는 중...");
     const res = await callAPI('getDashboard');
     showLoading(false);
-
     if(res.success) {
       currentDashboardData = res.data;
       const grid = document.getElementById('bingoGrid');
@@ -436,57 +328,27 @@
       currentDashboardData.forEach(user => {
         const isMe = user.name === currentUser;
         const st = user.stickers;
-        
-        // 5x5(25칸) 배열 초기화 (null = 빈칸)
         const board = new Array(25).fill(null);
-        
-        // 최고점 배치 맵핑 가이드 (인덱스 0~24)
-        // 초록(최대7개): 0, 1, 2, 3, 4 (1행 전체) + 22 (5행 가운데 남는칸) + (초과 시 잉여칸)
-        // 빨강(최대6개): 5, 6, 7, 8, 9 (2행 전체) + (초과 시 잉여칸)
-        // 노랑(최대5개): 10, 11, 12, 13, 14 (3행 전체)
-        // 주황(최대5개): 15, 16, 17, 18, 19 (4행 전체)
-        // 파랑(최대4개): 20, 21, 23, 24 (5행 양끝)
-        
         const targetIndices = {
-          green: [0, 1, 2, 3, 4, 22],
-          red: [5, 6, 7, 8, 9],
-          yellow: [10, 11, 12, 13, 14],
-          orange: [15, 16, 17, 18, 19],
-          blue: [20, 21, 23, 24]
+          green: [0, 1, 2, 3, 4, 22], red: [5, 6, 7, 8, 9],
+          yellow: [10, 11, 12, 13, 14], orange: [15, 16, 17, 18, 19], blue: [20, 21, 23, 24]
         };
-
-        // 남는 스티커가 들어갈 예비 칸
         let extraIndices = []; 
 
         function fillBoard(color, count, targets) {
           let placed = 0;
           for(let i = 0; i < targets.length && placed < count; i++) {
-            if(board[targets[i]] === null) {
-              board[targets[i]] = color;
-              placed++;
-            }
+            if(board[targets[i]] === null) { board[targets[i]] = color; placed++; }
           }
-          // 해당 색상의 지정석이 꽉 찼는데도 스티커가 남으면(기본 규칙상 발생하기 어렵지만 방어코드) 남는 칸 배열에 저장
-          while(placed < count) {
-            extraIndices.push(color);
-            placed++;
-          }
+          while(placed < count) { extraIndices.push(color); placed++; }
         }
+        fillBoard('green', st.green, targetIndices.green); fillBoard('red', st.red, targetIndices.red);
+        fillBoard('yellow', st.yellow, targetIndices.yellow); fillBoard('orange', st.orange, targetIndices.orange); fillBoard('blue', st.blue, targetIndices.blue);
 
-        fillBoard('green', st.green, targetIndices.green);
-        fillBoard('red', st.red, targetIndices.red);
-        fillBoard('yellow', st.yellow, targetIndices.yellow);
-        fillBoard('orange', st.orange, targetIndices.orange);
-        fillBoard('blue', st.blue, targetIndices.blue);
-
-        // 자리를 못 찾은 잉여 스티커를 빈칸에 욱여넣기
         for(let i=0; i<25; i++) {
-          if(board[i] === null && extraIndices.length > 0) {
-            board[i] = extraIndices.shift();
-          }
+          if(board[i] === null && extraIndices.length > 0) board[i] = extraIndices.shift();
         }
 
-        // HTML 문자열로 5x5 빙고 셀 생성
         let cellsHTML = '';
         for(let i = 0; i < 25; i++) {
           let dotColor = board[i] ? `bg-${board[i]}` : '';
@@ -496,45 +358,80 @@
         
         const card = document.createElement('div');
         card.className = `bingo-card ${isMe ? 'my-card' : ''}`;
-        card.innerHTML = `
-          <div class="card-name">${user.maskedName}</div>
-          <div class="mini-bingo-board">
-            ${cellsHTML}
-          </div>
-        `;
+        card.innerHTML = `<div class="card-name">${user.maskedName}</div><div class="mini-bingo-board">${cellsHTML}</div>`;
         grid.appendChild(card);
       });
       switchScreen('screen-dashboard');
     }
   }
 
+  // 작성/수정 폼 입장 시 드롭다운 초기화
   function goForm() { 
-    const myData = currentDashboardData.find(u => u.name === currentUser);
-    if (myData && myData.submittedToday) {
-      alert("오늘의 체크보드는 이미 제출하셨습니다. 내일 다시 참여해주세요! 🚀");
-      return;
-    }
+    document.getElementById('bingoForm').reset();
+    document.getElementById('submitDate').value = "";
     switchScreen('screen-form'); 
   }
   
   function goDashboard() { switchScreen('screen-dashboard'); }
 
+  // 날짜 변경 시 호출 (기존 작성 기록 확인)
+  async function handleDateChange() {
+    const selectedDate = document.getElementById('submitDate').value;
+    if(!selectedDate) return;
+
+    showLoading(true, "과거 기록을 확인 중입니다... ⏳");
+    const res = await callAPI('checkDateData', { name: currentUser, date: selectedDate });
+    showLoading(false);
+
+    if(res.success && res.exists) {
+      if(confirm(`📌 ${selectedDate} 에 이미 작성한 빙고 기록이 있습니다!\n\n내용을 덮어쓰거나 수정하시겠습니까?`)) {
+        const data = res.data;
+        document.getElementById('arrive').checked = data.arrive === 'on';
+        document.getElementById('loud').checked = data.loud === 'on';
+        document.getElementById('service').value = data.service || '';
+        document.getElementById('sponsor').value = data.sponsor || '';
+        document.getElementById('pray1').checked = data.pray1 === 'on';
+        document.getElementById('pray2').value = data.pray2 || '';
+        document.getElementById('pray3').value = data.pray3 || '';
+        document.getElementById('pray4').value = data.pray4 || '';
+        document.getElementById('pray5').checked = data.pray5 === 'on';
+        document.getElementById('compliment').value = data.compliment || '';
+        document.getElementById('bible').value = data.bible || '';
+        if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
+      } else {
+        document.getElementById('submitDate').value = "";
+        clearBingoFields();
+      }
+    } else {
+      clearBingoFields();
+    }
+  }
+
+  function clearBingoFields() {
+    document.getElementById('arrive').checked = false; document.getElementById('loud').checked = false;
+    document.getElementById('service').value = ''; document.getElementById('sponsor').value = '';
+    document.getElementById('pray1').checked = false; document.getElementById('pray2').value = ''; 
+    document.getElementById('pray3').value = ''; document.getElementById('pray4').value = ''; document.getElementById('pray5').checked = false;
+    document.getElementById('compliment').value = ''; document.getElementById('bible').value = '';
+  }
+
   document.getElementById('bingoForm').addEventListener('submit', async e => {
     e.preventDefault();
+    const selectedDate = document.getElementById('submitDate').value;
+    if(!selectedDate) return alert("⚠️ 작성할 날짜를 먼저 선택해주세요!");
+
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData.entries());
     
-    showLoading(true, "데이터를 전송하고 있습니다.");
-    const res = await callAPI('submitForm', { name: currentUser, data: dataObj });
+    showLoading(true, "데이터를 저장하고 있습니다... 🚀");
+    const res = await callAPI('submitForm', { name: currentUser, date: selectedDate, data: dataObj });
     showLoading(false);
 
     if(res.success) {
-      alert('성공적으로 기록되었습니다.');
+      alert('성공적으로 저장되었습니다! 👍');
       e.target.reset();
       loadDashboard();
-    } else {
-      alert(res.message || '데이터 전송에 실패했습니다. 잠시 후 다시 시도해주세요.');
-    }
+    } else alert(res.message || '저장 실패. 잠시 후 다시 시도해주세요.');
   });
 </script>
 
